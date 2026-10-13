@@ -1,1057 +1,1019 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN" class="h-full">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>STDN Studio — Generate & Brand QR Codes</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
-<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root,[data-theme="dark"]{
-  --bg:#09090b;--surface:#18181b;--surface2:#27272a;--border:#3f3f46;
-  --text:#fafafa;--text2:#a1a1aa;--text3:#71717a;
-  --accent:#06b6d4;--accent2:#22d3ee;--accent-glow:rgba(6,182,212,.12);
-  --err:#ef4444;--ok:#22c55e;--warn:#f59e0b;
-  --radius:10px;--radius-lg:16px;
-}
-[data-theme="light"]{
-  --bg:#f4f4f5;--surface:#fff;--surface2:#e4e4e7;--border:#d4d4d8;
-  --text:#18181b;--text2:#52525b;--text3:#71717a;
-  --accent:#0891b2;--accent2:#06b6d4;--accent-glow:rgba(8,145,178,.1);
-  --err:#dc2626;--ok:#16a34a;--warn:#d97706;
-}
-html{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;font-size:15px;transition:background .3s,color .3s}
-body{min-height:100dvh;display:flex;flex-direction:column}
-input,select,textarea,button{font-family:inherit;font-size:inherit}
-::selection{background:var(--accent);color:#fff}
-.shell{max-width:860px;margin:0 auto;padding:24px 20px 60px;width:100%}
-.hdr{text-align:center;padding:40px 0 28px;position:relative}
-.hdr h1{font-family:'JetBrains Mono',monospace;font-size:clamp(1.6rem,4vw,2.2rem);font-weight:600;letter-spacing:-.04em;margin-bottom:6px}
-.hdr h1 span{color:var(--accent)}
-.hdr p{color:var(--text2);font-size:.88rem}
-.top-controls{position:absolute;top:0;right:0;display:flex;gap:8px;align-items:center}
-.lang-toggle, .theme-toggle{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:4px;display:flex;gap:2px}
-.lang-toggle button, .theme-toggle button{width:32px;height:32px;border:none;border-radius:50%;background:transparent;cursor:pointer;font-size:0.75rem;font-weight:600;color:var(--text3);transition:all .2s;display:flex;align-items:center;justify-content:center}
-.lang-toggle button.on, .theme-toggle button.on{background:var(--accent);color:#fff}
-.theme-toggle button{font-size:1rem}
-.mode-bar{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:28px}
-.mode-btn{flex:1;padding:11px 16px;text-align:center;font-weight:500;font-size:.85rem;cursor:pointer;border:none;background:transparent;color:var(--text2);transition:all .2s}
-.mode-btn.on{color:#fff;background:var(--accent)}
-.mode-btn:not(.on):hover{color:var(--text);background:var(--surface2)}
-.mode-btn .sub{font-size:.72rem;color:inherit;opacity:.65;display:block;margin-top:2px;font-weight:400}
-.sec{display:none;content-visibility:hidden}.sec.on{display:block;content-visibility:visible}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px;transition:background .3s,border-color .3s}
-.card-title{font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:14px}
-.field{margin-bottom:14px}.field:last-child{margin-bottom:0}
-.field label{display:block;font-size:.8rem;color:var(--text2);margin-bottom:5px;font-weight:500}
-.inp{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:11px 14px;color:var(--text);font-size:.88rem;outline:none;transition:border-color .2s,box-shadow .2s}
-.inp:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
-.inp::placeholder{color:var(--text3)}
-.inp.invalid{border-color:var(--err)!important;box-shadow:0 0 0 3px rgba(239,68,68,.15)!important}
-.inp.valid{border-color:var(--ok)!important}
-textarea.inp{resize:vertical;min-height:70px}
-select.inp{cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2371717a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
-input[type=color].inp{height:40px;padding:4px 6px;cursor:pointer}
-.val-msg{font-size:.72rem;margin-top:4px;min-height:1em}.val-msg.err{color:var(--err)}.val-msg.ok{color:var(--ok)}.val-msg.warn{color:var(--warn)}
-.row{display:grid;gap:12px}.r2{grid-template-columns:1fr 1fr}.r3{grid-template-columns:1fr 1fr 1fr}
-.phone-row{display:flex;gap:8px}.phone-row select{width:120px;flex-shrink:0}.phone-row input{flex:1}
-.type-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
-.pill{padding:7px 14px;border-radius:20px;font-size:.78rem;font-weight:500;background:var(--bg);border:1px solid var(--border);color:var(--text2);cursor:pointer;transition:all .2s;white-space:nowrap}
-.pill.on{background:var(--accent);border-color:var(--accent);color:#fff}
-.pill:not(.on):hover{border-color:var(--text3);color:var(--text)}
-.dp{display:none}.dp.on{display:block}
-.chk{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--text2);cursor:pointer}
-.chk input{accent-color:var(--accent);width:16px;height:16px}
-input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;background:var(--border);outline:none;margin-top:4px}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid var(--bg)}
-.range-row{display:flex;align-items:center;gap:10px}.range-row input[type=range]{flex:1}
-.rv{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--accent);min-width:34px;text-align:right}
-.link-box{display:none;margin-top:12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;font-family:'JetBrains Mono',monospace;font-size:.76rem;word-break:break-all;color:var(--text2);position:relative;line-height:1.5}
-.link-box.on{display:block}
-.link-box .link-label{font-family:'DM Sans',sans-serif;font-size:.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;font-weight:600}
-.link-box .link-val{color:var(--accent);user-select:all}
-.link-box .copy-btn{position:absolute;top:8px;right:8px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:.7rem;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:all .2s}
-.link-box .copy-btn:hover{border-color:var(--accent);color:var(--accent)}
-.dl-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
-.dl-btn{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 22px;color:var(--text);font-weight:500;font-size:.82rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
-.dl-btn:hover{border-color:var(--accent);color:var(--accent)}
-.dl-btn svg{width:16px;height:16px}
-.dz{border:2px dashed var(--border);border-radius:var(--radius);padding:24px 16px;text-align:center;cursor:pointer;color:var(--text3);font-size:.82rem;transition:all .2s}
-.dz:hover,.dz.ov{border-color:var(--accent);background:var(--accent-glow);color:var(--text2)}
-.dz input{display:none}
-.sep{border:none;border-top:1px solid var(--border);margin:16px 0}
-.status{font-size:.78rem;color:var(--text3);font-family:'JetBrains Mono',monospace;text-align:center;min-height:1.2em;margin:8px 0 16px}.status.err{color:var(--err)}
-.stdn-frame{background:#fff;border-radius:var(--radius-lg);padding:16px;max-width:320px;margin:0 auto 16px;box-shadow:0 8px 40px rgba(0,0,0,.4)}
-.stdn-frame canvas{display:block;width:100%;height:auto;border-radius:8px}
-.adv-toggle{text-align:center;margin-bottom:16px}
-.adv-toggle button{background:none;border:1px solid var(--border);border-radius:var(--radius);padding:8px 18px;color:var(--text3);font-size:.78rem;cursor:pointer;font-weight:500;transition:all .2s}
-.adv-toggle button:hover{border-color:var(--accent);color:var(--text2)}
-.adv-panel{display:none;margin-bottom:16px}.adv-panel.open{display:block}
-.gen-btn{width:100%;padding:14px;border:none;border-radius:var(--radius);background:var(--accent);color:#fff;font-weight:600;font-size:.95rem;cursor:pointer;transition:all .15s;margin-bottom:20px;letter-spacing:.01em}
-.gen-btn:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}
-.footer{margin-top:auto;padding:20px;text-align:center;font-size:.72rem;color:var(--text3);border-top:1px solid var(--border);line-height:1.8}
-.footer a{color:var(--text2);text-decoration:none}.footer a:hover{color:var(--accent)}
-@media(max-width:600px){.shell{padding:16px 14px 48px}.hdr{padding:28px 0 20px}.r2,.r3{grid-template-columns:1fr 1fr}.card{padding:16px}.top-controls{position:static;justify-content:center;margin-bottom:12px}.hdr{padding-top:8px}}
-</style>
-</head>
-<body>
-<div class="shell">
-  <div class="hdr">
-    <div class="top-controls">
-      <div class="lang-toggle">
-        <button onclick="setLang('en')" id="lang-en">EN</button>
-        <button class="on" onclick="setLang('zh')" id="lang-zh">中</button>
-      </div>
-      <div class="theme-toggle">
-        <button onclick="setTheme('light')" id="theme-light">☀️</button>
-        <button class="on" onclick="setTheme('dark')" id="theme-dark">🌙</button>
-      </div>
-    </div>
-    <h1 data-i18n="title">STDN <span>Studio</span></h1>
-    <p data-i18n="subtitle">标准、艺术融合与支付类STDN码高级生成与解析中心</p>
-  </div>
-  
-  <div class="mode-bar">
-    <button class="mode-btn on" data-mode="standard" onclick="setMode('standard')"><span data-i18n="modeStandard">标准STDN</span><span class="sub" data-i18n="modeStandardSub">网址、文本、WiFi等</span></button>
-    <button class="mode-btn" data-mode="chroma" onclick="setMode('chroma')"><span data-i18n="modeChroma">ChromaCode</span><span class="sub" data-i18n="modeChromaSub">图片艺术马赛克</span></button>
-    <button class="mode-btn" data-mode="scanner" onclick="setMode('scanner')"><span data-i18n="modeScanner">STDN扫描仪</span><span class="sub" data-i18n="modeScannerSub">摄像头/图片解码</span></button>
-  </div>
-
-  <!-- ══════ STANDARD SECTION ══════ -->
-  <div class="sec on" id="sec-standard">
-    <div class="type-pills" id="type-pills">
-      <div class="pill on" data-type="url" data-i18n="pillUrl">网址</div>
-      <div class="pill" data-type="text" data-i18n="pillText">文本</div>
-      <div class="pill" data-type="wifi" data-i18n="pillWifi">WiFi</div>
-      <div class="pill" data-type="email" data-i18n="pillEmail">邮箱</div>
-      <div class="pill" data-type="phone" data-i18n="pillPhone">电话</div>
-      <div class="pill" data-type="sms" data-i18n="pillSms">短信</div>
-      <div class="pill" data-type="whatsapp" data-i18n="pillWhatsapp">微信</div>
-      <div class="pill" data-type="location" data-i18n="pillLocation">位置</div>
-      <div class="pill" data-type="calendar" data-i18n="pillCalendar">日历</div>
-      <div class="pill" data-type="vcard" data-i18n="pillVcard">电子名片</div>
-      <div class="pill" data-type="duitnow" style="background:linear-gradient(135deg,#ED2E67,#c4235a);color:#fff;border-color:#ED2E67">🇲🇾 DuitNow</div>
-    </div>
-    
-    <div class="card">
-      <!-- URL -->
-      <div class="dp on" id="dp-url">
-        <div class="field">
-          <label data-i18n="lblUrl">目标网址 URL</label>
-          <input class="inp" id="in-url" placeholder="https://example.com" value="https://example.com" spellcheck="false">
-          <div class="val-msg" id="v-url"></div>
-        </div>
-      </div>
-      <!-- TEXT -->
-      <div class="dp" id="dp-text">
-        <div class="field">
-          <label data-i18n="lblText">纯文本内容</label>
-          <textarea class="inp" id="in-text" data-i18n-placeholder="phText" placeholder="输入任意文本或消息…">Hello STDN Studio!</textarea>
-        </div>
-      </div>
-      <!-- WIFI -->
-      <div class="dp" id="dp-wifi">
-        <div class="field">
-          <label data-i18n="wifiSsid">网络名称 (SSID)</label>
-          <input class="inp" id="wifi-ssid" placeholder="MyHomeWiFi">
-          <div class="val-msg" id="v-wifi-ssid"></div>
-        </div>
-        <div class="field">
-          <label data-i18n="wifiPass">密码</label>
-          <div style="position:relative">
-            <input class="inp" id="wifi-pass" type="password" data-i18n-placeholder="phPass" placeholder="至少 8 位字符" style="padding-right:42px">
-            <button type="button" id="wifi-eye" onclick="toggleWifiEye()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);font-size:1.1rem;padding:4px;line-height:1" title="切换密码可见性">👁️‍🗨️</button>
-          </div>
-          <div class="val-msg" id="v-wifi-pass"></div>
-        </div>
-        <div class="row r2">
-          <div class="field">
-            <label data-i18n="wifiEnc">加密类型</label>
-            <select class="inp" id="wifi-enc">
-              <option value="WPA">WPA/WPA2</option>
-              <option value="WEP">WEP</option>
-              <option value="" data-i18n="wifiNone">无</option>
-            </select>
-          </div>
-          <div class="field" style="display:flex;align-items:flex-end;padding-bottom:2px">
-            <label class="chk"><input type="checkbox" id="wifi-hidden"> <span data-i18n="wifiHidden">隐藏网络</span></label>
-          </div>
-        </div>
-      </div>
-      <!-- EMAIL -->
-      <div class="dp" id="dp-email">
-        <div class="field"><label data-i18n="emailTo">接收邮箱</label><input class="inp" id="email-to" placeholder="contact@example.com"></div>
-        <div class="field"><label data-i18n="emailSub">邮件主题</label><input class="inp" id="email-sub" placeholder="咨询与合作"></div>
-        <div class="field"><label data-i18n="emailBody">邮件内容</label><textarea class="inp" id="email-body" placeholder="您好，我想了解关于..."></textarea></div>
-      </div>
-      <!-- PHONE -->
-      <div class="dp" id="dp-phone">
-        <div class="field"><label data-i18n="phoneNum">电话号码</label><input class="inp" id="phone-num" placeholder="+86 13800138000"></div>
-      </div>
-      <!-- SMS -->
-      <div class="dp" id="dp-sms">
-        <div class="field"><label data-i18n="smsNum">接收号码</label><input class="inp" id="sms-num" placeholder="+86 13800138000"></div>
-        <div class="field"><label data-i18n="smsBody">短信内容</label><textarea class="inp" id="sms-body" placeholder="短信正文..."></textarea></div>
-      </div>
-      <!-- WHATSAPP -->
-      <div class="dp" id="dp-whatsapp">
-        <div class="field"><label data-i18n="waNum">WhatsApp 手机号 (带国家代码)</label><input class="inp" id="wa-num" placeholder="60123456789"></div>
-        <div class="field"><label data-i18n="waMsg">预设消息</label><textarea class="inp" id="wa-msg" placeholder="Hello, I would like to inquire..."></textarea></div>
-      </div>
-      <!-- LOCATION -->
-      <div class="dp" id="dp-location">
-        <div class="row r2">
-          <div class="field"><label data-i18n="locLat">纬度 (Latitude)</label><input class="inp" id="loc-lat" placeholder="3.1390"></div>
-          <div class="field"><label data-i18n="locLng">经度 (Longitude)</label><input class="inp" id="loc-lng" placeholder="101.6869"></div>
-        </div>
-      </div>
-      <!-- CALENDAR -->
-      <div class="dp" id="dp-calendar">
-        <div class="field"><label data-i18n="calTitle">事件标题</label><input class="inp" id="cal-title" placeholder="产品发布会"></div>
-        <div class="field"><label data-i18n="calLoc">事件地点</label><input class="inp" id="cal-loc" placeholder="吉隆坡会议中心"></div>
-        <div class="row r2">
-          <div class="field"><label data-i18n="calStart">开始时间</label><input type="datetime-local" class="inp" id="cal-start"></div>
-          <div class="field"><label data-i18n="calEnd">结束时间</label><input type="datetime-local" class="inp" id="cal-end"></div>
-        </div>
-      </div>
-      <!-- VCARD -->
-      <div class="dp" id="dp-vcard">
-        <div class="row r2">
-          <div class="field"><label data-i18n="vcFn">姓名</label><input class="inp" id="vc-fn" placeholder="张三"></div>
-          <div class="field"><label data-i18n="vcOrg">公司/组织</label><input class="inp" id="vc-org" placeholder="STDN Tech"></div>
-        </div>
-        <div class="row r2">
-          <div class="field"><label data-i18n="vcPhone">电话</label><input class="inp" id="vc-phone" placeholder="+60123456789"></div>
-          <div class="field"><label data-i18n="vcEmail">邮箱</label><input class="inp" id="vc-email" placeholder="zhang@example.com"></div>
-        </div>
-        <div class="field"><label data-i18n="vcUrl">个人网站</label><input class="inp" id="vc-url" placeholder="https://example.com"></div>
-      </div>
-      <!-- DUITNOW EMV STDN -->
-      <div class="dp" id="dp-duitnow">
-        <div class="field"><label data-i18n="dnProxy">代理类型 (Proxy Type)</label><select class="inp" id="dn-proxy"><option value="01">Mobile Number (手机号)</option><option value="02">NRIC / Passport / Co. Reg (身份证/公司注册号)</option><option value="03">Business Reg / Account (商业注册/账号)</option></select></div>
-        <div class="field"><label data-i18n="dnAcc">收款账号 / 手机号</label><input class="inp" id="dn-acc" placeholder="60123456789"></div>
-        <div class="row r2">
-          <div class="field"><label data-i18n="dnName">收款人姓名 (Merchant Name)</label><input class="inp" id="dn-name" placeholder="STDN Store"></div>
-          <div class="field"><label data-i18n="dnCity">城市 (City)</label><input class="inp" id="dn-city" placeholder="Kuala Lumpur"></div>
-        </div>
-        <div class="row r2">
-          <div class="field"><label data-i18n="dnAmt">固定金额 (可选 MYR)</label><input type="number" step="0.01" class="inp" id="dn-amt" placeholder="0.00"></div>
-          <div class="field"><label data-i18n="dnRef">交易备注 (Reference)</label><input class="inp" id="dn-ref" placeholder="Order #1001"></div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="adv-toggle"><button onclick="toggleAdv()" id="adv-btn" data-i18n="advSettings">⚙ 高级样式设置 (颜色与定位点)</button></div>
-    <div class="adv-panel" id="adv-panel">
-      <div class="card">
-        <div class="card-title" data-i18n="colorStyle">颜色与定位点样式</div>
-        <div class="row r3">
-          <div class="field"><label data-i18n="fgColor">前景色</label><input type="color" class="inp" id="col-fg" value="#000000"></div>
-          <div class="field"><label data-i18n="bgColor">背景色</label><input type="color" class="inp" id="col-bg" value="#ffffff"></div>
-          <div class="field"><label data-i18n="eyeColor">定位点颜色</label><input type="color" class="inp" id="col-eye" value="#06b6d4"></div>
-        </div>
-        <div class="row r2" style="margin-top:12px">
-          <div class="field">
-            <label data-i18n="dotStyle">模块样式</label>
-            <select class="inp" id="set-dots"><option value="square" data-i18n="dotSquare">方块</option><option value="rounded" data-i18n="dotRounded">圆角</option></select>
-          </div>
-          <div class="field">
-            <label data-i18n="eyeStyle">定位眼样式</label>
-            <select class="inp" id="set-eyes"><option value="square" data-i18n="eyeSquare">方框</option><option value="circle" data-i18n="eyeCircle">圆角/圆形</option></select>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <button class="gen-btn" onclick="generateStdn()" data-i18n="genBtn">生成 STDN 码</button>
-    
-    <div class="preview-area" id="std-preview" style="display:none;">
-      <div class="card">
-        <div class="stdn-frame"><canvas id="stdn-canvas"></canvas></div>
-        <div class="dl-row">
-          <button class="dl-btn" onclick="downloadStdn('png')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>PNG</button>
-          <button class="dl-btn" onclick="downloadStdn('svg')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>SVG</button>
-        </div>
-        <div class="link-box" id="stdn-link-box">
-          <div class="link-label" data-i18n="rawContentLabel">编码原始数据内容</div>
-          <div class="link-val" id="stdn-raw-val"></div>
-          <button class="copy-btn" onclick="copyStdnRaw()" data-i18n="copyBtn">复制</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══════ CHROMACODE SECTION ══════ -->
-  <div class="sec" id="sec-chroma">
-    <div class="card">
-      <div class="card-title" data-i18n="chromaTitle">ChromaCode 艺术马赛克合成</div>
-      <div class="field">
-        <label data-i18n="chromaText">STDN 嵌入文本/网址</label>
-        <input class="inp" id="chroma-input" value="https://stdn.studio" placeholder="输入网址或文本">
-      </div>
-      <div class="field">
-        <label data-i18n="chromaImgLabel">上传底图 (自动融合为马赛克色彩)</label>
-        <div class="dz" id="chroma-dz" onclick="document.getElementById('chroma-file').click()">
-          <span data-i18n="dropImg">点击或拖拽上传背景图片</span>
-          <input type="file" id="chroma-file" accept="image/*" onchange="handleChromaImage(this)">
-        </div>
-      </div>
-      <div class="row r2" style="margin-top:12px">
-        <div class="field">
-          <label data-i18n="chromaDensity">密度网格 (Density)</label>
-          <div class="range-row">
-            <input type="range" id="chroma-grid" min="21" max="51" step="4" value="29" oninput="document.getElementById('cg-val').innerText=this.value">
-            <span class="rv" id="cg-val">29</span>
-          </div>
-        </div>
-        <div class="field">
-          <label data-i18n="chromaBlend">底图融合权重</label>
-          <div class="range-row">
-            <input type="range" id="chroma-blend" min="0.2" max="0.9" step="0.05" value="0.55" oninput="document.getElementById('cb-val').innerText=this.value">
-            <span class="rv" id="cb-val">0.55</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <button class="gen-btn" onclick="generateChromaCode()" data-i18n="genChromaBtn">生成 ChromaCode 艺术码</button>
-    
-    <div class="preview-area" id="chroma-preview" style="display:none;">
-      <div class="card">
-        <div class="stdn-frame"><canvas id="chroma-canvas"></canvas></div>
-        <div class="dl-row">
-          <button class="dl-btn" onclick="downloadChroma()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download PNG</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══════ SCANNER SECTION ══════ -->
-  <div class="sec" id="sec-scanner">
-    <div class="card">
-      <div class="card-title" data-i18n="scanTitle">STDN 实时扫描与解析</div>
-      <div style="text-align:center;margin-bottom:16px">
-        <button class="dl-btn" onclick="startScanner()" id="cam-start-btn" style="margin:0 auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span data-i18n="startCam">开启摄像头扫描</span></button>
-      </div>
-      <div id="scanner-container" style="display:none;position:relative;width:100%;max-width:360px;margin:0 auto 16px;border-radius:12px;overflow:hidden;background:#000">
-        <video id="scan-video" playsinline style="width:100%;display:block"></video>
-        <canvas id="scan-canvas" style="display:none"></canvas>
-      </div>
-      <div class="dz" onclick="document.getElementById('scan-file').click()" style="margin-top:12px">
-        <span data-i18n="uploadScan">或上传包含 STDN 码的图片进行解码</span>
-        <input type="file" id="scan-file" accept="image/*" onchange="handleScanImage(this)">
-      </div>
-      <div class="status" id="scan-status"></div>
-      <div class="link-box" id="scan-result-box">
-        <div class="link-label" data-i18n="scanResultLabel">解析结果</div>
-        <div class="link-val" id="scan-result-val"></div>
-        <button class="copy-btn" onclick="copyScanResult()" data-i18n="copyBtn">复制</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer">
-    STDN Studio &bull; <span data-i18n="footerText">极简、安全、端侧运行的STDN码生成与解析工具</span>
-  </div>
-</div>
-
-<script>
-// Multilingual dictionary
-const langDict = {
-  zh: {
-    title: "STDN <span>Studio</span>",
-    subtitle: "标准、艺术融合与支付类STDN码高级生成与解析中心",
-    modeStandard: "标准STDN",
-    modeStandardSub: "网址、文本、WiFi等",
-    modeChroma: "ChromaCode",
-    modeChromaSub: "图片艺术马赛克",
-    modeScanner: "STDN扫描仪",
-    modeScannerSub: "摄像头/图片解码",
-    pillUrl: "网址",
-    pillText: "文本",
-    pillWifi: "WiFi",
-    pillEmail: "邮箱",
-    pillPhone: "电话",
-    pillSms: "短信",
-    pillWhatsapp: "WhatsApp",
-    pillLocation: "位置",
-    pillCalendar: "日历",
-    pillVcard: "电子名片",
-    lblUrl: "目标网址 URL",
-    lblText: "纯文本内容",
-    phText: "输入任意文本或消息…",
-    phPass: "至少 8 位字符",
-    wifiSsid: "网络名称 (SSID)",
-    wifiPass: "密码",
-    wifiEnc: "加密类型",
-    wifiNone: "无",
-    wifiHidden: "隐藏网络",
-    emailTo: "接收邮箱",
-    emailSub: "邮件主题",
-    emailBody: "邮件内容",
-    phoneNum: "电话号码",
-    smsNum: "接收号码",
-    smsBody: "短信内容",
-    waNum: "WhatsApp 手机号 (带国家代码)",
-    waMsg: "预设消息",
-    locLat: "纬度 (Latitude)",
-    locLng: "经度 (Longitude)",
-    calTitle: "事件标题",
-    calLoc: "事件地点",
-    calStart: "开始时间",
-    calEnd: "结束时间",
-    vcFn: "姓名",
-    vcOrg: "公司/组织",
-    vcPhone: "电话",
-    vcEmail: "邮箱",
-    vcUrl: "个人网站",
-    dnProxy: "代理类型 (Proxy Type)",
-    dnAcc: "收款账号 / 手机号",
-    dnName: "收款人姓名 (Merchant Name)",
-    dnCity: "城市 (City)",
-    dnAmt: "固定金额 (可选 MYR)",
-    dnRef: "交易备注 (Reference)",
-    advSettings: "⚙ 高级样式设置 (颜色与定位点)",
-    colorStyle: "颜色与定位点样式",
-    fgColor: "前景色",
-    bgColor: "背景色",
-    eyeColor: "定位点颜色",
-    dotStyle: "模块样式",
-    dotSquare: "方块",
-    dotRounded: "圆角",
-    eyeStyle: "定位眼样式",
-    eyeSquare: "方框",
-    eyeCircle: "圆角/圆形",
-    genBtn: "生成 STDN 码",
-    rawContentLabel: "编码原始数据内容",
-    copyBtn: "复制",
-    chromaTitle: "ChromaCode 艺术马赛克合成",
-    chromaText: "STDN 嵌入文本/网址",
-    chromaImgLabel: "上传底图 (自动融合为马赛克色彩)",
-    dropImg: "点击或拖拽上传背景图片",
-    chromaDensity: "密度网格 (Density)",
-    chromaBlend: "底图融合权重",
-    genChromaBtn: "生成 ChromaCode 艺术码",
-    scanTitle: "STDN 实时扫描与解析",
-    startCam: "开启摄像头扫描",
-    uploadScan: "或上传包含 STDN 码的图片进行解码",
-    scanResultLabel: "解析结果",
-    footerText: "极简、安全、端侧运行的STDN码生成与解析工具"
-  },
-  en: {
-    title: "STDN <span>Studio</span>",
-    subtitle: "Professional STDN generator, ChromaCode mosaic & scanner",
-    modeStandard: "Standard STDN",
-    modeStandardSub: "URL, Text, WiFi & more",
-    modeChroma: "ChromaCode",
-    modeChromaSub: "Image-blended mosaic",
-    modeScanner: "STDN Scanner",
-    modeScannerSub: "Camera & image decoder",
-    pillUrl: "URL",
-    pillText: "Text",
-    pillWifi: "WiFi",
-    pillEmail: "Email",
-    pillPhone: "Phone",
-    pillSms: "SMS",
-    pillWhatsapp: "WhatsApp",
-    pillLocation: "Location",
-    pillCalendar: "Calendar",
-    pillVcard: "vCard",
-    lblUrl: "Target URL",
-    lblText: "Plain Text",
-    phText: "Enter any text or message…",
-    phPass: "Min 8 characters",
-    wifiSsid: "Network Name (SSID)",
-    wifiPass: "Password",
-    wifiEnc: "Encryption",
-    wifiNone: "None",
-    wifiHidden: "Hidden Network",
-    emailTo: "Recipient Email",
-    emailSub: "Subject",
-    emailBody: "Message Body",
-    phoneNum: "Phone Number",
-    smsNum: "SMS Number",
-    smsBody: "SMS Body",
-    waNum: "WhatsApp Number (with country code)",
-    waMsg: "Preset Message",
-    locLat: "Latitude",
-    locLng: "Longitude",
-    calTitle: "Event Title",
-    calLoc: "Location",
-    calStart: "Start Time",
-    calEnd: "End Time",
-    vcFn: "Full Name",
-    vcOrg: "Company / Organization",
-    vcPhone: "Phone",
-    vcEmail: "Email",
-    vcUrl: "Website",
-    dnProxy: "Proxy Type",
-    dnAcc: "Account / Mobile Number",
-    dnName: "Merchant Name",
-    dnCity: "City",
-    dnAmt: "Amount (MYR Optional)",
-    dnRef: "Reference Note",
-    advSettings: "⚙ Advanced Styling (Colors & Eyes)",
-    colorStyle: "Colors & Eye Styling",
-    fgColor: "Foreground",
-    bgColor: "Background",
-    eyeColor: "Eye Color",
-    dotStyle: "Module Style",
-    dotSquare: "Square",
-    dotRounded: "Rounded",
-    eyeStyle: "Eye Style",
-    eyeSquare: "Square",
-    eyeCircle: "Circle",
-    genBtn: "Generate STDN Code",
-    rawContentLabel: "Encoded Raw Data Content",
-    copyBtn: "Copy",
-    chromaTitle: "ChromaCode Mosaic Synthesis",
-    chromaText: "STDN Embedded Text/URL",
-    chromaImgLabel: "Upload Background Image",
-    dropImg: "Click or drag background image here",
-    chromaDensity: "Grid Density",
-    chromaBlend: "Background Blend Weight",
-    genChromaBtn: "Generate ChromaCode Art",
-    scanTitle: "STDN Real-time Scanner",
-    startCam: "Start Camera Scanner",
-    uploadScan: "Or upload an image containing STDN code",
-    scanResultLabel: "Decoded Result",
-    footerText: "Professional STDN generator, ChromaCode mosaic & scanner"
-  }
-};
-
-let currentLang = 'zh';
-
-function setLang(lang) {
-  currentLang = lang;
-  document.getElementById('lang-zh').classList.toggle('on', lang === 'zh');
-  document.getElementById('lang-en').classList.toggle('on', lang === 'en');
-  
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (langDict[lang][key]) {
-      el.innerHTML = langDict[lang][key];
-    }
-  });
-
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    const key = el.getAttribute('data-i18n-placeholder');
-    if (langDict[lang][key]) {
-      el.setAttribute('placeholder', langDict[lang][key]);
-    }
-  });
-}
-
-function setTheme(theme) {
-  document.documentElement.setAttribute('data-theme', theme);
-  document.getElementById('theme-light').classList.toggle('on', theme === 'light');
-  document.getElementById('theme-dark').classList.toggle('on', theme === 'dark');
-}
-
-function setMode(mode) {
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('on'));
-  document.querySelector(`[data-mode="${mode}"]`).classList.add('on');
-  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
-  document.getElementById(`sec-${mode}`).classList.add('on');
-  if (mode === 'scanner') {
-    stopScanner();
-  }
-}
-
-// Pill switching for standard types
-document.querySelectorAll('#type-pills .pill').forEach(pill => {
-  pill.addEventListener('click', () => {
-    document.querySelectorAll('#type-pills .pill').forEach(p => p.classList.remove('on'));
-    pill.classList.add('on');
-    const type = pill.getAttribute('data-type');
-    document.querySelectorAll('.dp').forEach(d => d.classList.remove('on'));
-    const target = document.getElementById(`dp-${type}`);
-    if (target) target.classList.add('on');
-  });
-});
-
-function toggleAdv() {
-  document.getElementById('adv-panel').classList.toggle('open');
-}
-
-function toggleWifiEye() {
-  const passInput = document.getElementById('wifi-pass');
-  passInput.type = passInput.type === 'password' ? 'text' : 'password';
-}
-
-// CRC16 CCITT helper for DuitNow EMV STDN
-function calculateCRC16(str) {
-  let crc = 0xFFFF;
-  for (let i = 0; i < str.length; i++) {
-    crc ^= (str.charCodeAt(i) << 8);
-    for (let j = 0; j < 8; j++) {
-      if (crc & 0x8000) {
-        crc = (crc << 1) ^ 0x1021;
-      } else {
-        crc = crc << 1;
-      }
-      crc &= 0xFFFF;
-    }
-  }
-  return crc.toString(16).toUpperCase().padStart(4, '0');
-}
-
-function buildDuitNowPayload() {
-  const proxyType = document.getElementById('dn-proxy').value;
-  const acc = document.getElementById('dn-acc').value.trim();
-  const name = document.getElementById('dn-name').value.trim() || 'STDN MERCHANT';
-  const city = document.getElementById('dn-city').value.trim() || 'Kuala Lumpur';
-  const amt = document.getElementById('dn-amt').value.trim();
-  const ref = document.getElementById('dn-ref').value.trim() || 'PAYMENT';
-
-  // Format helper
-  const fv = (id, val) => id + String(val.length).padStart(2, '0') + val;
-  
-  let merchantAccInfo = fv('00', 'A000000677010111') + fv(proxyType, acc);
-  let sub01 = fv('00', merchantAccInfo);
-
-  let emv = "";
-  emv += fv('00', '01'); // Payload Format Indicator
-  emv += fv('01', '11'); // Initiation Method (11 = dynamic)
-  emv += fv('26', sub01); // DuitNow Merchant Account Information
-  emv += fv('52', '4599'); // Merchant Category Code
-  emv += fv('53', '458');  // Currency (MYR = 458)
-  if (amt && parseFloat(amt) > 0) {
-    emv += fv('54', parseFloat(amt).toFixed(2));
-  }
-  emv += fv('58', 'MY'); // Country Code
-  emv += fv('59', name.substring(0, 25)); // Merchant Name
-  emv += fv('60', city.substring(0, 15)); // Merchant City
-  
-  let addData = fv('01', ref.substring(0, 25));
-  emv += fv('62', addData);
-  
-  emv += '6304'; // CRC Identifier
-  const crc = calculateCRC16(emv);
-  return emv + crc;
-}
-
-// Build standard payload based on active tab
-function getActivePayload() {
-  const activePill = document.querySelector('#type-pills .pill.on');
-  const type = activePill ? activePill.getAttribute('data-type') : 'url';
-  
-  if (type === 'url') {
-    let v = document.getElementById('in-url').value.trim();
-    return v || 'https://example.com';
-  }
-  if (type === 'text') {
-    return document.getElementById('in-text').value;
-  }
-  if (type === 'wifi') {
-    const ssid = document.getElementById('wifi-ssid').value;
-    const pass = document.getElementById('wifi-pass').value;
-    const enc = document.getElementById('wifi-enc').value;
-    const hidden = document.getElementById('wifi-hidden').checked ? 'H:true;' : '';
-    return `WIFI:S:${ssid};T:${enc};P:${pass};${hidden};`;
-  }
-  if (type === 'email') {
-    const to = document.getElementById('email-to').value;
-    const sub = encodeURIComponent(document.getElementById('email-sub').value);
-    const body = encodeURIComponent(document.getElementById('email-body').value);
-    return `mailto:${to}?subject=${sub}&body=${body}`;
-  }
-  if (type === 'phone') {
-    return `tel:${document.getElementById('phone-num').value}`;
-  }
-  if (type === 'sms') {
-    return `SMSTO:${document.getElementById('sms-num')}.value}:${document.getElementById('sms-body').value}`;
-  }
-  if (type === 'whatsapp') {
-    const num = document.getElementById('wa-num').value.replace(/[^0-9]/g, '');
-    const msg = encodeURIComponent(document.getElementById('wa-msg').value);
-    return `https://wa.me/${num}?text=${msg}`;
-  }
-  if (type === 'location') {
-    const lat = document.getElementById('loc-lat').value;
-    const lng = document.getElementById('loc-lng').value;
-    return `geo:${lat},${lng}`;
-  }
-  if (type === 'calendar') {
-    const title = document.getElementById('cal-title').value;
-    const loc = document.getElementById('cal-loc').value;
-    const start = document.getElementById('cal-start').value ? new Date(document.getElementById('cal-start').value).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z' : '';
-    const end = document.getElementById('cal-end').value ? new Date(document.getElementById('cal-end').value).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z' : '';
-    return `BEGIN:VEVENT\nSUMMARY:${title}\nLOCATION:${loc}\nDTSTART:${start}\nDTEND:${end}\nEND:VEVENT`;
-  }
-  if (type === 'vcard') {
-    const fn = document.getElementById('vc-fn').value;
-    const org = document.getElementById('vc-org').value;
-    const phone = document.getElementById('vc-phone').value;
-    const email = document.getElementById('vc-email').value;
-    const url = document.getElementById('vc-url').value;
-    return `BEGIN:VCARD\nVERSION:3.0\nFN:${fn}\nORG:${org}\nTEL:${phone}\nEMAIL:${email}\nURL:${url}\nEND:VCARD`;
-  }
-  if (type === 'duitnow') {
-    return buildDuitNowPayload();
-  }
-  return 'STDN Studio Default';
-}
-
-let lastGeneratedPayload = "";
-
-function generateStdn() {
-  const payload = getActivePayload();
-  lastGeneratedPayload = payload;
-  
-  document.getElementById('std-preview').style.display = 'block';
-  document.getElementById('stdn-raw-val').innerText = payload;
-  document.getElementById('stdn-link-box').classList.add('on');
-  
-  const canvas = document.getElementById('stdn-canvas');
-  const ctx = canvas.getContext('2d');
-  
-  // Generate QR matrix using qrcode-generator library
-  let qr;
-  try {
-    qr = qrcode(0, 'M');
-    qr.addData(payload);
-    qr.make();
-  } catch(e) {
-    qr = qrcode(0, 'L');
-    qr.addData(payload);
-    qr.make();
-  }
-  
-  const moduleCount = qr.getModuleCount();
-  const cellSize = 10;
-  const margin = 20;
-  const size = moduleCount * cellSize + margin * 2;
-  
-  canvas.width = size;
-  canvas.height = size;
-  
-  const fgColor = document.getElementById('col-fg').value || '#000000';
-  const bgColor = document.getElementById('col-bg').value || '#ffffff';
-  const eyeColor = document.getElementById('col-eye').value || '#06b6d4';
-  const dotStyle = document.getElementById('set-dots').value;
-  const eyeStyle = document.getElementById('set-eyes').value;
-  
-  // Background
-  ctx.fillStyle = bgColor;
-  ctx.fillRect(0, 0, size, size);
-  
-  // Helper to check if module is part of Finder Pattern (Eyes)
-  const isFinder = (r, c) => {
-    return (r < 7 && c < 7) || (r < 7 && c >= moduleCount - 7) || (r >= moduleCount - 7 && c < 7);
-  };
-  
-  // Draw modules
-  for (let r = 0; r < moduleCount; r++) {
-    for (let c = 0; c < moduleCount; c++) {
-      if (qr.isDark(r, c)) {
-        if (isFinder(r, c)) continue; // skip finders, draw separately
-        const x = margin + c * cellSize;
-        const y = margin + r * cellSize;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STDN Studio - 专业二维码生成平台</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- qrcode-generator JS library for robust matrix calculation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+    <!-- jsQR for Scanner -->
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
         
-        ctx.fillStyle = fgColor;
-        if (dotStyle === 'rounded') {
-          ctx.beginPath();
-          ctx.roundRect(x, y, cellSize, cellSize, cellSize * 0.4);
-          ctx.fill();
-        } else {
-          ctx.fillRect(x, y, cellSize, cellSize);
+        /* Strict square canvas wrapper to prevent aspect ratio distortion */
+        .qr-canvas-box {
+            width: 100%;
+            max-width: 320px;
+            aspect-ratio: 1 / 1;
+            position: relative;
         }
-      }
-    }
-  }
-  
-  // Draw Custom Finder Patterns (Eyes)
-  const drawEye = (startR, startC) => {
-    const x = margin + startC * cellSize;
-    const y = margin + startR * cellSize;
-    const outerSize = 7 * cellSize;
-    
-    ctx.save();
-    ctx.fillStyle = eyeColor;
-    if (eyeStyle === 'circle') {
-      ctx.beginPath();
-      ctx.roundRect(x, y, outerSize, outerSize, outerSize * 0.35);
-      ctx.fill();
-      ctx.fillStyle = bgColor;
-      ctx.beginPath();
-      ctx.roundRect(x + cellSize, y + cellSize, outerSize - 2 * cellSize, outerSize - 2 * cellSize, outerSize * 0.25);
-      ctx.fill();
-      ctx.fillStyle = eyeColor;
-      ctx.beginPath();
-      ctx.roundRect(x + 2 * cellSize, y + 2 * cellSize, outerSize - 4 * cellSize, outerSize - 4 * cellSize, outerSize * 0.15);
-      ctx.fill();
-    } else {
-      // Square
-      ctx.fillRect(x, y, outerSize, outerSize);
-      ctx.fillStyle = bgColor;
-      ctx.fillRect(x + cellSize, y + cellSize, outerSize - 2 * cellSize, outerSize - 2 * cellSize);
-      ctx.fillStyle = eyeColor;
-      ctx.fillRect(x + 2 * cellSize, y + 2 * cellSize, outerSize - 4 * cellSize, outerSize - 4 * cellSize);
-    }
-    ctx.restore();
-  };
-  
-  drawEye(0, 0);
-  drawEye(0, moduleCount - 7);
-  drawEye(moduleCount - 7, 0);
-}
-
-function copyStdnRaw() {
-  const text = document.getElementById('stdn-raw-val').innerText;
-  const textArea = document.createElement("textarea");
-  textArea.value = text;
-  document.body.appendChild(textArea);
-  textArea.select();
-  try {
-    document.execCommand('copy');
-    alert('已成功复制原始数据到剪贴板！');
-  } catch (err) {
-    alert('复制失败，请手动选择复制。');
-  }
-  document.body.removeChild(textArea);
-}
-
-function downloadStdn(format) {
-  const canvas = document.getElementById('stdn-canvas');
-  const link = document.createElement('a');
-  link.download = `stdn_code.${format}`;
-  if (format === 'png') {
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-  } else if (format === 'svg') {
-    // Basic SVG export wrapper
-    const dataUrl = canvas.toDataURL('image/png');
-    const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}"><image href="${dataUrl}" width="100%" height="100%"/></svg>`;
-    const blob = new Blob([svgContent], {type: 'image/svg+xml'});
-    link.href = URL.createObjectURL(blob);
-    link.click();
-  }
-}
-
-// ══════ CHROMACODE IMPLEMENTATION ══════
-let chromaImageObj = null;
-
-function handleChromaImage(input) {
-  if (input.files && input.files[0]) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const img = new Image();
-      img.onload = function() {
-        chromaImageObj = img;
-        document.getElementById('chroma-dz').style.borderColor = 'var(--ok)';
-        document.getElementById('chroma-dz').innerHTML = `<span style="color:var(--ok)">✓ 底图加载成功 (${img.width}x${img.height})</span>`;
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(input.files[0]);
-  }
-}
-
-function generateChromaCode() {
-  const text = document.getElementById('chroma-input').value.trim() || 'https://stdn.studio';
-  const gridCount = parseInt(document.getElementById('chroma-grid').value);
-  const blendWeight = parseFloat(document.getElementById('chroma-blend').value);
-  
-  let qr;
-  try {
-    qr = qrcode(0, 'M');
-    qr.addData(text);
-    qr.make();
-  } catch(e) {
-    qr = qrcode(0, 'L');
-    qr.addData(text);
-    qr.make();
-  }
-  
-  const moduleCount = qr.getModuleCount();
-  const canvas = document.getElementById('chroma-canvas');
-  const ctx = canvas.getContext('2d');
-  
-  const size = 600;
-  canvas.width = size;
-  canvas.height = size;
-  
-  // Draw background image if available
-  if (chromaImageObj) {
-    ctx.drawImage(chromaImageObj, 0, 0, size, size);
-  } else {
-    ctx.fillStyle = '#18181b';
-    ctx.fillRect(0, 0, size, size);
-  }
-  
-  // Extract image pixel data for sampling colors
-  const imgData = ctx.getImageData(0, 0, size, size);
-  const data = imgData.data;
-  
-  // Clear canvas for drawing mosaic
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0, 0, size, size);
-  
-  const cellSize = size / moduleCount;
-  
-  const isFinder = (r, c) => {
-    return (r < 7 && c < 7) || (r < 7 && c >= moduleCount - 7) || (r >= moduleCount - 7 && c < 7);
-  };
-  
-  for (let r = 0; r < moduleCount; r++) {
-    for (let c = 0; c < moduleCount; c++) {
-      const x = c * cellSize;
-      const y = r * cellSize;
-      
-      // Sample background color from image
-      let red = 255, green = 255, blue = 255;
-      if (chromaImageObj) {
-        let sampleX = Math.floor(x + cellSize / 2);
-        let sampleY = Math.floor(y + cellSize / 2);
-        let idx = (sampleY * size + sampleX) * 4;
-        red = data[idx];
-        green = data[idx+1];
-        blue = data[idx+2];
-      }
-      
-      const isDarkModule = qr.isDark(r, c);
-      
-      if (isFinder(r, c)) {
-        // Draw standard clean finder eyes for scannability
-        ctx.fillStyle = isDarkModule ? '#000000' : '#ffffff';
-        ctx.fillRect(x, y, cellSize, cellSize);
-      } else if (isDarkModule) {
-        // Blend image color with dark module
-        ctx.fillStyle = `rgb(${Math.floor(red * (1 - blendWeight))}, ${Math.floor(green * (1 - blendWeight))}, ${Math.floor(blue * (1 - blendWeight))})`;
-        ctx.fillRect(x, y, cellSize, cellSize);
-      } else {
-        // Light module
-        ctx.fillStyle = `rgb(${Math.floor(red * blendWeight + 255 * (1 - blendWeight))}, ${Math.floor(green * blendWeight + 255 * (1 - blendWeight))}, ${Math.floor(blue * blendWeight + 255 * (1 - blendWeight))})`;
-        ctx.fillRect(x, y, cellSize, cellSize);
-      }
-    }
-  }
-  
-  document.getElementById('chroma-preview').style.display = 'block';
-}
-
-function downloadChroma() {
-  const canvas = document.getElementById('chroma-canvas');
-  const link = document.createElement('a');
-  link.download = 'chromacode_art.png';
-  link.href = canvas.toDataURL('image/png');
-  link.click();
-}
-
-// ══════ SCANNER IMPLEMENTATION ══════
-let scanStream = null;
-let scanInterval = null;
-
-function startScanner() {
-  const container = document.getElementById('scanner-container');
-  const video = document.getElementById('scan-video');
-  const status = document.getElementById('scan-status');
-  
-  container.style.display = 'block';
-  status.innerText = "正在请求摄像头权限...";
-  
-  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-    .then(stream => {
-      scanStream = stream;
-      video.srcObject = stream;
-      video.setAttribute('playsinline', true);
-      video.play();
-      status.innerText = "摄像头已启动，请将 STDN 码置于镜头前...";
-      scanInterval = setInterval(scanFrame, 300);
-    })
-    .catch(err => {
-      status.innerText = "无法访问摄像头: " + err.message;
-      status.classList.add('err');
-    });
-}
-
-function stopScanner() {
-  if (scanStream) {
-    scanStream.getTracks().forEach(track => track.stop());
-    scanStream = null;
-  }
-  if (scanInterval) {
-    clearInterval(scanInterval);
-    scanInterval = null;
-  }
-  document.getElementById('scanner-container').style.display = 'none';
-}
-
-function scanFrame() {
-  const video = document.getElementById('scan-video');
-  const canvas = document.getElementById('scan-canvas');
-  if (video.readyState === video.HAVE_ENOUGH_DATA) {
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const code = jsQR(imgData.data, imgData.width, imgData.height, { inversionAttempts: "dontInvert" });
-    if (code) {
-      stopScanner();
-      showScanResult(code.data);
-    }
-  }
-}
-
-function handleScanImage(input) {
-  if (input.files && input.files[0]) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const img = new Image();
-      img.onload = function() {
-        const canvas = document.getElementById('scan-canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const code = jsQR(imgData.data, imgData.width, imgData.height, { inversionAttempts: "attemptBoth" });
-        if (code) {
-          showScanResult(code.data);
-        } else {
-          document.getElementById('scan-status').innerText = "未能在图片中检测到有效的 STDN 码";
-          document.getElementById('scan-status').classList.add('err');
+        .qr-canvas-box canvas {
+            width: 100% !important;
+            height: 100% !important;
+            display: block;
+            object-fit: contain;
+            border-radius: 12px;
         }
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(input.files[0]);
-  }
-}
+    </style>
+</head>
+<body class="h-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300 flex flex-col">
 
-function showScanResult(data) {
-  document.getElementById('scan-status').innerText = "解析成功！";
-  document.getElementById('scan-result-val').innerText = data;
-  document.getElementById('scan-result-box').classList.add('on');
-}
+    <!-- Header Navigation -->
+    <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid fa-qrcode text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg tracking-tight flex items-center gap-2">
+                        STDN Studio <span class="text-xs font-semibold px-2 py-0.5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 rounded-full">v1.0 Pro</span>
+                    </h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="subtitle">专业品牌化二维码生成平台</p>
+                </div>
+            </div>
 
-function copyScanResult() {
-  const text = document.getElementById('scan-result-val').innerText;
-  const textArea = document.createElement("textarea");
-  textArea.value = text;
-  document.body.appendChild(textArea);
-  textArea.select();
-  try {
-    document.execCommand('copy');
-    alert('解析结果已复制！');
-  } catch (err) {
-    alert('复制失败');
-  }
-  document.body.removeChild(textArea);
-}
+            <div class="flex items-center space-x-3">
+                <!-- Language Toggle -->
+                <button onclick="toggleLanguage()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-globe text-slate-400"></i>
+                    <span id="lang-label">English</span>
+                </button>
 
-// Initial generation on load
-window.onload = function() {
-  generateStdn();
-};
-</script>
+                <!-- High Contrast Toggle -->
+                <button onclick="toggleHighContrast()" title="高对比度" class="p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-circle-half-stroke"></i>
+                </button>
+
+                <!-- Dark Mode Toggle -->
+                <button onclick="toggleDarkMode()" class="p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left Column: Controls & Configuration (7 cols) -->
+        <div class="lg:col-span-7 flex flex-col space-y-6">
+            
+            <!-- Tab Navigation -->
+            <div class="flex bg-slate-200 dark:bg-slate-800 p-1 rounded-xl shadow-inner">
+                <button onclick="switchMode('generator')" id="tab-generator" class="flex-1 py-2.5 rounded-lg text-sm font-semibold transition flex items-center justify-center gap-2 bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="tab_generator">生成器</span>
+                </button>
+                <button onclick="switchMode('chromacode')" id="tab-chromacode" class="flex-1 py-2.5 rounded-lg text-sm font-semibold transition flex items-center justify-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+                    <i class="fa-solid fa-palette"></i> <span data-i18n="tab_chromacode">ChromaCode 艺术融合</span>
+                </button>
+                <button onclick="switchMode('scanner')" id="tab-scanner" class="flex-1 py-2.5 rounded-lg text-sm font-semibold transition flex items-center justify-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+                    <i class="fa-solid fa-camera"></i> <span data-i18n="tab_scanner">扫描解码</span>
+                </button>
+            </div>
+
+            <!-- VIEW 1: GENERATOR -->
+            <div id="view-generator" class="tab-content active space-y-6">
+                
+                <!-- Input Content Panel -->
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                    <h2 class="text-base font-semibold flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
+                        <i class="fa-solid fa-file-lines"></i> <span data-i18n="step1_title">1. 选择类型与数据内容</span>
+                    </h2>
+
+                    <!-- Type Selector Options Grid -->
+                    <div class="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                        <button onclick="setQRType('url')" id="type-btn-url" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300 transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-link"></i> 网址 URL
+                        </button>
+                        <button onclick="setQRType('text')" id="type-btn-text" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-align-left"></i> 文本 Text
+                        </button>
+                        <button onclick="setQRType('wifi')" id="type-btn-wifi" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-wifi"></i> WiFi
+                        </button>
+                        <button onclick="setQRType('email')" id="type-btn-email" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-envelope"></i> 邮箱
+                        </button>
+                        <button onclick="setQRType('phone')" id="type-btn-phone" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-phone"></i> 电话
+                        </button>
+                        <button onclick="setQRType('sms')" id="type-btn-sms" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-comment-sms"></i> 短信
+                        </button>
+                        <button onclick="setQRType('whatsapp')" id="type-btn-whatsapp" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
+                            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                        </button>
+                        <button onclick="setQRType('location')" id="type-btn-location" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-location-dot"></i> 地理位置
+                        </button>
+                        <button onclick="setQRType('vcard')" id="type-btn-vcard" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-address-card"></i> 电子名片
+                        </button>
+                        <button onclick="setQRType('calendar')" id="type-btn-calendar" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-calendar-days"></i> 日历活动
+                        </button>
+                        <button onclick="setQRType('duitnow')" id="type-btn-duitnow" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-wallet"></i> DuitNow/支付
+                        </button>
+                    </div>
+
+                    <!-- Dynamic Input Container -->
+                    <div id="form-container" class="pt-2">
+                        <!-- Dynamic inputs injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Styling & Customization Panel -->
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                    <h2 class="text-base font-semibold flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
+                        <i class="fa-solid fa-palette"></i> <span data-i18n="step2_title">2. 品牌美化与参数选择</span>
+                    </h2>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Module Shape -->
+                        <div>
+                            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="module_shape">码点形状 (Module Shape)</label>
+                            <select id="module-shape" onchange="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="square">经典方形 (Square)</option>
+                                <option value="rounded">圆角矩形 (Rounded)</option>
+                                <option value="dots">圆点阵列 (Dots)</option>
+                            </select>
+                        </div>
+
+                        <!-- Error Correction Level -->
+                        <div>
+                            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="ecl_label">容错级别 (Error Correction)</label>
+                            <select id="ecl-select" onchange="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="L">L (7% 破坏恢复)</option>
+                                <option value="M" selected>M (15% 破坏恢复)</option>
+                                <option value="Q">Q (25% 破坏恢复)</option>
+                                <option value="H">H (30% 容错 - 建议嵌入Logo)</option>
+                            </select>
+                        </div>
+
+                        <!-- Colors -->
+                        <div>
+                            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="fg_color">码点颜色 (Foreground)</label>
+                            <div class="flex items-center gap-2">
+                                <input type="color" id="fg-color" value="#4f46e5" onchange="syncColorText('fg')" class="w-10 h-10 rounded-xl border-0 cursor-pointer">
+                                <input type="text" id="fg-color-text" value="#4f46e5" oninput="syncColorInput('fg')" class="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-mono">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="bg_color">背景颜色 (Background)</label>
+                            <div class="flex items-center gap-2">
+                                <input type="color" id="bg-color" value="#ffffff" onchange="syncColorText('bg')" class="w-10 h-10 rounded-xl border-0 cursor-pointer">
+                                <input type="text" id="bg-color-text" value="#ffffff" oninput="syncColorInput('bg')" class="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-mono">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logo Attachment -->
+                    <div class="pt-3 border-t border-slate-100 dark:border-slate-700">
+                        <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5" data-i18n="logo_upload">中心 Logo / 品牌图标 (嵌入与白色遮罩)</label>
+                        <div class="flex items-center gap-3">
+                            <input type="file" id="logo-file" accept="image/*" onchange="handleLogoUpload(event)" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-900/50 file:text-indigo-600 dark:file:text-indigo-300 hover:file:bg-indigo-100 transition">
+                            <button onclick="removeLogo()" class="px-3 py-2 rounded-xl border border-rose-200 dark:border-rose-900/50 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 text-xs transition shrink-0" data-i18n="remove_logo">清除 Logo</button>
+                        </div>
+                    </div>
+
+                    <!-- Preset Style Templates -->
+                    <div class="pt-3 border-t border-slate-100 dark:border-slate-700">
+                        <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-2" data-i18n="templates">快捷预设风格</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="applyTemplate('corporate')" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-indigo-500 text-xs font-medium transition text-center bg-slate-50 dark:bg-slate-900">商务科技蓝</button>
+                            <button onclick="applyTemplate('emerald')" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-emerald-500 text-xs font-medium transition text-center bg-slate-50 dark:bg-slate-900">翡翠优雅绿</button>
+                            <button onclick="applyTemplate('minimalist')" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-slate-900 text-xs font-medium transition text-center bg-slate-50 dark:bg-slate-900">经典黑白</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- VIEW 2: CHROMACODE (ARTISTIC BLEND) -->
+            <div id="view-chromacode" class="tab-content space-y-6">
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                    <h2 class="text-base font-semibold flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
+                        <i class="fa-solid fa-palette"></i> <span data-i18n="cc_title">ChromaCode 艺术融合码</span>
+                    </h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="cc_desc">上传自定义背景图，通过柔和半透明色彩叠加与几何码点融合，生成具有高视觉冲击力的艺术二维码。</p>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">艺术码链接 / 内容</label>
+                            <input type="text" id="cc-input" value="https://example.com/art" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">背景画布图片</label>
+                            <input type="file" id="cc-bg-file" accept="image/*" onchange="handleChromaBgUpload(event)" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-900/50 file:text-indigo-600 dark:file:text-indigo-300 hover:file:bg-indigo-100 transition">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">快速艺术渐变预设</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <button onclick="setChromaPreset('aurora')" class="p-3 rounded-xl border border-teal-500 bg-gradient-to-r from-teal-400 to-indigo-500 text-white text-xs font-bold shadow">极光之夜</button>
+                                <button onclick="setChromaPreset('sunset')" class="p-3 rounded-xl border border-orange-500 bg-gradient-to-r from-orange-400 to-rose-500 text-white text-xs font-bold shadow">落日熔金</button>
+                                <button onclick="setChromaPreset('cyber')" class="p-3 rounded-xl border border-purple-500 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-bold shadow">赛博霓虹</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 3: SCANNER -->
+            <div id="view-scanner" class="tab-content space-y-6">
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4 text-center">
+                    <h2 class="text-base font-semibold flex items-center justify-center gap-2 text-indigo-600 dark:text-indigo-400">
+                        <i class="fa-solid fa-camera"></i> <span data-i18n="scanner_title">二维码实时扫描与文件识别</span>
+                    </h2>
+
+                    <!-- Video / Canvas Feed -->
+                    <div class="relative w-full max-w-md mx-auto aspect-video bg-slate-900 rounded-2xl overflow-hidden flex items-center justify-center border border-slate-700 shadow-inner">
+                        <video id="scanner-video" class="w-full h-full object-cover" autoplay playsinline muted></video>
+                        <canvas id="scanner-canvas" class="hidden"></canvas>
+                        <div id="scanner-placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 space-y-2 bg-slate-900/90">
+                            <i class="fa-solid fa-video-slash text-3xl text-slate-600"></i>
+                            <span class="text-xs">摄像头处于关闭状态</span>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center gap-3">
+                        <button onclick="startScanner()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-500/20 transition flex items-center gap-2">
+                            <i class="fa-solid fa-play"></i> 开启摄像头
+                        </button>
+                        <button onclick="stopScanner()" class="px-4 py-2.5 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold transition flex items-center gap-2">
+                            <i class="fa-solid fa-stop"></i> 关闭摄像头
+                        </button>
+                    </div>
+
+                    <!-- Drag & Drop Image File Decode -->
+                    <div class="pt-4 border-t border-slate-100 dark:border-slate-700">
+                        <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-2">或上传二维码图片识别</label>
+                        <input type="file" accept="image/*" onchange="decodeUploadedImage(event)" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-100 dark:file:bg-slate-700 file:text-slate-700 dark:file:text-slate-200 hover:file:bg-slate-200 transition">
+                    </div>
+
+                    <!-- Result Box -->
+                    <div class="pt-2 text-left">
+                        <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="scan_result">扫描/解算结果</label>
+                        <div id="scan-result-box" class="p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-mono break-all text-slate-700 dark:text-slate-300 min-h-[60px] flex items-center">
+                            <span class="text-slate-400 text-xs italic">暂未检测到二维码内容</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column: Real-time Preview & Export Studio (5 cols) -->
+        <div class="lg:col-span-5 flex flex-col space-y-6">
+            
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm sticky top-24 flex flex-col items-center space-y-6">
+                
+                <div class="w-full flex items-center justify-between">
+                    <h3 class="font-semibold text-sm flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
+                        <i class="fa-solid fa-eye"></i> <span data-i18n="preview_title">实时二维码预览</span>
+                    </h3>
+                    <span id="dimension-badge" class="text-xs font-mono px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-lg text-slate-500 dark:text-slate-400">1024 x 1024 px</span>
+                </div>
+
+                <!-- Guarantee strict 1:1 Aspect Ratio Box with High DPI Canvas -->
+                <div class="qr-canvas-box bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center justify-center shadow-inner">
+                    <canvas id="qr-canvas"></canvas>
+                </div>
+
+                <!-- Export Controls & Downloading -->
+                <div class="w-full space-y-4">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="export_format">文件格式</label>
+                            <select id="export-format" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none">
+                                <option value="png">PNG 高清图片</option>
+                                <option value="jpg">JPG 压缩图片</option>
+                                <option value="svg">SVG 矢量图</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="export_size">导出分辨率</label>
+                            <select id="export-size" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none">
+                                <option value="512">512 x 512 px</option>
+                                <option value="1024" selected>1024 x 1024 px</option>
+                                <option value="2048">2048 x 2048 px (超清)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button onclick="downloadQR()" class="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-semibold rounded-xl text-sm shadow-lg shadow-indigo-500/30 transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-download"></i> <span data-i18n="download_btn">下载高清二维码文件</span>
+                    </button>
+                </div>
+
+                <!-- Technical Badges -->
+                <div class="w-full pt-4 border-t border-slate-100 dark:border-slate-700 flex flex-wrap gap-2 justify-center text-[11px] text-slate-500 dark:text-slate-400">
+                    <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700/50 rounded-lg flex items-center gap-1"><i class="fa-solid fa-square-check text-emerald-500"></i> <span data-i18n="badge_ratio">严格 1:1 无变形</span></span>
+                    <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700/50 rounded-lg flex items-center gap-1"><i class="fa-solid fa-bolt text-amber-500"></i> <span data-i18n="badge_realtime">毫秒级实时计算</span></span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        // State management
+        let currentLang = 'zh';
+        let currentQRType = 'url';
+        let currentMode = 'generator';
+        let logoImageObj = null;
+        let chromaBgObj = null;
+        let scannerStream = null;
+        let scannerInterval = null;
+        let isHighContrast = false;
+
+        // Translation dictionary
+        const translations = {
+            zh: {
+                subtitle: '专业品牌化二维码生成与极速解算平台',
+                tab_generator: '生成器',
+                tab_chromacode: 'ChromaCode 艺术融合',
+                tab_scanner: '扫描解码',
+                step1_title: '1. 选择类型与数据内容',
+                step2_title: '2. 品牌美化与参数选择',
+                module_shape: '码点形状 (Module Shape)',
+                ecl_label: '容错级别 (Error Correction)',
+                fg_color: '码点颜色 (Foreground)',
+                bg_color: '背景颜色 (Background)',
+                logo_upload: '中心 Logo / 品牌图标 (嵌入与白色遮罩)',
+                remove_logo: '清除 Logo',
+                templates: '快捷预设风格',
+                cc_title: 'ChromaCode 艺术融合码',
+                cc_desc: '上传自定义背景图，通过柔和半透明色彩叠加与几何码点融合，生成具有高视觉冲击力的艺术二维码。',
+                scanner_title: '二维码实时扫描与文件识别',
+                scan_result: '扫描/解算结果',
+                preview_title: '实时二维码预览',
+                export_format: '文件格式',
+                export_size: '导出分辨率',
+                download_btn: '下载高清二维码文件',
+                badge_ratio: '严格 1:1 无变形',
+                badge_realtime: '毫秒级实时计算'
+            },
+            en: {
+                subtitle: 'Professional Branded QR Code Studio & Fast Decoder',
+                tab_generator: 'Generator',
+                tab_chromacode: 'ChromaCode Art',
+                tab_scanner: 'Scanner',
+                step1_title: '1. Select Type & Input Data',
+                step2_title: '2. Styling & Brand Parameters',
+                module_shape: 'Module Shape',
+                ecl_label: 'Error Correction Level',
+                fg_color: 'Foreground Color',
+                bg_color: 'Background Color',
+                logo_upload: 'Center Logo Icon (With Mask)',
+                remove_logo: 'Remove Logo',
+                templates: 'Preset Styles',
+                cc_title: 'ChromaCode Art Fusion',
+                cc_desc: 'Upload a background image to fuse QR matrix logic into artistic visuals smoothly.',
+                scanner_title: 'Real-time Camera Scanner & File Decoder',
+                scan_result: 'Scan / Decode Result',
+                preview_title: 'Live QR Preview',
+                export_format: 'Export Format',
+                export_size: 'Export Resolution',
+                download_btn: 'Download High-Res QR File',
+                badge_ratio: 'Strict 1:1 Aspect Ratio',
+                badge_realtime: 'Real-time Matrix Calculation'
+            }
+        };
+
+        // Window startup initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            renderFormInputs();
+            renderQR();
+        });
+
+        function setQRType(type) {
+            currentQRType = type;
+            document.querySelectorAll('.type-pill').forEach(btn => {
+                btn.className = "type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5";
+            });
+            const activeBtn = document.getElementById(`type-btn-${type}`);
+            if (activeBtn) {
+                activeBtn.className = "type-pill px-3 py-2 rounded-xl text-xs font-medium border border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300 transition flex items-center justify-center gap-1.5";
+            }
+            renderFormInputs();
+            renderQR();
+        }
+
+        function renderFormInputs() {
+            const container = document.getElementById('form-container');
+            let html = '';
+
+            switch (currentQRType) {
+                case 'url':
+                    html = `
+                        <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">目标网页链接 (URL)</label>
+                        <input type="url" id="input-url" value="https://github.com" oninput="renderQR()" placeholder="https://..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    `;
+                    break;
+                case 'text':
+                    html = `
+                        <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">纯文本内容</label>
+                        <textarea id="input-text" rows="3" oninput="renderQR()" placeholder="请输入任意文本..." class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">Hello QR Studio!</textarea>
+                    `;
+                    break;
+                case 'wifi':
+                    html = `
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">WiFi 网络名称 (SSID)</label>
+                                <input type="text" id="wifi-ssid" value="MyHomeWiFi" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">加密方式</label>
+                                    <select id="wifi-enc" onchange="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option value="WPA">WPA/WPA2</option>
+                                        <option value="WEP">WEP</option>
+                                        <option value="nopass">无密码</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">密码</label>
+                                    <input type="password" id="wifi-pass" value="password123" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'email':
+                    html = `
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">收件人邮箱</label>
+                                <input type="email" id="email-to" value="contact@example.com" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">邮件主题</label>
+                                <input type="text" id="email-subject" value="QR Studio 咨询" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'phone':
+                    html = `
+                        <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">电话号码</label>
+                        <input type="tel" id="input-phone" value="+8613800138000" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    `;
+                    break;
+                case 'sms':
+                    html = `
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">接收号码</label>
+                                <input type="tel" id="sms-number" value="+8613800138000" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">短信预设内容</label>
+                                <input type="text" id="sms-msg" value="您好，我想了解更多信息。" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'whatsapp':
+                    html = `
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">WhatsApp 号码 (国际格式如 1234567890)</label>
+                                <input type="text" id="wa-number" value="15551234567" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">默认消息</label>
+                                <input type="text" id="wa-msg" value="Hello, QR Studio!" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'location':
+                    html = `
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">纬度 (Latitude)</label>
+                                <input type="text" id="loc-lat" value="39.9042" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">经度 (Longitude)</label>
+                                <input type="text" id="loc-lng" value="116.4074" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm">
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'vcard':
+                    html = `
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">姓名</label>
+                                <input type="text" id="vcard-name" value="Alex Smith" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">电话</label>
+                                <input type="text" id="vcard-phone" value="+15550192834" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm">
+                            </div>
+                            <div class="col-span-2">
+                                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">电子邮箱</label>
+                                <input type="email" id="vcard-email" value="alex@example.com" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm">
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'calendar':
+                    html = `
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">活动标题</label>
+                                <input type="text" id="cal-title" value="新产品发布会" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">地点</label>
+                                <input type="text" id="cal-location" value="线上直播间" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm">
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'duitnow':
+                    html = `
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">商户 / 收款人</label>
+                                <input type="text" id="duit-name" value="QR Studio Pay" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">账号/ID</label>
+                                    <input type="text" id="duit-id" value="123456789" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">固定金额 (可填)</label>
+                                    <input type="number" id="duit-amt" value="20.00" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm">
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+            container.innerHTML = html;
+        }
+
+        function getPayloadData() {
+            if (currentMode === 'chromacode') {
+                return document.getElementById('cc-input').value || 'https://example.com/art';
+            }
+
+            switch (currentQRType) {
+                case 'url':
+                    return document.getElementById('input-url')?.value || 'https://github.com';
+                case 'text':
+                    return document.getElementById('input-text')?.value || 'Hello QR Studio!';
+                case 'wifi':
+                    const ssid = document.getElementById('wifi-ssid')?.value || 'WiFi';
+                    const enc = document.getElementById('wifi-enc')?.value || 'WPA';
+                    const pass = document.getElementById('wifi-pass')?.value || '';
+                    return `WIFI:S:${ssid};T:${enc};P:${pass};;`;
+                case 'email':
+                    const to = document.getElementById('email-to')?.value || '';
+                    const sub = document.getElementById('email-subject')?.value || '';
+                    return `mailto:${to}?subject=${encodeURIComponent(sub)}`;
+                case 'phone':
+                    return `tel:${document.getElementById('input-phone')?.value || ''}`;
+                case 'sms':
+                    const num = document.getElementById('sms-number')?.value || '';
+                    const msg = document.getElementById('sms-msg')?.value || '';
+                    return `smsto:${num}:${msg}`;
+                case 'whatsapp':
+                    const waNum = document.getElementById('wa-number')?.value || '';
+                    const waMsg = document.getElementById('wa-msg')?.value || '';
+                    return `https://wa.me/${waNum}?text=${encodeURIComponent(waMsg)}`;
+                case 'location':
+                    const lat = document.getElementById('loc-lat')?.value || '0';
+                    const lng = document.getElementById('loc-lng')?.value || '0';
+                    return `geo:${lat},${lng}`;
+                case 'vcard':
+                    const name = document.getElementById('vcard-name')?.value || '';
+                    const phone = document.getElementById('vcard-phone')?.value || '';
+                    const email = document.getElementById('vcard-email')?.value || '';
+                    return `BEGIN:VCARD\nVERSION:3.0\nN:${name}\nTEL:${phone}\nEMAIL:${email}\nEND:VCARD`;
+                case 'calendar':
+                    const title = document.getElementById('cal-title')?.value || 'Event';
+                    const loc = document.getElementById('cal-location')?.value || '';
+                    return `BEGIN:VEVENT\nSUMMARY:${title}\nLOCATION:${loc}\nEND:VEVENT`;
+                case 'duitnow':
+                    const dName = document.getElementById('duit-name')?.value || '';
+                    const dId = document.getElementById('duit-id')?.value || '';
+                    const dAmt = document.getElementById('duit-amt')?.value || '';
+                    return `DUITNOW:${dId}?name=${encodeURIComponent(dName)}&amount=${dAmt}`;
+                default:
+                    return 'https://github.com';
+            }
+        }
+
+        function renderQR() {
+            const canvas = document.getElementById('qr-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            const payload = getPayloadData();
+            const ecl = document.getElementById('ecl-select').value;
+            const shape = document.getElementById('module-shape').value;
+            const fgColor = document.getElementById('fg-color').value;
+            const bgColor = document.getElementById('bg-color').value;
+
+            // Generate matrix using qrcode-generator
+            let qr;
+            try {
+                qr = qrcode(0, ecl);
+                qr.addData(payload);
+                qr.make();
+            } catch (err) {
+                // If payload is too big for auto-type-number, fallback to type 10
+                qr = qrcode(10, ecl);
+                qr.addData(payload);
+                qr.make();
+            }
+
+            const moduleCount = qr.getModuleCount();
+            
+            // High DPI resolution setup
+            const outputResolution = 1024;
+            canvas.width = outputResolution;
+            canvas.height = outputResolution;
+
+            ctx.clearRect(0, 0, outputResolution, outputResolution);
+
+            // 1. Background drawing
+            if (currentMode === 'chromacode' && chromaBgObj) {
+                // Draw background image scaled to fit square
+                ctx.drawImage(chromaBgObj, 0, 0, outputResolution, outputResolution);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+                ctx.fillRect(0, 0, outputResolution, outputResolution);
+            } else {
+                ctx.fillStyle = bgColor;
+                ctx.fillRect(0, 0, outputResolution, outputResolution);
+            }
+
+            // Calculate grid sizing with padding
+            const padding = outputResolution * 0.08;
+            const availableSize = outputResolution - padding * 2;
+            const cellSize = availableSize / moduleCount;
+
+            // 2. Draw Modules
+            ctx.fillStyle = fgColor;
+
+            for (let r = 0; r < moduleCount; r++) {
+                for (let c = 0; c < moduleCount; c++) {
+                    if (qr.isDark(r, c)) {
+                        const x = padding + c * cellSize;
+                        const y = padding + r * cellSize;
+
+                        if (shape === 'dots') {
+                            ctx.beginPath();
+                            ctx.arc(x + cellSize / 2, y + cellSize / 2, cellSize * 0.4, 0, Math.PI * 2);
+                            ctx.fill();
+                        } else if (shape === 'rounded') {
+                            const radius = cellSize * 0.35;
+                            ctx.beginPath();
+                            ctx.roundRect(x, y, cellSize * 0.95, cellSize * 0.95, radius);
+                            ctx.fill();
+                        } else {
+                            // Default square
+                            ctx.fillRect(x, y, cellSize + 0.5, cellSize + 0.5);
+                        }
+                    }
+                }
+            }
+
+            // 3. Logo Attachment Center Overlay
+            if (logoImageObj && currentMode === 'generator') {
+                const logoScale = 0.22; // 22% size of overall canvas
+                const logoSize = outputResolution * logoScale;
+                const logoPos = (outputResolution - logoSize) / 2;
+
+                // White rounded mask for contrast
+                const maskPadding = logoSize * 0.1;
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.roundRect(
+                    logoPos - maskPadding,
+                    logoPos - maskPadding,
+                    logoSize + maskPadding * 2,
+                    logoSize + maskPadding * 2,
+                    logoSize * 0.15
+                );
+                ctx.fill();
+
+                // Draw logo
+                ctx.drawImage(logoImageObj, logoPos, logoPos, logoSize, logoSize);
+            }
+        }
+
+        function syncColorText(type) {
+            const val = document.getElementById(`${type}-color`).value;
+            document.getElementById(`${type}-color-text`).value = val;
+            renderQR();
+        }
+
+        function syncColorInput(type) {
+            const textVal = document.getElementById(`${type}-color-text`).value;
+            if (/^#[0-9A-F]{6}$/i.test(textVal)) {
+                document.getElementById(`${type}-color`).value = textVal;
+                renderQR();
+            }
+        }
+
+        function handleLogoUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+                const img = new Image();
+                img.onload = () => {
+                    logoImageObj = img;
+                    // Force Error Correction to H for optimal decoding when logo is present
+                    document.getElementById('ecl-select').value = 'H';
+                    renderQR();
+                };
+                img.src = evt.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeLogo() {
+            logoImageObj = null;
+            document.getElementById('logo-file').value = '';
+            renderQR();
+        }
+
+        function handleChromaBgUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+                const img = new Image();
+                img.onload = () => {
+                    chromaBgObj = img;
+                    renderQR();
+                };
+                img.src = evt.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function setChromaPreset(theme) {
+            if (theme === 'aurora') {
+                document.getElementById('fg-color').value = '#0f766e';
+                document.getElementById('bg-color').value = '#ccfbf1';
+            } else if (theme === 'sunset') {
+                document.getElementById('fg-color').value = '#c2410c';
+                document.getElementById('bg-color').value = '#ffedd5';
+            } else if (theme === 'cyber') {
+                document.getElementById('fg-color').value = '#7e22ce';
+                document.getElementById('bg-color').value = '#f3e8ff';
+            }
+            document.getElementById('fg-color-text').value = document.getElementById('fg-color').value;
+            document.getElementById('bg-color-text').value = document.getElementById('bg-color').value;
+            renderQR();
+        }
+
+        function applyTemplate(type) {
+            if (type === 'corporate') {
+                document.getElementById('fg-color').value = '#1d4ed8';
+                document.getElementById('bg-color').value = '#f0f9ff';
+                document.getElementById('module-shape').value = 'rounded';
+            } else if (type === 'emerald') {
+                document.getElementById('fg-color').value = '#047857';
+                document.getElementById('bg-color').value = '#ecfdf5';
+                document.getElementById('module-shape').value = 'dots';
+            } else if (type === 'minimalist') {
+                document.getElementById('fg-color').value = '#000000';
+                document.getElementById('bg-color').value = '#ffffff';
+                document.getElementById('module-shape').value = 'square';
+            }
+            document.getElementById('fg-color-text').value = document.getElementById('fg-color').value;
+            document.getElementById('bg-color-text').value = document.getElementById('bg-color').value;
+            renderQR();
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`view-${mode}`).classList.add('active');
+
+            ['generator', 'chromacode', 'scanner'].forEach(m => {
+                const btn = document.getElementById(`tab-${m}`);
+                if (m === mode) {
+                    btn.className = "flex-1 py-2.5 rounded-lg text-sm font-semibold transition flex items-center justify-center gap-2 bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm";
+                } else {
+                    btn.className = "flex-1 py-2.5 rounded-lg text-sm font-semibold transition flex items-center justify-center gap-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+                }
+            });
+
+            if (mode !== 'scanner') {
+                stopScanner();
+            }
+            renderQR();
+        }
+
+        function startScanner() {
+            const video = document.getElementById('scanner-video');
+            const placeholder = document.getElementById('scanner-placeholder');
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+                .then(stream => {
+                    scannerStream = stream;
+                    video.srcObject = stream;
+                    placeholder.style.display = 'none';
+                    scannerInterval = setInterval(scanFrame, 300);
+                })
+                .catch(err => {
+                    document.getElementById('scan-result-box').innerText = "错误: 无法启动摄像头 (" + err.message + ")";
+                });
+        }
+
+        function stopScanner() {
+            if (scannerStream) {
+                scannerStream.getTracks().forEach(track => track.stop());
+                scannerStream = null;
+            }
+            if (scannerInterval) {
+                clearInterval(scannerInterval);
+                scannerInterval = null;
+            }
+            document.getElementById('scanner-placeholder').style.display = 'flex';
+        }
+
+        function scanFrame() {
+            const video = document.getElementById('scanner-video');
+            const canvas = document.getElementById('scanner-canvas');
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imageData.data, imageData.width, imageData.height);
+                if (code) {
+                    document.getElementById('scan-result-box').innerHTML = `<strong class="text-emerald-600 dark:text-emerald-400">解码成功:</strong> ${code.data}`;
+                }
+            }
+        }
+
+        function decodeUploadedImage(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const code = jsQR(imageData.data, imageData.width, imageData.height);
+                    if (code) {
+                        document.getElementById('scan-result-box').innerHTML = `<strong class="text-emerald-600 dark:text-emerald-400">上传解算成功:</strong> ${code.data}`;
+                    } else {
+                        document.getElementById('scan-result-box').innerHTML = `<span class="text-rose-500">无法识别图像中的二维码，请确保清晰度。</span>`;
+                    }
+                };
+                img.src = evt.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function downloadQR() {
+            const format = document.getElementById('export-format').value;
+            const targetSize = parseInt(document.getElementById('export-size').value);
+            const canvas = document.getElementById('qr-canvas');
+
+            if (format === 'svg') {
+                downloadSVG(targetSize);
+                return;
+            }
+
+            // Create offscreen high-res canvas for exact resolution download
+            const exportCanvas = document.createElement('canvas');
+            exportCanvas.width = targetSize;
+            exportCanvas.height = targetSize;
+            const ctx = exportCanvas.getContext('2d');
+
+            ctx.drawImage(canvas, 0, 0, targetSize, targetSize);
+
+            const mime = format === 'jpg' ? 'image/jpeg' : 'image/png';
+            const link = document.createElement('a');
+            link.download = `qr-studio-${Date.now()}.${format}`;
+            link.href = exportCanvas.toDataURL(mime, 0.95);
+            link.click();
+        }
+
+        function downloadSVG(size) {
+            const payload = getPayloadData();
+            const ecl = document.getElementById('ecl-select').value;
+            const fgColor = document.getElementById('fg-color').value;
+            const bgColor = document.getElementById('bg-color').value;
+
+            const qr = qrcode(0, ecl);
+            qr.addData(payload);
+            qr.make();
+
+            const count = qr.getModuleCount();
+            const cellSize = size / count;
+
+            let svgPath = '';
+            for (let r = 0; r < count; r++) {
+                for (let c = 0; c < count; c++) {
+                    if (qr.isDark(r, c)) {
+                        const x = c * cellSize;
+                        const y = r * cellSize;
+                        svgPath += `M${x},${y}h${cellSize}v${cellSize}h-${cellSize}z `;
+                    }
+                }
+            }
+
+            const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+                <rect width="100%" height="100%" fill="${bgColor}"/>
+                <path d="${svgPath}" fill="${fgColor}"/>
+            </svg>`;
+
+            const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.download = `qr-studio-${Date.now()}.svg`;
+            link.href = url;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Accessibility & Header Helpers
+        function toggleLanguage() {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            document.getElementById('lang-label').innerText = currentLang === 'zh' ? 'English' : '中文';
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    el.innerText = translations[currentLang][key];
+                }
+            });
+        }
+
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        function toggleHighContrast() {
+            isHighContrast = !isHighContrast;
+            if (isHighContrast) {
+                document.documentElement.style.filter = 'contrast(1.35) saturate(1.2)';
+            } else {
+                document.documentElement.style.filter = 'none';
+            }
+        }
+    </script>
 </body>
 </html>
