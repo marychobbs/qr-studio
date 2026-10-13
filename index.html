@@ -311,7 +311,7 @@
             <div id="batch-result-panel" class="hidden bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
                 <div class="flex items-center justify-between">
                     <h2 class="text-base font-semibold flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
-                        <i class="fa-solid grid-cells fa-table-cells"></i> 批量生成结果 (<span id="batch-count">0</span>)
+                        <i class="fa-solid fa-table-cells"></i> 批量生成结果 (<span id="batch-count">0</span>)
                     </h2>
                 </div>
                 <div id="batch-grid-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[600px] overflow-y-auto p-2">
@@ -633,6 +633,22 @@
     </footer>
 
     <script>
+    // [Fix2] roundRect polyfill for older browsers (Firefox < 78, Safari < 14.1)
+    if (!CanvasRenderingContext2D.prototype.roundRect) {
+        CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+            if (w < 2 * r) r = w / 2;
+            if (h < 2 * r) r = h / 2;
+            this.beginPath();
+            this.moveTo(x + r, y);
+            this.arcTo(x + w, y, x + w, y + h, r);
+            this.arcTo(x + w, y + h, x, y + h, r);
+            this.arcTo(x, y + h, x, y, r);
+            this.arcTo(x, y, x + w, y, r);
+            this.closePath();
+            return this;
+        };
+    }
+
         let currentLang = 'zh';
         let currentQRType = 'url';
         let currentMode = 'generator';
@@ -858,12 +874,24 @@
 
             if (editingPresetIndex !== null && presets[editingPresetIndex]) {
                 presets[editingPresetIndex].name = val;
-                localStorage.setItem('stdn_custom_presets', JSON.stringify(presets));
+                try {
+                    localStorage.setItem('stdn_custom_presets', JSON.stringify(presets));
+                } catch (e) {
+                    console.warn('localStorage 写入失败:', e);
+                    alert('存储空间不足，无法保存预设。');
+                    return;
+                }
                 cancelEditPreset();
             } else {
                 const newId = 'custom_' + Date.now();
                 presets.push({ id: newId, name: val });
-                localStorage.setItem('stdn_custom_presets', JSON.stringify(presets));
+                try {
+                    localStorage.setItem('stdn_custom_presets', JSON.stringify(presets));
+                } catch (e) {
+                    console.warn('localStorage 写入失败:', e);
+                    alert('存储空间不足，无法保存预设。');
+                    return;
+                }
                 input.value = '';
             }
 
@@ -882,7 +910,13 @@
                 cancelEditPreset();
             }
             presets.splice(index, 1);
-            localStorage.setItem('stdn_custom_presets', JSON.stringify(presets));
+            try {
+                localStorage.setItem('stdn_custom_presets', JSON.stringify(presets));
+            } catch (e) {
+                console.warn('localStorage 写入失败:', e);
+                alert('存储空间不足，无法删除预设。');
+                return;
+            }
             initPresetSelect();
             renderPresetList();
             renderQR();
@@ -933,11 +967,9 @@
                     const json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
                     let lines = [];
                     json.forEach(row => {
-                        row.forEach(cell => {
-                            if (cell !== undefined && cell !== null && String(cell).trim() !== '') {
-                                lines.push(String(cell).trim());
-                            }
-                        });
+                        // [Fix4] 按行拼接，保留行边界，避免多列数据拍平丢失行结构
+                        const rowText = row.filter(c => c !== undefined && c !== null && String(c).trim() !== '').join(' ');
+                        if (rowText) lines.push(rowText);
                     });
                     textarea.value = lines.join('\n');
                     generateBatchList();
@@ -949,7 +981,10 @@
                 } else if (fileName.endsWith('.pdf')) {
                     const data = await file.arrayBuffer();
                     const loadingTask = pdfjsLib.getDocument({ data: data });
-                    const pdfDoc = await loadingTask.promise;
+                    const pdfDoc = await loadingTask.promise.catch((err) => {
+                        console.error('PDF 加载失败:', err);
+                        throw err;
+                    });
                     let fullText = '';
                     for (let i = 1; i <= pdfDoc.numPages; i++) {
                         const page = await pdfDoc.getPage(i);
@@ -1016,6 +1051,14 @@
         };
 
         window.addEventListener('DOMContentLoaded', () => {
+            // [Fix8.2] 恢复深色模式偏好
+            try {
+                if (localStorage.getItem('stdn_dark_mode') === '1') {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) {
+                console.warn('读取 localStorage 失败:', e);
+            }
             initPresetSelect();
             renderFormInputs();
             if (document.fonts && document.fonts.ready) {
@@ -1332,7 +1375,18 @@
 
                 const qr = qrcode(0, ecl);
                 qr.addData(text);
-                qr.make();
+                try {
+                    qr.make();
+                } catch (e) {
+                    console.error('QR码生成失败，数据可能过长:', e);
+                    ctx.fillStyle = bgColor;
+                    ctx.fillRect(0, 0, canvasWidth || 200, canvasHeight || 200);
+                    ctx.fillStyle = '#ff0000';
+                    ctx.font = '14px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('数据过长，请缩短内容或选择更高容错级别', (canvasWidth || 200) / 2, (canvasHeight || 200) / 2);
+                    return;
+                }
 
                 const moduleCount = qr.getModuleCount();
                 const scale = 16;
@@ -1452,10 +1506,15 @@
                     }
                 }
 
+                // [Fix7] 字体加载优化：在绘制前触发字体加载
                 if (currentMode === 'generator' && posterTitle.trim() !== '') {
                     ctx.save();
                     ctx.fillStyle = titleColor;
-                    ctx.font = `${titleWeight} ${titleSize}px ${titleFont}`;
+                    const _titleFontStr = `${titleWeight} ${titleSize}px ${titleFont}`;
+                    if (document.fonts) {
+                        document.fonts.load(_titleFontStr).catch(() => {});
+                    }
+                    ctx.font = _titleFontStr;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
 
@@ -1472,7 +1531,11 @@
                 if (currentMode === 'generator' && posterSubtitle.trim() !== '') {
                     ctx.save();
                     ctx.fillStyle = subtitleColor;
-                    ctx.font = `${subtitleWeight} ${subtitleSize}px ${subtitleFont}`;
+                    const _subFontStr = `${subtitleWeight} ${subtitleSize}px ${subtitleFont}`;
+                    if (document.fonts) {
+                        document.fonts.load(_subFontStr).catch(() => {});
+                    }
+                    ctx.font = _subFontStr;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'top';
                     
@@ -1707,6 +1770,8 @@
             link.download = `stdn-code.${format}`;
 
             if (format === 'svg') {
+                // [Fix3] SVG格式仅导出纯QR码矢量数据，不含边框/海报文字/Logo等画布样式
+                // 如需完整样式请选用 PNG 格式下载
                 const text = getPayloadContent();
                 const qr = qrcode(0, 'M');
                 qr.addData(text);
@@ -1811,8 +1876,14 @@
             });
         }
 
+        // [Fix8.2] 保存深色模式偏好到 localStorage
         function toggleDarkMode() {
             document.documentElement.classList.toggle('dark');
+            try {
+                localStorage.setItem('stdn_dark_mode', document.documentElement.classList.contains('dark') ? '1' : '0');
+            } catch (e) {
+                console.warn('localStorage 写入失败:', e);
+            }
         }
 
         function toggleHighContrast() {
