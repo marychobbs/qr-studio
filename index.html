@@ -9,21 +9,17 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts & Expanded Web Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Ma+Shan+Zheng&family=Montserrat:wght@400;600;800&family=Pacifico&family=Roboto:wght@400;700&family=ZCOOL+KuaiLe&family=ZCOOL+XiaoWei&family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@300;400;700&family=ZCOOL+QingKe+HuangYou&family=Long+Cang&family=Liu+Jian+Mao+Cao&family=Yuji+Boku&family=Shrikhand&family=Comfortaa:wght@400;700&family=Lobster&family=Playfair+Display:wght@400;700&family=Cinzel:wght@400;700&family=Bebas+Neue&family=Orbitron:wght@400;700&family=Press+Start+2P&family=Permanent+Marker&family=Satisfy&family=Caveat:wght@400;700&family=Shadows+Into+Light&family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Alex+Brush&family=Sacramento&family=Cookie&family=Allura&display=swap" rel="stylesheet">
+    <link href="https://gapis.geekzu.org/css2?family=Inter:wght@300;400;500;600;700&family=Ma+Shan+Zheng&family=Montserrat:wght@400;600;800&family=Pacifico&family=Roboto:wght@400;700&family=ZCOOL+KuaiLe&family=ZCOOL+XiaoWei&family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@300;400;700&family=ZCOOL+QingKe+HuangYou&family=Long+Cang&family=Liu+Jian+Mao+Cao&family=Yuji+Boku&family=Shrikhand&family=Comfortaa:wght@400;700&family=Lobster&family=Playfair+Display:wght@400;700&family=Cinzel:wght@400;700&family=Bebas+Neue&family=Orbitron:wght@400;700&family=Press+Start+2P&family=Permanent+Marker&family=Satisfy&family=Caveat:wght@400;700&family=Shadows+Into+Light&family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Alex+Brush&family=Sacramento&family=Cookie&family=Allura&display=swap" rel="stylesheet">
     <!-- qrcode-generator JS library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-    <!-- jsQR for Scanner -->
-    <script src="https://cdn.jsdelivr.net/npm/jsQR@1.4.0/dist/jsQR.min.js"></script>
-    <!-- SheetJS for Excel Parsing -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <!-- Mammoth.js for Word Parsing -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-    <!-- PDF.js for PDF Parsing -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.bootcdn.net/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     </script>
     <!-- Tailwind Config -->
     <script>
@@ -60,7 +56,96 @@
             border-radius: 12px;
         }
     </style>
+
+    <!-- CDN加载状态诊断 -->
+    <script>
+        window.addEventListener('load', function() {
+            var status = [];
+            if (typeof qrcode !== 'undefined') {
+                status.push('qrcode-generator: OK');
+            } else {
+                status.push('qrcode-generator: FAILED');
+            }
+            if (typeof XLSX !== 'undefined') {
+                status.push('SheetJS/xlsx: OK');
+            } else {
+                status.push('SheetJS/xlsx: FAILED');
+            }
+            if (typeof jsQR !== 'undefined') {
+                status.push('jsQR: OK');
+            } else {
+                status.push('jsQR: FAILED');
+            }
+            if (typeof mammoth !== 'undefined') {
+                status.push('mammoth: OK');
+            } else {
+                status.push('mammoth: FAILED');
+            }
+            if (typeof pdfjsLib !== 'undefined') {
+                status.push('PDF.js: OK');
+            } else {
+                status.push('PDF.js: FAILED');
+            }
+            console.log('%c[STDN Studio CDN诊断]', 'font-weight:bold;color:#6366f1;font-size:14px;');
+            console.log(status.join(' | '));
+            if (status.some(function(s) { return s.includes('FAILED'); })) {
+                console.warn('%c[警告] 部分CDN库加载失败，请检查网络连接或浏览器控制台', 'color:#ef4444;font-weight:bold;');
+            } else {
+                console.log('%c[通过] 所有CDN库加载成功', 'color:#22c55e;font-weight:bold;');
+            }
+        });
+    </script>
 </head>
+
+    <!-- CDN加载诊断覆盖层 -->
+    <div id="cdn-diagnostic" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.95);z-index:99999;justify-content:center;align-items:center;">
+        <div style="background:#1e293b;color:#e2e8f0;padding:2rem;border-radius:1rem;max-width:500px;width:90%;font-family:monospace;border:1px solid #475569;box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);">
+            <h3 style="color:#f87171;margin-top:0;font-size:1.1rem;border-bottom:1px solid #475569;padding-bottom:0.5rem;">STDN Studio 启动诊断</h3>
+            <div id="cdn-status-list" style="font-size:0.85rem;line-height:2;"></div>
+            <div id="cdn-action-area" style="margin-top:1.5rem;display:none;border-top:1px solid #475569;padding-top:1rem;">
+                <button onclick="location.reload()" style="background:#6366f1;color:white;border:none;padding:0.5rem 1rem;border-radius:0.5rem;cursor:pointer;margin-right:0.5rem;font-size:0.85rem;">重试加载</button>
+                <button onclick="document.getElementById('cdn-diagnostic').style.display='none'" style="background:#475569;color:white;border:none;padding:0.5rem 1rem;border-radius:0.5rem;cursor:pointer;font-size:0.85rem;">忽略（功能可能不可用）</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        var checks = [
+            { name: 'qrcode-generator (二维码生成核心库)', check: function() { return typeof qrcode !== 'undefined'; } },
+            { name: 'SheetJS/xlsx (Excel文件解析)', check: function() { return typeof XLSX !== 'undefined'; } },
+            { name: 'jsQR (二维码图片扫描)', check: function() { return typeof jsQR !== 'undefined'; } },
+            { name: 'mammoth (Word文档解析)', check: function() { return typeof mammoth !== 'undefined'; } },
+            { name: 'PDF.js (PDF文件解析)', check: function() { return typeof pdfjsLib !== 'undefined'; } }
+        ];
+        var listEl = document.getElementById('cdn-status-list');
+        var actionEl = document.getElementById('cdn-action-area');
+        if (!listEl) return;
+        
+        var allOk = true;
+        var html = '';
+        checks.forEach(function(c) {
+            var ok = false;
+            try { ok = c.check(); } catch(e) { ok = false; }
+            var color = ok ? '#4ade80' : '#f87171';
+            var icon = ok ? '[OK]' : '[FAIL]';
+            html += '<div style="color:' + color + ';">' + icon + ' ' + c.name + '</div>';
+            if (!ok) allOk = false;
+        });
+        listEl.innerHTML = html;
+        
+        if (!allOk) {
+            actionEl.style.display = 'block';
+            console.warn('%c[STDN] 部分CDN库加载失败，请检查网络', 'color:#f87171;font-weight:bold;');
+        } else {
+            var timeout = setTimeout(function() {
+                var diag = document.getElementById('cdn-diagnostic');
+                if (diag) diag.style.display = 'none';
+                console.log('%c[STDN] 所有CDN库加载成功，应用正常启动', 'color:#4ade80;font-weight:bold;');
+            }, 1000);
+        }
+    })();
+    </script>
 <body class="min-h-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300 flex flex-col">
 
     <!-- Header Navigation -->
@@ -669,9 +754,22 @@
 
         function getPresets() {
             try {
+                if (typeof localStorage === 'undefined') {
+                    console.warn('[STDN] localStorage不可用，使用默认预设');
+                    return defaultPresets;
+                }
                 const saved = localStorage.getItem('stdn_custom_presets');
-                return saved ? JSON.parse(saved) : defaultPresets;
+                if (saved) {
+                    try {
+                        return JSON.parse(saved);
+                    } catch (parseError) {
+                        console.error('[STDN] 预设数据解析失败，使用默认值');
+                        return defaultPresets;
+                    }
+                }
+                return defaultPresets;
             } catch (e) {
+                console.error('[STDN] getPresets错误:', e);
                 return defaultPresets;
             }
         }
@@ -801,8 +899,9 @@
         }
 
         function openPresetManager() {
+            console.log('[STDN] openPresetManager被调用');
             const modal = document.getElementById('preset-modal');
-            if (!modal) return;
+            if (!modal) { console.error('[STDN] preset-modal未找到'); return; }
             const isHidden = modal.classList.contains('hidden');
             if (isHidden) {
                 modal.classList.remove('hidden');
@@ -814,9 +913,11 @@
         }
 
         function renderPresetList() {
+            console.log('[STDN] renderPresetList被调用');
             const container = document.getElementById('preset-list-container');
-            if (!container) return;
+            if (!container) { console.error('[STDN] preset-list-container未找到'); return; }
             const presets = getPresets();
+            console.log('[STDN] 预设列表:', presets);
             container.innerHTML = '';
             
             presets.forEach((p, index) => {
@@ -825,12 +926,13 @@
                 item.innerHTML = `
                     <span class="font-medium text-slate-700 dark:text-slate-300">${p.name}</span>
                     <div class="flex items-center gap-1">
-                        <button type="button" onclick="startEditPreset(${index})" class="text-indigo-600 hover:text-indigo-800 px-2 py-0.5" title="修改"><i class="fa-solid fa-pen text-[11px]"></i></button>
-                        <button type="button" onclick="removePreset(${index})" class="text-rose-500 hover:text-rose-700 px-2 py-0.5" title="删除"><i class="fa-solid fa-trash text-[11px]"></i></button>
+                        <button type="button" onclick="startEditPreset(${index})" class="text-indigo-600 hover:text-indigo-800 px-2 py-0.5" title="修改"><i class="fa-solid fa-pen text-[11px]"></i> 修改</button>
+                        <button type="button" onclick="removePreset(${index})" class="text-rose-500 hover:text-rose-700 px-2 py-0.5" title="删除"><i class="fa-solid fa-trash text-[11px]"></i> 删除</button>
                     </div>
                 `;
                 container.appendChild(item);
             });
+            console.log('[STDN] renderPresetList完成，共渲染'+presets.length+'个预设项');
         }
 
         function startEditPreset(index) {
@@ -1059,12 +1161,49 @@
             } catch (e) {
                 console.warn('读取 localStorage 失败:', e);
             }
+            console.log('%c[STDN] DOM加载完成，准备初始化...', 'color:#6366f1;');
             initPresetSelect();
             renderFormInputs();
-            if (document.fonts && document.fonts.ready) {
-                document.fonts.ready.then(() => { renderQR(); });
+            // 确保qrcode库已加载后再渲染
+            if (typeof qrcode !== 'undefined') {
+                if (document.fonts && document.fonts.ready) {
+                    document.fonts.ready.then(() => {
+                        console.log('%c[STDN] 字体已加载，开始渲染二维码', 'color:#22c55e;');
+                        renderQR();
+                    });
+                } else {
+                    renderQR();
+                }
             } else {
-                renderQR();
+                console.error('%c[STDN] qrcode库未加载！尝试自动重试...', 'color:#ef4444;font-weight:bold;');
+                // 多次重试等待qrcode库加载（每1秒重试一次，最多重试10次=10秒）
+                let retryCount = 0;
+                const maxRetries = 10;
+                const retryInterval = setInterval(function() {
+                    retryCount++;
+                    console.log('[STDN] 第'+retryCount+'次重试检查qrcode库...');
+                    if (typeof qrcode !== 'undefined') {
+                        clearInterval(retryInterval);
+                        console.log('%c[STDN] qrcode库已加载，开始渲染！', 'color:#22c55e;font-weight:bold;');
+                        renderQR();
+                    } else if (retryCount >= maxRetries) {
+                        clearInterval(retryInterval);
+                        console.error('%c[STDN] qrcode库重试'+maxRetries+'次后仍未加载，请检查网络连接或CDN地址', 'color:#ef4444;');
+                        // 在canvas上显示友好提示
+                        const canvas = document.getElementById('qr-canvas');
+                        if (canvas) {
+                            const ctx = canvas.getContext('2d');
+                            ctx.fillStyle = '#fef2f2';
+                            ctx.fillRect(0, 0, canvas.width || 200, canvas.height || 200);
+                            ctx.fillStyle = '#dc2626';
+                            ctx.font = '14px sans-serif';
+                            ctx.textAlign = 'center';
+                            ctx.fillText('qrcode库加载失败', (canvas.width || 200) / 2, (canvas.height || 200) / 2 - 10);
+                            ctx.font = '12px sans-serif';
+                            ctx.fillText('请检查网络连接', (canvas.width || 200) / 2, (canvas.height || 200) / 2 + 10);
+                        }
+                    }
+                }, 1000);
             }
         });
 
@@ -1371,7 +1510,10 @@
             const userLineWidth = parseInt(document.getElementById('frame-width')?.value || '12', 10);
 
             try {
-                if (typeof qrcode === 'undefined') return;
+                if (typeof qrcode === 'undefined') {
+                console.error('[STDN] qrcode库未加载，跳过渲染');
+                return;
+            }
 
                 const qr = qrcode(0, ecl);
                 qr.addData(text);
