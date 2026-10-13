@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>STDN Studio - 专业二维码生成平台</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='url(#grad)'/><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%236366f1'/><stop offset='100%' stop-color='%238b5cf6'/></linearGradient></defs><g fill='%23ffffff'><path d='M25 25h20v20H25zM55 25h20v20H55zM25 55h20v20H25z'/><path d='M55 55h10v10H55zM75 55h10v10H75zM55 75h10v10H55zM75 75h10v10H75z'/></g></svg>">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -326,7 +328,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="module_shape">码点形状 (Module Shape)</label>
-                        <select id="module-shape" onchange="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <select id="module-shape" onchange="onManualParamChange(); renderQR();" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                             <option value="square">经典方形 (Square)</option>
                             <option value="rounded">圆角矩形 (Rounded)</option>
                             <option value="dots">圆点阵列 (Dots)</option>
@@ -340,7 +342,7 @@
 
                     <div>
                         <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="ecl_label">容错级别 (Error Correction)</label>
-                        <select id="ecl-select" onchange="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <select id="ecl-select" onchange="onManualParamChange(); renderQR();" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                             <option value="L">L (7% 破坏恢复)</option>
                             <option value="M" selected>M (15% 破坏恢复)</option>
                             <option value="Q">Q (25% 破坏恢复)</option>
@@ -546,6 +548,39 @@
                         <button onclick="removeLogo()" class="px-3 py-2 rounded-xl border border-rose-200 dark:border-rose-900/50 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 text-xs transition shrink-0" data-i18n="remove_logo">清除 Logo</button>
                     </div>
                 </div>
+
+                <!-- 快速预览风格选项（已移至最底部） -->
+                <div class="pt-4 border-t border-slate-200 dark:border-slate-700 bg-indigo-50/60 dark:bg-indigo-950/30 p-3.5 rounded-xl border border-indigo-100 dark:border-indigo-900/50 space-y-2">
+                    <label class="block text-xs font-semibold text-indigo-700 dark:text-indigo-300 flex items-center gap-1.5">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> 快速预览风格 (Quick Style Presets)
+                    </label>
+                    <select id="quick-style-preset" onchange="applyQuickStylePreset()" class="w-full bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-800 rounded-xl px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="custom">-- 自定义自由搭配 --</option>
+                        <option value="classic">经典极简黑白 (Classic Square)</option>
+                        <option value="tech" selected>科技深紫风 (Tech Violet)</option>
+                        <option value="soft">圆润柔和风 (Soft Rounded)</option>
+                        <option value="dots">时尚圆点阵 (Stylish Dots)</option>
+                        <option value="diamond">晶体菱形风 (Crystal Diamond)</option>
+                        <option value="capsule">动态胶囊风 (Dynamic Capsule)</option>
+                        <!-- 额外新增的 15 种大胆创新风格 -->
+                        <option value="cyberpunk">⚡ 赛博朋克霓虹 (Cyberpunk Neon)</option>
+                        <option value="midnight">🌌 暗夜星空蓝 (Midnight Galaxy)</option>
+                        <option value="sunset">🌅 落日熔金风 (Sunset Gold)</option>
+                        <option value="matrix">💻 极客黑客帝国 (Matrix Green)</option>
+                        <option value="morandi">🍵 高级莫兰迪灰 (Morandi Minimal)</option>
+                        <option value="emerald">💎 翡翠琉璃绿 (Emerald Glass)</option>
+                        <option value="sakura">🌸 樱花粉黛风 (Sakura Blossom)</option>
+                        <option value="coffee">☕ 醇香拿铁咖 (Warm Coffee)</option>
+                        <option value="lavender">💜 梦幻薰衣草 (Dreamy Lavender)</option>
+                        <option value="flame">🔥 炽热烈焰红 (Flame Crimson)</option>
+                        <option value="arctic">❄️ 极地冰川白 (Arctic Glacier)</option>
+                        <option value="vintage">📜 复古羊皮纸 (Vintage Parchment)</option>
+                        <option value="neonpunk">🔮 荧光迷幻紫 (Psychedelic Neon)</option>
+                        <option value="obsidian">🖤 曜石深邃黑 (Obsidian Dark)</option>
+                        <option value="sunshine">☀️ 活力阳光橙 (Sunshine Citrus)</option>
+                    </select>
+                </div>
+
             </div>
 
         </div>
@@ -641,6 +676,112 @@
             if (presets.some(p => p.id === currentVal)) {
                 select.value = currentVal;
             }
+        }
+
+        // 快速预览风格预设应用（含新增的 15 种风格逻辑）
+        function applyQuickStylePreset() {
+            const style = document.getElementById('quick-style-preset').value;
+            if (style === 'custom') return;
+
+            const shapeSelect = document.getElementById('module-shape');
+            const fgColorInput = document.getElementById('fg-color');
+            const fgColorText = document.getElementById('fg-color-text');
+            const bgColorInput = document.getElementById('bg-color');
+            const bgColorText = document.getElementById('bg-color-text');
+
+            if (style === 'classic') {
+                if (shapeSelect) shapeSelect.value = 'square';
+                if (fgColorInput) fgColorInput.value = '#000000'; if (fgColorText) fgColorText.value = '#000000';
+                if (bgColorInput) bgColorInput.value = '#ffffff'; if (bgColorText) bgColorText.value = '#ffffff';
+            } else if (style === 'tech') {
+                if (shapeSelect) shapeSelect.value = 'square';
+                if (fgColorInput) fgColorInput.value = '#4f46e5'; if (fgColorText) fgColorText.value = '#4f46e5';
+                if (bgColorInput) bgColorInput.value = '#ffffff'; if (bgColorText) bgColorText.value = '#ffffff';
+            } else if (style === 'soft') {
+                if (shapeSelect) shapeSelect.value = 'rounded';
+                if (fgColorInput) fgColorInput.value = '#6366f1'; if (fgColorText) fgColorText.value = '#6366f1';
+                if (bgColorInput) bgColorInput.value = '#f8fafc'; if (bgColorText) bgColorText.value = '#f8fafc';
+            } else if (style === 'dots') {
+                if (shapeSelect) shapeSelect.value = 'dots';
+                if (fgColorInput) fgColorInput.value = '#0ea5e9'; if (fgColorText) fgColorText.value = '#0ea5e9';
+                if (bgColorInput) bgColorInput.value = '#ffffff'; if (bgColorText) bgColorText.value = '#ffffff';
+            } else if (style === 'diamond') {
+                if (shapeSelect) shapeSelect.value = 'diamond';
+                if (fgColorInput) fgColorInput.value = '#8b5cf6'; if (fgColorText) fgColorText.value = '#8b5cf6';
+                if (bgColorInput) bgColorInput.value = '#ffffff'; if (bgColorText) bgColorText.value = '#ffffff';
+            } else if (style === 'capsule') {
+                if (shapeSelect) shapeSelect.value = 'capsule';
+                if (fgColorInput) fgColorInput.value = '#10b981'; if (fgColorText) fgColorText.value = '#10b981';
+                if (bgColorInput) bgColorInput.value = '#ffffff'; if (bgColorText) bgColorText.value = '#ffffff';
+            } 
+            // 创新 15 种风格赋值
+            else if (style === 'cyberpunk') {
+                if (shapeSelect) shapeSelect.value = 'cross';
+                if (fgColorInput) fgColorInput.value = '#00ffcc'; if (fgColorText) fgColorText.value = '#00ffcc';
+                if (bgColorInput) bgColorInput.value = '#0d0221'; if (bgColorText) bgColorText.value = '#0d0221';
+            } else if (style === 'midnight') {
+                if (shapeSelect) shapeSelect.value = 'rounded';
+                if (fgColorInput) fgColorInput.value = '#38bdf8'; if (fgColorText) fgColorText.value = '#38bdf8';
+                if (bgColorInput) bgColorInput.value = '#0f172a'; if (bgColorText) bgColorText.value = '#0f172a';
+            } else if (style === 'sunset') {
+                if (shapeSelect) shapeSelect.value = 'capsule';
+                if (fgColorInput) fgColorInput.value = '#f97316'; if (fgColorText) fgColorText.value = '#f97316';
+                if (bgColorInput) bgColorInput.value = '#fff1f2'; if (bgColorText) bgColorText.value = '#fff1f2';
+            } else if (style === 'matrix') {
+                if (shapeSelect) shapeSelect.value = 'v-lines';
+                if (fgColorInput) fgColorInput.value = '#22c55e'; if (fgColorText) fgColorText.value = '#22c55e';
+                if (bgColorInput) bgColorInput.value = '#022c22'; if (bgColorText) bgColorText.value = '#022c22';
+            } else if (style === 'morandi') {
+                if (shapeSelect) shapeSelect.value = 'rounded';
+                if (fgColorInput) fgColorInput.value = '#64748b'; if (fgColorText) fgColorText.value = '#64748b';
+                if (bgColorInput) bgColorInput.value = '#f1f5f9'; if (bgColorText) bgColorText.value = '#f1f5f9';
+            } else if (style === 'emerald') {
+                if (shapeSelect) shapeSelect.value = 'diamond';
+                if (fgColorInput) fgColorInput.value = '#059669'; if (fgColorText) fgColorText.value = '#059669';
+                if (bgColorInput) bgColorInput.value = '#ecfdf5'; if (bgColorText) bgColorText.value = '#ecfdf5';
+            } else if (style === 'sakura') {
+                if (shapeSelect) shapeSelect.value = 'dots';
+                if (fgColorInput) fgColorInput.value = '#ec4899'; if (fgColorText) fgColorText.value = '#ec4899';
+                if (bgColorInput) bgColorInput.value = '#fdf2f8'; if (bgColorText) bgColorText.value = '#fdf2f8';
+            } else if (style === 'coffee') {
+                if (shapeSelect) shapeSelect.value = 'square';
+                if (fgColorInput) fgColorInput.value = '#78350f'; if (fgColorText) fgColorText.value = '#78350f';
+                if (bgColorInput) bgColorInput.value = '#fef3c7'; if (bgColorText) bgColorText.value = '#fef3c7';
+            } else if (style === 'lavender') {
+                if (shapeSelect) shapeSelect.value = 'rounded';
+                if (fgColorInput) fgColorInput.value = '#a855f7'; if (fgColorText) fgColorText.value = '#a855f7';
+                if (bgColorInput) bgColorInput.value = '#faf5ff'; if (bgColorText) bgColorText.value = '#faf5ff';
+            } else if (style === 'flame') {
+                if (shapeSelect) shapeSelect.value = 'diamond';
+                if (fgColorInput) fgColorInput.value = '#ef4444'; if (fgColorText) fgColorText.value = '#ef4444';
+                if (bgColorInput) bgColorInput.value = '#fff5f5'; if (bgColorText) bgColorText.value = '#fff5f5';
+            } else if (style === 'arctic') {
+                if (shapeSelect) shapeSelect.value = 'dots';
+                if (fgColorInput) fgColorInput.value = '#0284c7'; if (fgColorText) fgColorText.value = '#0284c7';
+                if (bgColorInput) bgColorInput.value = '#f0f9ff'; if (bgColorText) bgColorText.value = '#f0f9ff';
+            } else if (style === 'vintage') {
+                if (shapeSelect) shapeSelect.value = 'square';
+                if (fgColorInput) fgColorInput.value = '#451a03'; if (fgColorText) fgColorText.value = '#451a03';
+                if (bgColorInput) bgColorInput.value = '#fefae0'; if (bgColorText) bgColorText.value = '#fefae0';
+            } else if (style === 'neonpunk') {
+                if (shapeSelect) shapeSelect.value = 'capsule';
+                if (fgColorInput) fgColorInput.value = '#d946ef'; if (fgColorText) fgColorText.value = '#d946ef';
+                if (bgColorInput) bgColorInput.value = '#2e1065'; if (bgColorText) bgColorText.value = '#2e1065';
+            } else if (style === 'obsidian') {
+                if (shapeSelect) shapeSelect.value = 'square';
+                if (fgColorInput) fgColorInput.value = '#f8fafc'; if (fgColorText) fgColorText.value = '#f8fafc';
+                if (bgColorInput) bgColorInput.value = '#020617'; if (bgColorText) bgColorText.value = '#020617';
+            } else if (style === 'sunshine') {
+                if (shapeSelect) shapeSelect.value = 'dots';
+                if (fgColorInput) fgColorInput.value = '#ca8a04'; if (fgColorText) fgColorText.value = '#ca8a04';
+                if (bgColorInput) bgColorInput.value = '#fefce8'; if (bgColorText) bgColorText.value = '#fefce8';
+            }
+            renderQR();
+        }
+
+        function onManualParamChange() {
+            const presetSelect = document.getElementById('quick-style-preset');
+            if (presetSelect) presetSelect.value = 'custom';
         }
 
         function openPresetManager() {
