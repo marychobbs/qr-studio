@@ -3,18 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>STDN Studio — STDN码设计与生成器</title>
+<title>STDN Studio — Generate & Brand QR Codes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
-<link rel="prefetch" href="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js" as="script">
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root,[data-theme="dark"]{--bg:#09090b;--surface:#18181b;--surface2:#27272a;--border:#3f3f46;--text:#fafafa;--text2:#a1a1aa;--text3:#71717a;--accent:#06b6d4;--accent2:#22d3ee;--accent-glow:rgba(6,182,212,.12);--stdn-card-bg:#fff;--err:#ef4444;--ok:#22c55e;--warn:#f59e0b;--radius:10px;--radius-lg:16px}
-[data-theme="light"]{--bg:#f4f4f5;--surface:#fff;--surface2:#e4e4e7;--border:#d4d4d8;--text:#18181b;--text2:#52525b;--text3:#71717a;--accent:#0891b2;--accent2:#06b6d4;--accent-glow:rgba(8,145,178,.1);--stdn-card-bg:#fff;--err:#dc2626;--ok:#16a34a;--warn:#d97706}
+:root,[data-theme="dark"]{
+  --bg:#09090b;--surface:#18181b;--surface2:#27272a;--border:#3f3f46;
+  --text:#fafafa;--text2:#a1a1aa;--text3:#71717a;
+  --accent:#06b6d4;--accent2:#22d3ee;--accent-glow:rgba(6,182,212,.12);
+  --err:#ef4444;--ok:#22c55e;--warn:#f59e0b;
+  --radius:10px;--radius-lg:16px;
+}
+[data-theme="light"]{
+  --bg:#f4f4f5;--surface:#fff;--surface2:#e4e4e7;--border:#d4d4d8;
+  --text:#18181b;--text2:#52525b;--text3:#71717a;
+  --accent:#0891b2;--accent2:#06b6d4;--accent-glow:rgba(8,145,178,.1);
+  --err:#dc2626;--ok:#16a34a;--warn:#d97706;
+}
 html{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;font-size:15px;transition:background .3s,color .3s}
 body{min-height:100dvh;display:flex;flex-direction:column}
 input,select,textarea,button{font-family:inherit;font-size:inherit}
@@ -25,12 +36,10 @@ input,select,textarea,button{font-family:inherit;font-size:inherit}
 .hdr h1 span{color:var(--accent)}
 .hdr p{color:var(--text2);font-size:.88rem}
 .top-controls{position:absolute;top:0;right:0;display:flex;gap:8px;align-items:center}
-.lang-toggle{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:4px;display:flex;gap:2px}
-.lang-toggle button{width:32px;height:32px;border:none;border-radius:50%;background:transparent;cursor:pointer;font-size:0.75rem;font-weight:600;color:var(--text3);transition:all .2s;display:flex;align-items:center;justify-content:center}
-.lang-toggle button.on{background:var(--accent);color:#fff}
-.theme-toggle{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:4px;display:flex;gap:2px}
-.theme-toggle button{width:32px;height:32px;border:none;border-radius:50%;background:transparent;cursor:pointer;font-size:1rem;color:var(--text3);transition:all .2s;display:flex;align-items:center;justify-content:center}
-.theme-toggle button.on{background:var(--accent);color:#fff}
+.lang-toggle, .theme-toggle{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:4px;display:flex;gap:2px}
+.lang-toggle button, .theme-toggle button{width:32px;height:32px;border:none;border-radius:50%;background:transparent;cursor:pointer;font-size:0.75rem;font-weight:600;color:var(--text3);transition:all .2s;display:flex;align-items:center;justify-content:center}
+.lang-toggle button.on, .theme-toggle button.on{background:var(--accent);color:#fff}
+.theme-toggle button{font-size:1rem}
 .mode-bar{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:28px}
 .mode-btn{flex:1;padding:11px 16px;text-align:center;font-weight:500;font-size:.85rem;cursor:pointer;border:none;background:transparent;color:var(--text2);transition:all .2s}
 .mode-btn.on{color:#fff;background:var(--accent)}
@@ -78,7 +87,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
 .dz input{display:none}
 .sep{border:none;border-top:1px solid var(--border);margin:16px 0}
 .status{font-size:.78rem;color:var(--text3);font-family:'JetBrains Mono',monospace;text-align:center;min-height:1.2em;margin:8px 0 16px}.status.err{color:var(--err)}
-.stdn-frame{background:#fff;border-radius:var(--radius-lg);padding:16px;max-width:440px;margin:0 auto 16px;box-shadow:0 8px 40px rgba(0,0,0,.4)}
+.stdn-frame{background:#fff;border-radius:var(--radius-lg);padding:16px;max-width:320px;margin:0 auto 16px;box-shadow:0 8px 40px rgba(0,0,0,.4)}
 .stdn-frame canvas{display:block;width:100%;height:auto;border-radius:8px}
 .adv-toggle{text-align:center;margin-bottom:16px}
 .adv-toggle button{background:none;border:1px solid var(--border);border-radius:var(--radius);padding:8px 18px;color:var(--text3);font-size:.78rem;cursor:pointer;font-weight:500;transition:all .2s}
@@ -105,16 +114,16 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
       </div>
     </div>
     <h1 data-i18n="title">STDN <span>Studio</span></h1>
-    <p data-i18n="subtitle">标准与品牌STDN码生成器，精简高效</p>
+    <p data-i18n="subtitle">标准、艺术融合与支付类STDN码高级生成与解析中心</p>
   </div>
   
   <div class="mode-bar">
-    <button class="mode-btn on" data-mode="standard" onclick="setMode('standard')"><span data-i18n="modeStandard">标准</span><span class="sub" data-i18n="modeStandardSub">经典STDN码</span></button>
-    <button class="mode-btn" data-mode="chroma" onclick="setMode('chroma')"><span data-i18n="modeChroma">艺术融合</span><span class="sub" data-i18n="modeChromaSub">图片马赛克</span></button>
-    <button class="mode-btn" data-mode="scanner" onclick="setMode('scanner')"><span data-i18n="modeScanner">扫描仪</span><span class="sub" data-i18n="modeScannerSub">读取与解码</span></button>
+    <button class="mode-btn on" data-mode="standard" onclick="setMode('standard')"><span data-i18n="modeStandard">标准STDN</span><span class="sub" data-i18n="modeStandardSub">网址、文本、WiFi等</span></button>
+    <button class="mode-btn" data-mode="chroma" onclick="setMode('chroma')"><span data-i18n="modeChroma">ChromaCode</span><span class="sub" data-i18n="modeChromaSub">图片艺术马赛克</span></button>
+    <button class="mode-btn" data-mode="scanner" onclick="setMode('scanner')"><span data-i18n="modeScanner">STDN扫描仪</span><span class="sub" data-i18n="modeScannerSub">摄像头/图片解码</span></button>
   </div>
 
-  <!-- ══════ STANDARD ══════ -->
+  <!-- ══════ STANDARD SECTION ══════ -->
   <div class="sec on" id="sec-standard">
     <div class="type-pills" id="type-pills">
       <div class="pill on" data-type="url" data-i18n="pillUrl">网址</div>
@@ -131,89 +140,319 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
     </div>
     
     <div class="card">
-      <div class="dp on" id="dp-url"><div class="field"><input class="inp" id="in-url" placeholder="https://example.com" spellcheck="false"><div class="val-msg" id="v-url"></div></div></div>
-      <div class="dp" id="dp-text"><div class="field"><textarea class="inp" id="in-text" data-i18n-placeholder="phText" placeholder="输入任意文本或消息…"></textarea></div></div>
-      <div class="dp" id="dp-wifi">
-        <div class="field"><label data-i18n="wifiSsid">网络名称 (SSID)</label><input class="inp" id="wifi-ssid" placeholder="MyWiFi"><div class="val-msg" id="v-wifi-ssid"></div></div>
-        <div class="field"><label data-i18n="wifiPass">密码</label><div style="position:relative"><input class="inp" id="wifi-pass" type="password" data-i18n-placeholder="phPass" placeholder="至少 8 位字符" style="padding-right:42px"><button type="button" id="wifi-eye" onclick="toggleWifiEye()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);font-size:1.1rem;padding:4px;line-height:1">👁️‍🗨️</button></div><div class="val-msg" id="v-wifi-pass"></div></div>
-        <div class="row r2"><div class="field"><label data-i18n="wifiEnc">加密类型</label><select class="inp" id="wifi-enc"><option value="WPA">WPA/WPA2</option><option value="WEP">WEP</option><option value="" data-i18n="wifiNone">无</option></select></div><div class="field" style="display:flex;align-items:flex-end;padding-bottom:2px"><label class="chk"><input type="checkbox" id="wifi-hidden"> <span data-i18n="wifiHidden">隐藏网络</span></label></div></div>
+      <!-- URL -->
+      <div class="dp on" id="dp-url">
+        <div class="field">
+          <label data-i18n="lblUrl">目标网址 URL</label>
+          <input class="inp" id="in-url" placeholder="https://example.com" value="https://example.com" spellcheck="false">
+          <div class="val-msg" id="v-url"></div>
+        </div>
       </div>
-    </div>
-    
-    <div class="adv-toggle"><button onclick="toggleAdv()" id="adv-btn" data-i18n="advSettings">⚙ 高级样式设置</button></div>
-    <div class="adv-panel" id="adv-panel">
-      <div class="card">
-        <div class="card-title" data-i18n="colorStyle">颜色与样式</div>
+      <!-- TEXT -->
+      <div class="dp" id="dp-text">
+        <div class="field">
+          <label data-i18n="lblText">纯文本内容</label>
+          <textarea class="inp" id="in-text" data-i18n-placeholder="phText" placeholder="输入任意文本或消息…">Hello STDN Studio!</textarea>
+        </div>
+      </div>
+      <!-- WIFI -->
+      <div class="dp" id="dp-wifi">
+        <div class="field">
+          <label data-i18n="wifiSsid">网络名称 (SSID)</label>
+          <input class="inp" id="wifi-ssid" placeholder="MyHomeWiFi">
+          <div class="val-msg" id="v-wifi-ssid"></div>
+        </div>
+        <div class="field">
+          <label data-i18n="wifiPass">密码</label>
+          <div style="position:relative">
+            <input class="inp" id="wifi-pass" type="password" data-i18n-placeholder="phPass" placeholder="至少 8 位字符" style="padding-right:42px">
+            <button type="button" id="wifi-eye" onclick="toggleWifiEye()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);font-size:1.1rem;padding:4px;line-height:1" title="切换密码可见性">👁️‍🗨️</button>
+          </div>
+          <div class="val-msg" id="v-wifi-pass"></div>
+        </div>
         <div class="row r2">
-          <div class="field"><label data-i18n="fgColor">前景色</label><input type="color" class="inp" id="col-fg" value="#000000"></div>
-          <div class="field"><label data-i18n="bgColor">背景色</label><input type="color" class="inp" id="col-bg" value="#ffffff"></div>
+          <div class="field">
+            <label data-i18n="wifiEnc">加密类型</label>
+            <select class="inp" id="wifi-enc">
+              <option value="WPA">WPA/WPA2</option>
+              <option value="WEP">WEP</option>
+              <option value="" data-i18n="wifiNone">无</option>
+            </select>
+          </div>
+          <div class="field" style="display:flex;align-items:flex-end;padding-bottom:2px">
+            <label class="chk"><input type="checkbox" id="wifi-hidden"> <span data-i18n="wifiHidden">隐藏网络</span></label>
+          </div>
+        </div>
+      </div>
+      <!-- EMAIL -->
+      <div class="dp" id="dp-email">
+        <div class="field"><label data-i18n="emailTo">接收邮箱</label><input class="inp" id="email-to" placeholder="contact@example.com"></div>
+        <div class="field"><label data-i18n="emailSub">邮件主题</label><input class="inp" id="email-sub" placeholder="咨询与合作"></div>
+        <div class="field"><label data-i18n="emailBody">邮件内容</label><textarea class="inp" id="email-body" placeholder="您好，我想了解关于..."></textarea></div>
+      </div>
+      <!-- PHONE -->
+      <div class="dp" id="dp-phone">
+        <div class="field"><label data-i18n="phoneNum">电话号码</label><input class="inp" id="phone-num" placeholder="+86 13800138000"></div>
+      </div>
+      <!-- SMS -->
+      <div class="dp" id="dp-sms">
+        <div class="field"><label data-i18n="smsNum">接收号码</label><input class="inp" id="sms-num" placeholder="+86 13800138000"></div>
+        <div class="field"><label data-i18n="smsBody">短信内容</label><textarea class="inp" id="sms-body" placeholder="短信正文..."></textarea></div>
+      </div>
+      <!-- WHATSAPP -->
+      <div class="dp" id="dp-whatsapp">
+        <div class="field"><label data-i18n="waNum">WhatsApp 手机号 (带国家代码)</label><input class="inp" id="wa-num" placeholder="60123456789"></div>
+        <div class="field"><label data-i18n="waMsg">预设消息</label><textarea class="inp" id="wa-msg" placeholder="Hello, I would like to inquire..."></textarea></div>
+      </div>
+      <!-- LOCATION -->
+      <div class="dp" id="dp-location">
+        <div class="row r2">
+          <div class="field"><label data-i18n="locLat">纬度 (Latitude)</label><input class="inp" id="loc-lat" placeholder="3.1390"></div>
+          <div class="field"><label data-i18n="locLng">经度 (Longitude)</label><input class="inp" id="loc-lng" placeholder="101.6869"></div>
+        </div>
+      </div>
+      <!-- CALENDAR -->
+      <div class="dp" id="dp-calendar">
+        <div class="field"><label data-i18n="calTitle">事件标题</label><input class="inp" id="cal-title" placeholder="产品发布会"></div>
+        <div class="field"><label data-i18n="calLoc">事件地点</label><input class="inp" id="cal-loc" placeholder="吉隆坡会议中心"></div>
+        <div class="row r2">
+          <div class="field"><label data-i18n="calStart">开始时间</label><input type="datetime-local" class="inp" id="cal-start"></div>
+          <div class="field"><label data-i18n="calEnd">结束时间</label><input type="datetime-local" class="inp" id="cal-end"></div>
+        </div>
+      </div>
+      <!-- VCARD -->
+      <div class="dp" id="dp-vcard">
+        <div class="row r2">
+          <div class="field"><label data-i18n="vcFn">姓名</label><input class="inp" id="vc-fn" placeholder="张三"></div>
+          <div class="field"><label data-i18n="vcOrg">公司/组织</label><input class="inp" id="vc-org" placeholder="STDN Tech"></div>
+        </div>
+        <div class="row r2">
+          <div class="field"><label data-i18n="vcPhone">电话</label><input class="inp" id="vc-phone" placeholder="+60123456789"></div>
+          <div class="field"><label data-i18n="vcEmail">邮箱</label><input class="inp" id="vc-email" placeholder="zhang@example.com"></div>
+        </div>
+        <div class="field"><label data-i18n="vcUrl">个人网站</label><input class="inp" id="vc-url" placeholder="https://example.com"></div>
+      </div>
+      <!-- DUITNOW EMV STDN -->
+      <div class="dp" id="dp-duitnow">
+        <div class="field"><label data-i18n="dnProxy">代理类型 (Proxy Type)</label><select class="inp" id="dn-proxy"><option value="01">Mobile Number (手机号)</option><option value="02">NRIC / Passport / Co. Reg (身份证/公司注册号)</option><option value="03">Business Reg / Account (商业注册/账号)</option></select></div>
+        <div class="field"><label data-i18n="dnAcc">收款账号 / 手机号</label><input class="inp" id="dn-acc" placeholder="60123456789"></div>
+        <div class="row r2">
+          <div class="field"><label data-i18n="dnName">收款人姓名 (Merchant Name)</label><input class="inp" id="dn-name" placeholder="STDN Store"></div>
+          <div class="field"><label data-i18n="dnCity">城市 (City)</label><input class="inp" id="dn-city" placeholder="Kuala Lumpur"></div>
+        </div>
+        <div class="row r2">
+          <div class="field"><label data-i18n="dnAmt">固定金额 (可选 MYR)</label><input type="number" step="0.01" class="inp" id="dn-amt" placeholder="0.00"></div>
+          <div class="field"><label data-i18n="dnRef">交易备注 (Reference)</label><input class="inp" id="dn-ref" placeholder="Order #1001"></div>
         </div>
       </div>
     </div>
     
-    <button class="gen-btn" onclick="generateStdn()" data-i18n="genBtn">生成STDN码</button>
+    <div class="adv-toggle"><button onclick="toggleAdv()" id="adv-btn" data-i18n="advSettings">⚙ 高级样式设置 (颜色与定位点)</button></div>
+    <div class="adv-panel" id="adv-panel">
+      <div class="card">
+        <div class="card-title" data-i18n="colorStyle">颜色与定位点样式</div>
+        <div class="row r3">
+          <div class="field"><label data-i18n="fgColor">前景色</label><input type="color" class="inp" id="col-fg" value="#000000"></div>
+          <div class="field"><label data-i18n="bgColor">背景色</label><input type="color" class="inp" id="col-bg" value="#ffffff"></div>
+          <div class="field"><label data-i18n="eyeColor">定位点颜色</label><input type="color" class="inp" id="col-eye" value="#06b6d4"></div>
+        </div>
+        <div class="row r2" style="margin-top:12px">
+          <div class="field">
+            <label data-i18n="dotStyle">模块样式</label>
+            <select class="inp" id="set-dots"><option value="square" data-i18n="dotSquare">方块</option><option value="rounded" data-i18n="dotRounded">圆角</option></select>
+          </div>
+          <div class="field">
+            <label data-i18n="eyeStyle">定位眼样式</label>
+            <select class="inp" id="set-eyes"><option value="square" data-i18n="eyeSquare">方框</option><option value="circle" data-i18n="eyeCircle">圆角/圆形</option></select>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <button class="gen-btn" onclick="generateStdn()" data-i18n="genBtn">生成 STDN 码</button>
     
     <div class="preview-area" id="std-preview" style="display:none;">
       <div class="card">
         <div class="stdn-frame"><canvas id="stdn-canvas"></canvas></div>
         <div class="dl-row">
-          <button class="dl-btn" onclick="downloadStdn('png')">PNG</button>
-          <button class="dl-btn" onclick="downloadStdn('svg')">SVG</button>
+          <button class="dl-btn" onclick="downloadStdn('png')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>PNG</button>
+          <button class="dl-btn" onclick="downloadStdn('svg')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>SVG</button>
+        </div>
+        <div class="link-box" id="stdn-link-box">
+          <div class="link-label" data-i18n="rawContentLabel">编码原始数据内容</div>
+          <div class="link-val" id="stdn-raw-val"></div>
+          <button class="copy-btn" onclick="copyStdnRaw()" data-i18n="copyBtn">复制</button>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- ══════ CHROMACODE SECTION ══════ -->
+  <div class="sec" id="sec-chroma">
+    <div class="card">
+      <div class="card-title" data-i18n="chromaTitle">ChromaCode 艺术马赛克合成</div>
+      <div class="field">
+        <label data-i18n="chromaText">STDN 嵌入文本/网址</label>
+        <input class="inp" id="chroma-input" value="https://stdn.studio" placeholder="输入网址或文本">
+      </div>
+      <div class="field">
+        <label data-i18n="chromaImgLabel">上传底图 (自动融合为马赛克色彩)</label>
+        <div class="dz" id="chroma-dz" onclick="document.getElementById('chroma-file').click()">
+          <span data-i18n="dropImg">点击或拖拽上传背景图片</span>
+          <input type="file" id="chroma-file" accept="image/*" onchange="handleChromaImage(this)">
+        </div>
+      </div>
+      <div class="row r2" style="margin-top:12px">
+        <div class="field">
+          <label data-i18n="chromaDensity">密度网格 (Density)</label>
+          <div class="range-row">
+            <input type="range" id="chroma-grid" min="21" max="51" step="4" value="29" oninput="document.getElementById('cg-val').innerText=this.value">
+            <span class="rv" id="cg-val">29</span>
+          </div>
+        </div>
+        <div class="field">
+          <label data-i18n="chromaBlend">底图融合权重</label>
+          <div class="range-row">
+            <input type="range" id="chroma-blend" min="0.2" max="0.9" step="0.05" value="0.55" oninput="document.getElementById('cb-val').innerText=this.value">
+            <span class="rv" id="cb-val">0.55</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <button class="gen-btn" onclick="generateChromaCode()" data-i18n="genChromaBtn">生成 ChromaCode 艺术码</button>
+    
+    <div class="preview-area" id="chroma-preview" style="display:none;">
+      <div class="card">
+        <div class="stdn-frame"><canvas id="chroma-canvas"></canvas></div>
+        <div class="dl-row">
+          <button class="dl-btn" onclick="downloadChroma()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download PNG</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ SCANNER SECTION ══════ -->
+  <div class="sec" id="sec-scanner">
+    <div class="card">
+      <div class="card-title" data-i18n="scanTitle">STDN 实时扫描与解析</div>
+      <div style="text-align:center;margin-bottom:16px">
+        <button class="dl-btn" onclick="startScanner()" id="cam-start-btn" style="margin:0 auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span data-i18n="startCam">开启摄像头扫描</span></button>
+      </div>
+      <div id="scanner-container" style="display:none;position:relative;width:100%;max-width:360px;margin:0 auto 16px;border-radius:12px;overflow:hidden;background:#000">
+        <video id="scan-video" playsinline style="width:100%;display:block"></video>
+        <canvas id="scan-canvas" style="display:none"></canvas>
+      </div>
+      <div class="dz" onclick="document.getElementById('scan-file').click()" style="margin-top:12px">
+        <span data-i18n="uploadScan">或上传包含 STDN 码的图片进行解码</span>
+        <input type="file" id="scan-file" accept="image/*" onchange="handleScanImage(this)">
+      </div>
+      <div class="status" id="scan-status"></div>
+      <div class="link-box" id="scan-result-box">
+        <div class="link-label" data-i18n="scanResultLabel">解析结果</div>
+        <div class="link-val" id="scan-result-val"></div>
+        <button class="copy-btn" onclick="copyScanResult()" data-i18n="copyBtn">复制</button>
+      </div>
+    </div>
+  </div>
+
   <div class="footer">
-    STDN Studio &bull; <span data-i18n="footerText">极简、安全、端侧运行的STDN码工具</span>
+    STDN Studio &bull; <span data-i18n="footerText">极简、安全、端侧运行的STDN码生成与解析工具</span>
   </div>
 </div>
 
 <script>
-// 语言包数据字典
+// Multilingual dictionary
 const langDict = {
   zh: {
     title: "STDN <span>Studio</span>",
-    subtitle: "标准与品牌STDN码生成器，精简高效",
-    modeStandard: "标准",
-    modeStandardSub: "经典STDN码",
-    modeChroma: "艺术融合",
-    modeChromaSub: "图片马赛克",
-    modeScanner: "扫描仪",
-    modeScannerSub: "读取与解码",
+    subtitle: "标准、艺术融合与支付类STDN码高级生成与解析中心",
+    modeStandard: "标准STDN",
+    modeStandardSub: "网址、文本、WiFi等",
+    modeChroma: "ChromaCode",
+    modeChromaSub: "图片艺术马赛克",
+    modeScanner: "STDN扫描仪",
+    modeScannerSub: "摄像头/图片解码",
     pillUrl: "网址",
     pillText: "文本",
     pillWifi: "WiFi",
     pillEmail: "邮箱",
     pillPhone: "电话",
     pillSms: "短信",
-    pillWhatsapp: "微信",
+    pillWhatsapp: "WhatsApp",
     pillLocation: "位置",
     pillCalendar: "日历",
     pillVcard: "电子名片",
+    lblUrl: "目标网址 URL",
+    lblText: "纯文本内容",
+    phText: "输入任意文本或消息…",
+    phPass: "至少 8 位字符",
     wifiSsid: "网络名称 (SSID)",
     wifiPass: "密码",
     wifiEnc: "加密类型",
     wifiNone: "无",
     wifiHidden: "隐藏网络",
-    advSettings: "⚙ 高级样式设置",
-    colorStyle: "颜色与样式",
+    emailTo: "接收邮箱",
+    emailSub: "邮件主题",
+    emailBody: "邮件内容",
+    phoneNum: "电话号码",
+    smsNum: "接收号码",
+    smsBody: "短信内容",
+    waNum: "WhatsApp 手机号 (带国家代码)",
+    waMsg: "预设消息",
+    locLat: "纬度 (Latitude)",
+    locLng: "经度 (Longitude)",
+    calTitle: "事件标题",
+    calLoc: "事件地点",
+    calStart: "开始时间",
+    calEnd: "结束时间",
+    vcFn: "姓名",
+    vcOrg: "公司/组织",
+    vcPhone: "电话",
+    vcEmail: "邮箱",
+    vcUrl: "个人网站",
+    dnProxy: "代理类型 (Proxy Type)",
+    dnAcc: "收款账号 / 手机号",
+    dnName: "收款人姓名 (Merchant Name)",
+    dnCity: "城市 (City)",
+    dnAmt: "固定金额 (可选 MYR)",
+    dnRef: "交易备注 (Reference)",
+    advSettings: "⚙ 高级样式设置 (颜色与定位点)",
+    colorStyle: "颜色与定位点样式",
     fgColor: "前景色",
     bgColor: "背景色",
-    genBtn: "生成STDN码",
-    phText: "输入任意文本或消息…",
-    phPass: "至少 8 位字符",
-    footerText: "极简、安全、端侧运行的STDN码工具"
+    eyeColor: "定位点颜色",
+    dotStyle: "模块样式",
+    dotSquare: "方块",
+    dotRounded: "圆角",
+    eyeStyle: "定位眼样式",
+    eyeSquare: "方框",
+    eyeCircle: "圆角/圆形",
+    genBtn: "生成 STDN 码",
+    rawContentLabel: "编码原始数据内容",
+    copyBtn: "复制",
+    chromaTitle: "ChromaCode 艺术马赛克合成",
+    chromaText: "STDN 嵌入文本/网址",
+    chromaImgLabel: "上传底图 (自动融合为马赛克色彩)",
+    dropImg: "点击或拖拽上传背景图片",
+    chromaDensity: "密度网格 (Density)",
+    chromaBlend: "底图融合权重",
+    genChromaBtn: "生成 ChromaCode 艺术码",
+    scanTitle: "STDN 实时扫描与解析",
+    startCam: "开启摄像头扫描",
+    uploadScan: "或上传包含 STDN 码的图片进行解码",
+    scanResultLabel: "解析结果",
+    footerText: "极简、安全、端侧运行的STDN码生成与解析工具"
   },
   en: {
     title: "STDN <span>Studio</span>",
-    subtitle: "Standard & branded STDN codes, zero bloat",
-    modeStandard: "Standard",
-    modeStandardSub: "Classic STDN codes",
+    subtitle: "Professional STDN generator, ChromaCode mosaic & scanner",
+    modeStandard: "Standard STDN",
+    modeStandardSub: "URL, Text, WiFi & more",
     modeChroma: "ChromaCode",
     modeChromaSub: "Image-blended mosaic",
-    modeScanner: "Scanner",
-    modeScannerSub: "Read & decode STDN",
+    modeScanner: "STDN Scanner",
+    modeScannerSub: "Camera & image decoder",
     pillUrl: "URL",
     pillText: "Text",
     pillWifi: "WiFi",
@@ -224,19 +463,66 @@ const langDict = {
     pillLocation: "Location",
     pillCalendar: "Calendar",
     pillVcard: "vCard",
-    wifiSsid: "Network name (SSID)",
+    lblUrl: "Target URL",
+    lblText: "Plain Text",
+    phText: "Enter any text or message…",
+    phPass: "Min 8 characters",
+    wifiSsid: "Network Name (SSID)",
     wifiPass: "Password",
     wifiEnc: "Encryption",
     wifiNone: "None",
-    wifiHidden: "Hidden network",
-    advSettings: "⚙ Advanced Styling",
-    colorStyle: "Colors & Style",
+    wifiHidden: "Hidden Network",
+    emailTo: "Recipient Email",
+    emailSub: "Subject",
+    emailBody: "Message Body",
+    phoneNum: "Phone Number",
+    smsNum: "SMS Number",
+    smsBody: "SMS Body",
+    waNum: "WhatsApp Number (with country code)",
+    waMsg: "Preset Message",
+    locLat: "Latitude",
+    locLng: "Longitude",
+    calTitle: "Event Title",
+    calLoc: "Location",
+    calStart: "Start Time",
+    calEnd: "End Time",
+    vcFn: "Full Name",
+    vcOrg: "Company / Organization",
+    vcPhone: "Phone",
+    vcEmail: "Email",
+    vcUrl: "Website",
+    dnProxy: "Proxy Type",
+    dnAcc: "Account / Mobile Number",
+    dnName: "Merchant Name",
+    dnCity: "City",
+    dnAmt: "Amount (MYR Optional)",
+    dnRef: "Reference Note",
+    advSettings: "⚙ Advanced Styling (Colors & Eyes)",
+    colorStyle: "Colors & Eye Styling",
     fgColor: "Foreground",
     bgColor: "Background",
+    eyeColor: "Eye Color",
+    dotStyle: "Module Style",
+    dotSquare: "Square",
+    dotRounded: "Rounded",
+    eyeStyle: "Eye Style",
+    eyeSquare: "Square",
+    eyeCircle: "Circle",
     genBtn: "Generate STDN Code",
-    phText: "Enter any text or message…",
-    phPass: "Min 8 characters",
-    footerText: "Standard & branded STDN codes, zero bloat"
+    rawContentLabel: "Encoded Raw Data Content",
+    copyBtn: "Copy",
+    chromaTitle: "ChromaCode Mosaic Synthesis",
+    chromaText: "STDN Embedded Text/URL",
+    chromaImgLabel: "Upload Background Image",
+    dropImg: "Click or drag background image here",
+    chromaDensity: "Grid Density",
+    chromaBlend: "Background Blend Weight",
+    genChromaBtn: "Generate ChromaCode Art",
+    scanTitle: "STDN Real-time Scanner",
+    startCam: "Start Camera Scanner",
+    uploadScan: "Or upload an image containing STDN code",
+    scanResultLabel: "Decoded Result",
+    footerText: "Professional STDN generator, ChromaCode mosaic & scanner"
   }
 };
 
@@ -271,28 +557,501 @@ function setTheme(theme) {
 function setMode(mode) {
   document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('on'));
   document.querySelector(`[data-mode="${mode}"]`).classList.add('on');
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+  document.getElementById(`sec-${mode}`).classList.add('on');
+  if (mode === 'scanner') {
+    stopScanner();
+  }
 }
+
+// Pill switching for standard types
+document.querySelectorAll('#type-pills .pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('#type-pills .pill').forEach(p => p.classList.remove('on'));
+    pill.classList.add('on');
+    const type = pill.getAttribute('data-type');
+    document.querySelectorAll('.dp').forEach(d => d.classList.remove('on'));
+    const target = document.getElementById(`dp-${type}`);
+    if (target) target.classList.add('on');
+  });
+});
 
 function toggleAdv() {
-  const panel = document.getElementById('adv-panel');
-  panel.classList.toggle('open');
+  document.getElementById('adv-panel').classList.toggle('open');
 }
 
+function toggleWifiEye() {
+  const passInput = document.getElementById('wifi-pass');
+  passInput.type = passInput.type === 'password' ? 'text' : 'password';
+}
+
+// CRC16 CCITT helper for DuitNow EMV STDN
+function calculateCRC16(str) {
+  let crc = 0xFFFF;
+  for (let i = 0; i < str.length; i++) {
+    crc ^= (str.charCodeAt(i) << 8);
+    for (let j = 0; j < 8; j++) {
+      if (crc & 0x8000) {
+        crc = (crc << 1) ^ 0x1021;
+      } else {
+        crc = crc << 1;
+      }
+      crc &= 0xFFFF;
+    }
+  }
+  return crc.toString(16).toUpperCase().padStart(4, '0');
+}
+
+function buildDuitNowPayload() {
+  const proxyType = document.getElementById('dn-proxy').value;
+  const acc = document.getElementById('dn-acc').value.trim();
+  const name = document.getElementById('dn-name').value.trim() || 'STDN MERCHANT';
+  const city = document.getElementById('dn-city').value.trim() || 'Kuala Lumpur';
+  const amt = document.getElementById('dn-amt').value.trim();
+  const ref = document.getElementById('dn-ref').value.trim() || 'PAYMENT';
+
+  // Format helper
+  const fv = (id, val) => id + String(val.length).padStart(2, '0') + val;
+  
+  let merchantAccInfo = fv('00', 'A000000677010111') + fv(proxyType, acc);
+  let sub01 = fv('00', merchantAccInfo);
+
+  let emv = "";
+  emv += fv('00', '01'); // Payload Format Indicator
+  emv += fv('01', '11'); // Initiation Method (11 = dynamic)
+  emv += fv('26', sub01); // DuitNow Merchant Account Information
+  emv += fv('52', '4599'); // Merchant Category Code
+  emv += fv('53', '458');  // Currency (MYR = 458)
+  if (amt && parseFloat(amt) > 0) {
+    emv += fv('54', parseFloat(amt).toFixed(2));
+  }
+  emv += fv('58', 'MY'); // Country Code
+  emv += fv('59', name.substring(0, 25)); // Merchant Name
+  emv += fv('60', city.substring(0, 15)); // Merchant City
+  
+  let addData = fv('01', ref.substring(0, 25));
+  emv += fv('62', addData);
+  
+  emv += '6304'; // CRC Identifier
+  const crc = calculateCRC16(emv);
+  return emv + crc;
+}
+
+// Build standard payload based on active tab
+function getActivePayload() {
+  const activePill = document.querySelector('#type-pills .pill.on');
+  const type = activePill ? activePill.getAttribute('data-type') : 'url';
+  
+  if (type === 'url') {
+    let v = document.getElementById('in-url').value.trim();
+    return v || 'https://example.com';
+  }
+  if (type === 'text') {
+    return document.getElementById('in-text').value;
+  }
+  if (type === 'wifi') {
+    const ssid = document.getElementById('wifi-ssid').value;
+    const pass = document.getElementById('wifi-pass').value;
+    const enc = document.getElementById('wifi-enc').value;
+    const hidden = document.getElementById('wifi-hidden').checked ? 'H:true;' : '';
+    return `WIFI:S:${ssid};T:${enc};P:${pass};${hidden};`;
+  }
+  if (type === 'email') {
+    const to = document.getElementById('email-to').value;
+    const sub = encodeURIComponent(document.getElementById('email-sub').value);
+    const body = encodeURIComponent(document.getElementById('email-body').value);
+    return `mailto:${to}?subject=${sub}&body=${body}`;
+  }
+  if (type === 'phone') {
+    return `tel:${document.getElementById('phone-num').value}`;
+  }
+  if (type === 'sms') {
+    return `SMSTO:${document.getElementById('sms-num')}.value}:${document.getElementById('sms-body').value}`;
+  }
+  if (type === 'whatsapp') {
+    const num = document.getElementById('wa-num').value.replace(/[^0-9]/g, '');
+    const msg = encodeURIComponent(document.getElementById('wa-msg').value);
+    return `https://wa.me/${num}?text=${msg}`;
+  }
+  if (type === 'location') {
+    const lat = document.getElementById('loc-lat').value;
+    const lng = document.getElementById('loc-lng').value;
+    return `geo:${lat},${lng}`;
+  }
+  if (type === 'calendar') {
+    const title = document.getElementById('cal-title').value;
+    const loc = document.getElementById('cal-loc').value;
+    const start = document.getElementById('cal-start').value ? new Date(document.getElementById('cal-start').value).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z' : '';
+    const end = document.getElementById('cal-end').value ? new Date(document.getElementById('cal-end').value).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z' : '';
+    return `BEGIN:VEVENT\nSUMMARY:${title}\nLOCATION:${loc}\nDTSTART:${start}\nDTEND:${end}\nEND:VEVENT`;
+  }
+  if (type === 'vcard') {
+    const fn = document.getElementById('vc-fn').value;
+    const org = document.getElementById('vc-org').value;
+    const phone = document.getElementById('vc-phone').value;
+    const email = document.getElementById('vc-email').value;
+    const url = document.getElementById('vc-url').value;
+    return `BEGIN:VCARD\nVERSION:3.0\nFN:${fn}\nORG:${org}\nTEL:${phone}\nEMAIL:${email}\nURL:${url}\nEND:VCARD`;
+  }
+  if (type === 'duitnow') {
+    return buildDuitNowPayload();
+  }
+  return 'STDN Studio Default';
+}
+
+let lastGeneratedPayload = "";
+
 function generateStdn() {
+  const payload = getActivePayload();
+  lastGeneratedPayload = payload;
+  
   document.getElementById('std-preview').style.display = 'block';
+  document.getElementById('stdn-raw-val').innerText = payload;
+  document.getElementById('stdn-link-box').classList.add('on');
+  
   const canvas = document.getElementById('stdn-canvas');
   const ctx = canvas.getContext('2d');
-  canvas.width = 250;
-  canvas.height = 250;
-  ctx.fillStyle = document.getElementById('col-bg').value || '#ffffff';
-  ctx.fillRect(0, 0, 250, 250);
-  ctx.fillStyle = document.getElementById('col-fg').value || '#000000';
-  ctx.fillRect(40, 40, 170, 170); // 生成占位示意
+  
+  // Generate QR matrix using qrcode-generator library
+  let qr;
+  try {
+    qr = qrcode(0, 'M');
+    qr.addData(payload);
+    qr.make();
+  } catch(e) {
+    qr = qrcode(0, 'L');
+    qr.addData(payload);
+    qr.make();
+  }
+  
+  const moduleCount = qr.getModuleCount();
+  const cellSize = 10;
+  const margin = 20;
+  const size = moduleCount * cellSize + margin * 2;
+  
+  canvas.width = size;
+  canvas.height = size;
+  
+  const fgColor = document.getElementById('col-fg').value || '#000000';
+  const bgColor = document.getElementById('col-bg').value || '#ffffff';
+  const eyeColor = document.getElementById('col-eye').value || '#06b6d4';
+  const dotStyle = document.getElementById('set-dots').value;
+  const eyeStyle = document.getElementById('set-eyes').value;
+  
+  // Background
+  ctx.fillStyle = bgColor;
+  ctx.fillRect(0, 0, size, size);
+  
+  // Helper to check if module is part of Finder Pattern (Eyes)
+  const isFinder = (r, c) => {
+    return (r < 7 && c < 7) || (r < 7 && c >= moduleCount - 7) || (r >= moduleCount - 7 && c < 7);
+  };
+  
+  // Draw modules
+  for (let r = 0; r < moduleCount; r++) {
+    for (let c = 0; c < moduleCount; c++) {
+      if (qr.isDark(r, c)) {
+        if (isFinder(r, c)) continue; // skip finders, draw separately
+        const x = margin + c * cellSize;
+        const y = margin + r * cellSize;
+        
+        ctx.fillStyle = fgColor;
+        if (dotStyle === 'rounded') {
+          ctx.beginPath();
+          ctx.roundRect(x, y, cellSize, cellSize, cellSize * 0.4);
+          ctx.fill();
+        } else {
+          ctx.fillRect(x, y, cellSize, cellSize);
+        }
+      }
+    }
+  }
+  
+  // Draw Custom Finder Patterns (Eyes)
+  const drawEye = (startR, startC) => {
+    const x = margin + startC * cellSize;
+    const y = margin + startR * cellSize;
+    const outerSize = 7 * cellSize;
+    
+    ctx.save();
+    ctx.fillStyle = eyeColor;
+    if (eyeStyle === 'circle') {
+      ctx.beginPath();
+      ctx.roundRect(x, y, outerSize, outerSize, outerSize * 0.35);
+      ctx.fill();
+      ctx.fillStyle = bgColor;
+      ctx.beginPath();
+      ctx.roundRect(x + cellSize, y + cellSize, outerSize - 2 * cellSize, outerSize - 2 * cellSize, outerSize * 0.25);
+      ctx.fill();
+      ctx.fillStyle = eyeColor;
+      ctx.beginPath();
+      ctx.roundRect(x + 2 * cellSize, y + 2 * cellSize, outerSize - 4 * cellSize, outerSize - 4 * cellSize, outerSize * 0.15);
+      ctx.fill();
+    } else {
+      // Square
+      ctx.fillRect(x, y, outerSize, outerSize);
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(x + cellSize, y + cellSize, outerSize - 2 * cellSize, outerSize - 2 * cellSize);
+      ctx.fillStyle = eyeColor;
+      ctx.fillRect(x + 2 * cellSize, y + 2 * cellSize, outerSize - 4 * cellSize, outerSize - 4 * cellSize);
+    }
+    ctx.restore();
+  };
+  
+  drawEye(0, 0);
+  drawEye(0, moduleCount - 7);
+  drawEye(moduleCount - 7, 0);
+}
+
+function copyStdnRaw() {
+  const text = document.getElementById('stdn-raw-val').innerText;
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  document.body.appendChild(textArea);
+  textArea.select();
+  try {
+    document.execCommand('copy');
+    alert('已成功复制原始数据到剪贴板！');
+  } catch (err) {
+    alert('复制失败，请手动选择复制。');
+  }
+  document.body.removeChild(textArea);
 }
 
 function downloadStdn(format) {
-  alert('STDN 码下载功能已就绪 (' + format.toUpperCase() + ')');
+  const canvas = document.getElementById('stdn-canvas');
+  const link = document.createElement('a');
+  link.download = `stdn_code.${format}`;
+  if (format === 'png') {
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  } else if (format === 'svg') {
+    // Basic SVG export wrapper
+    const dataUrl = canvas.toDataURL('image/png');
+    const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}"><image href="${dataUrl}" width="100%" height="100%"/></svg>`;
+    const blob = new Blob([svgContent], {type: 'image/svg+xml'});
+    link.href = URL.createObjectURL(blob);
+    link.click();
+  }
 }
+
+// ══════ CHROMACODE IMPLEMENTATION ══════
+let chromaImageObj = null;
+
+function handleChromaImage(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = new Image();
+      img.onload = function() {
+        chromaImageObj = img;
+        document.getElementById('chroma-dz').style.borderColor = 'var(--ok)';
+        document.getElementById('chroma-dz').innerHTML = `<span style="color:var(--ok)">✓ 底图加载成功 (${img.width}x${img.height})</span>`;
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function generateChromaCode() {
+  const text = document.getElementById('chroma-input').value.trim() || 'https://stdn.studio';
+  const gridCount = parseInt(document.getElementById('chroma-grid').value);
+  const blendWeight = parseFloat(document.getElementById('chroma-blend').value);
+  
+  let qr;
+  try {
+    qr = qrcode(0, 'M');
+    qr.addData(text);
+    qr.make();
+  } catch(e) {
+    qr = qrcode(0, 'L');
+    qr.addData(text);
+    qr.make();
+  }
+  
+  const moduleCount = qr.getModuleCount();
+  const canvas = document.getElementById('chroma-canvas');
+  const ctx = canvas.getContext('2d');
+  
+  const size = 600;
+  canvas.width = size;
+  canvas.height = size;
+  
+  // Draw background image if available
+  if (chromaImageObj) {
+    ctx.drawImage(chromaImageObj, 0, 0, size, size);
+  } else {
+    ctx.fillStyle = '#18181b';
+    ctx.fillRect(0, 0, size, size);
+  }
+  
+  // Extract image pixel data for sampling colors
+  const imgData = ctx.getImageData(0, 0, size, size);
+  const data = imgData.data;
+  
+  // Clear canvas for drawing mosaic
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, size, size);
+  
+  const cellSize = size / moduleCount;
+  
+  const isFinder = (r, c) => {
+    return (r < 7 && c < 7) || (r < 7 && c >= moduleCount - 7) || (r >= moduleCount - 7 && c < 7);
+  };
+  
+  for (let r = 0; r < moduleCount; r++) {
+    for (let c = 0; c < moduleCount; c++) {
+      const x = c * cellSize;
+      const y = r * cellSize;
+      
+      // Sample background color from image
+      let red = 255, green = 255, blue = 255;
+      if (chromaImageObj) {
+        let sampleX = Math.floor(x + cellSize / 2);
+        let sampleY = Math.floor(y + cellSize / 2);
+        let idx = (sampleY * size + sampleX) * 4;
+        red = data[idx];
+        green = data[idx+1];
+        blue = data[idx+2];
+      }
+      
+      const isDarkModule = qr.isDark(r, c);
+      
+      if (isFinder(r, c)) {
+        // Draw standard clean finder eyes for scannability
+        ctx.fillStyle = isDarkModule ? '#000000' : '#ffffff';
+        ctx.fillRect(x, y, cellSize, cellSize);
+      } else if (isDarkModule) {
+        // Blend image color with dark module
+        ctx.fillStyle = `rgb(${Math.floor(red * (1 - blendWeight))}, ${Math.floor(green * (1 - blendWeight))}, ${Math.floor(blue * (1 - blendWeight))})`;
+        ctx.fillRect(x, y, cellSize, cellSize);
+      } else {
+        // Light module
+        ctx.fillStyle = `rgb(${Math.floor(red * blendWeight + 255 * (1 - blendWeight))}, ${Math.floor(green * blendWeight + 255 * (1 - blendWeight))}, ${Math.floor(blue * blendWeight + 255 * (1 - blendWeight))})`;
+        ctx.fillRect(x, y, cellSize, cellSize);
+      }
+    }
+  }
+  
+  document.getElementById('chroma-preview').style.display = 'block';
+}
+
+function downloadChroma() {
+  const canvas = document.getElementById('chroma-canvas');
+  const link = document.createElement('a');
+  link.download = 'chromacode_art.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+// ══════ SCANNER IMPLEMENTATION ══════
+let scanStream = null;
+let scanInterval = null;
+
+function startScanner() {
+  const container = document.getElementById('scanner-container');
+  const video = document.getElementById('scan-video');
+  const status = document.getElementById('scan-status');
+  
+  container.style.display = 'block';
+  status.innerText = "正在请求摄像头权限...";
+  
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+    .then(stream => {
+      scanStream = stream;
+      video.srcObject = stream;
+      video.setAttribute('playsinline', true);
+      video.play();
+      status.innerText = "摄像头已启动，请将 STDN 码置于镜头前...";
+      scanInterval = setInterval(scanFrame, 300);
+    })
+    .catch(err => {
+      status.innerText = "无法访问摄像头: " + err.message;
+      status.classList.add('err');
+    });
+}
+
+function stopScanner() {
+  if (scanStream) {
+    scanStream.getTracks().forEach(track => track.stop());
+    scanStream = null;
+  }
+  if (scanInterval) {
+    clearInterval(scanInterval);
+    scanInterval = null;
+  }
+  document.getElementById('scanner-container').style.display = 'none';
+}
+
+function scanFrame() {
+  const video = document.getElementById('scan-video');
+  const canvas = document.getElementById('scan-canvas');
+  if (video.readyState === video.HAVE_ENOUGH_DATA) {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const code = jsQR(imgData.data, imgData.width, imgData.height, { inversionAttempts: "dontInvert" });
+    if (code) {
+      stopScanner();
+      showScanResult(code.data);
+    }
+  }
+}
+
+function handleScanImage(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.getElementById('scan-canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imgData.data, imgData.width, imgData.height, { inversionAttempts: "attemptBoth" });
+        if (code) {
+          showScanResult(code.data);
+        } else {
+          document.getElementById('scan-status').innerText = "未能在图片中检测到有效的 STDN 码";
+          document.getElementById('scan-status').classList.add('err');
+        }
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function showScanResult(data) {
+  document.getElementById('scan-status').innerText = "解析成功！";
+  document.getElementById('scan-result-val').innerText = data;
+  document.getElementById('scan-result-box').classList.add('on');
+}
+
+function copyScanResult() {
+  const text = document.getElementById('scan-result-val').innerText;
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  document.body.appendChild(textArea);
+  textArea.select();
+  try {
+    document.execCommand('copy');
+    alert('解析结果已复制！');
+  } catch (err) {
+    alert('复制失败');
+  }
+  document.body.removeChild(textArea);
+}
+
+// Initial generation on load
+window.onload = function() {
+  generateStdn();
+};
 </script>
 </body>
 </html>
