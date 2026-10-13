@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>STDN Studio — 二维码设计与生成器</title>
+<title>STDN Studio — STDN码设计与生成器</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -13,8 +13,8 @@
 <link rel="prefetch" href="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js" as="script">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root,[data-theme="dark"]{--bg:#09090b;--surface:#18181b;--surface2:#27272a;--border:#3f3f46;--text:#fafafa;--text2:#a1a1aa;--text3:#71717a;--accent:#06b6d4;--accent2:#22d3ee;--accent-glow:rgba(6,182,212,.12);--qr-card-bg:#fff;--err:#ef4444;--ok:#22c55e;--warn:#f59e0b;--radius:10px;--radius-lg:16px}
-[data-theme="light"]{--bg:#f4f4f5;--surface:#fff;--surface2:#e4e4e7;--border:#d4d4d8;--text:#18181b;--text2:#52525b;--text3:#71717a;--accent:#0891b2;--accent2:#06b6d4;--accent-glow:rgba(8,145,178,.1);--qr-card-bg:#fff;--err:#dc2626;--ok:#16a34a;--warn:#d97706}
+:root,[data-theme="dark"]{--bg:#09090b;--surface:#18181b;--surface2:#27272a;--border:#3f3f46;--text:#fafafa;--text2:#a1a1aa;--text3:#71717a;--accent:#06b6d4;--accent2:#22d3ee;--accent-glow:rgba(6,182,212,.12);--stdn-card-bg:#fff;--err:#ef4444;--ok:#22c55e;--warn:#f59e0b;--radius:10px;--radius-lg:16px}
+[data-theme="light"]{--bg:#f4f4f5;--surface:#fff;--surface2:#e4e4e7;--border:#d4d4d8;--text:#18181b;--text2:#52525b;--text3:#71717a;--accent:#0891b2;--accent2:#06b6d4;--accent-glow:rgba(8,145,178,.1);--stdn-card-bg:#fff;--err:#dc2626;--ok:#16a34a;--warn:#d97706}
 html{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;font-size:15px;transition:background .3s,color .3s}
 body{min-height:100dvh;display:flex;flex-direction:column}
 input,select,textarea,button{font-family:inherit;font-size:inherit}
@@ -78,8 +78,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
 .dz input{display:none}
 .sep{border:none;border-top:1px solid var(--border);margin:16px 0}
 .status{font-size:.78rem;color:var(--text3);font-family:'JetBrains Mono',monospace;text-align:center;min-height:1.2em;margin:8px 0 16px}.status.err{color:var(--err)}
-.qr-frame{background:#fff;border-radius:var(--radius-lg);padding:16px;max-width:440px;margin:0 auto 16px;box-shadow:0 8px 40px rgba(0,0,0,.4)}
-.qr-frame canvas{display:block;width:100%;height:auto;border-radius:8px}
+.stdn-frame{background:#fff;border-radius:var(--radius-lg);padding:16px;max-width:440px;margin:0 auto 16px;box-shadow:0 8px 40px rgba(0,0,0,.4)}
+.stdn-frame canvas{display:block;width:100%;height:auto;border-radius:8px}
 .adv-toggle{text-align:center;margin-bottom:16px}
 .adv-toggle button{background:none;border:1px solid var(--border);border-radius:var(--radius);padding:8px 18px;color:var(--text3);font-size:.78rem;cursor:pointer;font-weight:500;transition:all .2s}
 .adv-toggle button:hover{border-color:var(--accent);color:var(--text2)}
@@ -104,12 +104,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
         <button class="on" onclick="setTheme('dark')" id="theme-dark">🌙</button>
       </div>
     </div>
-    <h1 data-i18n="title">QR <span>Studio</span></h1>
-    <p data-i18n="subtitle">标准与品牌二维码生成器，精简高效</p>
+    <h1 data-i18n="title">STDN <span>Studio</span></h1>
+    <p data-i18n="subtitle">标准与品牌STDN码生成器，精简高效</p>
   </div>
   
   <div class="mode-bar">
-    <button class="mode-btn on" data-mode="standard" onclick="setMode('standard')"><span data-i18n="modeStandard">标准</span><span class="sub" data-i18n="modeStandardSub">经典二维码</span></button>
+    <button class="mode-btn on" data-mode="standard" onclick="setMode('standard')"><span data-i18n="modeStandard">标准</span><span class="sub" data-i18n="modeStandardSub">经典STDN码</span></button>
     <button class="mode-btn" data-mode="chroma" onclick="setMode('chroma')"><span data-i18n="modeChroma">艺术融合</span><span class="sub" data-i18n="modeChromaSub">图片马赛克</span></button>
     <button class="mode-btn" data-mode="scanner" onclick="setMode('scanner')"><span data-i18n="modeScanner">扫描仪</span><span class="sub" data-i18n="modeScannerSub">读取与解码</span></button>
   </div>
@@ -138,7 +138,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
         <div class="field"><label data-i18n="wifiPass">密码</label><div style="position:relative"><input class="inp" id="wifi-pass" type="password" data-i18n-placeholder="phPass" placeholder="至少 8 位字符" style="padding-right:42px"><button type="button" id="wifi-eye" onclick="toggleWifiEye()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);font-size:1.1rem;padding:4px;line-height:1">👁️‍🗨️</button></div><div class="val-msg" id="v-wifi-pass"></div></div>
         <div class="row r2"><div class="field"><label data-i18n="wifiEnc">加密类型</label><select class="inp" id="wifi-enc"><option value="WPA">WPA/WPA2</option><option value="WEP">WEP</option><option value="" data-i18n="wifiNone">无</option></select></div><div class="field" style="display:flex;align-items:flex-end;padding-bottom:2px"><label class="chk"><input type="checkbox" id="wifi-hidden"> <span data-i18n="wifiHidden">隐藏网络</span></label></div></div>
       </div>
-      <!-- 其他表单项同理已纳入国际化字典 -->
     </div>
     
     <div class="adv-toggle"><button onclick="toggleAdv()" id="adv-btn" data-i18n="advSettings">⚙ 高级样式设置</button></div>
@@ -152,21 +151,21 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
       </div>
     </div>
     
-    <button class="gen-btn" onclick="generateQR()" data-i18n="genBtn">生成二维码</button>
+    <button class="gen-btn" onclick="generateStdn()" data-i18n="genBtn">生成STDN码</button>
     
-    <div class="preview-area" id="std-preview">
+    <div class="preview-area" id="std-preview" style="display:none;">
       <div class="card">
-        <div class="qr-frame"><canvas id="qr-canvas"></canvas></div>
+        <div class="stdn-frame"><canvas id="stdn-canvas"></canvas></div>
         <div class="dl-row">
-          <button class="dl-btn" onclick="downloadQR('png')">PNG</button>
-          <button class="dl-btn" onclick="downloadQR('svg')">SVG</button>
+          <button class="dl-btn" onclick="downloadStdn('png')">PNG</button>
+          <button class="dl-btn" onclick="downloadStdn('svg')">SVG</button>
         </div>
       </div>
     </div>
   </div>
 
   <div class="footer">
-    STDN Studio &bull; <span data-i18n="footerText">极简、安全、端侧运行的二维码工具</span>
+    STDN Studio &bull; <span data-i18n="footerText">极简、安全、端侧运行的STDN码工具</span>
   </div>
 </div>
 
@@ -174,10 +173,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
 // 语言包数据字典
 const langDict = {
   zh: {
-    title: "QR <span>Studio</span>",
-    subtitle: "标准与品牌二维码生成器，精简高效",
+    title: "STDN <span>Studio</span>",
+    subtitle: "标准与品牌STDN码生成器，精简高效",
     modeStandard: "标准",
-    modeStandardSub: "经典二维码",
+    modeStandardSub: "经典STDN码",
     modeChroma: "艺术融合",
     modeChromaSub: "图片马赛克",
     modeScanner: "扫描仪",
@@ -201,20 +200,20 @@ const langDict = {
     colorStyle: "颜色与样式",
     fgColor: "前景色",
     bgColor: "背景色",
-    genBtn: "生成二维码",
+    genBtn: "生成STDN码",
     phText: "输入任意文本或消息…",
     phPass: "至少 8 位字符",
-    footerText: "极简、安全、端侧运行的二维码工具"
+    footerText: "极简、安全、端侧运行的STDN码工具"
   },
   en: {
-    title: "QR <span>Studio</span>",
-    subtitle: "Standard & branded QR codes, zero bloat",
+    title: "STDN <span>Studio</span>",
+    subtitle: "Standard & branded STDN codes, zero bloat",
     modeStandard: "Standard",
-    modeStandardSub: "Classic QR codes",
+    modeStandardSub: "Classic STDN codes",
     modeChroma: "ChromaCode",
     modeChromaSub: "Image-blended mosaic",
     modeScanner: "Scanner",
-    modeScannerSub: "Read & decode QR",
+    modeScannerSub: "Read & decode STDN",
     pillUrl: "URL",
     pillText: "Text",
     pillWifi: "WiFi",
@@ -234,10 +233,10 @@ const langDict = {
     colorStyle: "Colors & Style",
     fgColor: "Foreground",
     bgColor: "Background",
-    genBtn: "Generate QR Code",
+    genBtn: "Generate STDN Code",
     phText: "Enter any text or message…",
     phPass: "Min 8 characters",
-    footerText: "Standard & branded QR codes, zero bloat"
+    footerText: "Standard & branded STDN codes, zero bloat"
   }
 };
 
@@ -248,7 +247,6 @@ function setLang(lang) {
   document.getElementById('lang-zh').classList.toggle('on', lang === 'zh');
   document.getElementById('lang-en').classList.toggle('on', lang === 'en');
   
-  // 更新所有带有 data-i18n 属性的标签
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (langDict[lang][key]) {
@@ -256,7 +254,6 @@ function setLang(lang) {
     }
   });
 
-  // 更新占位符
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
     const key = el.getAttribute('data-i18n-placeholder');
     if (langDict[lang][key]) {
@@ -281,20 +278,20 @@ function toggleAdv() {
   panel.classList.toggle('open');
 }
 
-function generateQR() {
-  document.getElementById('std-preview').classList.add('on');
-  const canvas = document.getElementById('qr-canvas');
+function generateStdn() {
+  document.getElementById('std-preview').style.display = 'block';
+  const canvas = document.getElementById('stdn-canvas');
   const ctx = canvas.getContext('2d');
   canvas.width = 250;
   canvas.height = 250;
   ctx.fillStyle = document.getElementById('col-bg').value || '#ffffff';
   ctx.fillRect(0, 0, 250, 250);
   ctx.fillStyle = document.getElementById('col-fg').value || '#000000';
-  ctx.fillRect(40, 40, 170, 170); // 简单的生成占位示例
+  ctx.fillRect(40, 40, 170, 170); // 生成占位示意
 }
 
-function downloadQR(format) {
-  alert('下载功能已就绪 (' + format.toUpperCase() + ')');
+function downloadStdn(format) {
+  alert('STDN 码下载功能已就绪 (' + format.toUpperCase() + ')');
 }
 </script>
 </body>
