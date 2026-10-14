@@ -1,28 +1,29 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="h-full">
+
+<html class="h-full" lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STDN Studio - 专业二维码生成平台</title>
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='url(#grad)'/><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%236366f1'/><stop offset='100%' stop-color='%238b5cf6'/></linearGradient></defs><g fill='%23ffffff'><path d='M25 25h20v20H25zM55 25h20v20H55zM25 55h20v20H25z'/><path d='M55 55h10v10H55zM75 55h10v10H75zM55 75h10v10H55zM75 75h10v10H75z'/></g></svg>">
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts & Expanded Web Fonts -->
-    <link href="https://gapis.geekzu.org/css2?family=Inter:wght@300;400;500;600;700&family=Ma+Shan+Zheng&family=Montserrat:wght@400;600;800&family=Pacifico&family=Roboto:wght@400;700&family=ZCOOL+KuaiLe&family=ZCOOL+XiaoWei&family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@300;400;700&family=ZCOOL+QingKe+HuangYou&family=Long+Cang&family=Liu+Jian+Mao+Cao&family=Yuji+Boku&family=Shrikhand&family=Comfortaa:wght@400;700&family=Lobster&family=Playfair+Display:wght@400;700&family=Cinzel:wght@400;700&family=Bebas+Neue&family=Orbitron:wght@400;700&family=Press+Start+2P&family=Permanent+Marker&family=Satisfy&family=Caveat:wght@400;700&family=Shadows+Into+Light&family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Alex+Brush&family=Sacramento&family=Cookie&family=Allura&display=swap" rel="stylesheet">
-    <!-- qrcode-generator JS library -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>STDN Studio - 专业二维码生成平台</title>
+<!-- Favicon -->
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;rect width='100' height='100' rx='24' fill='url(#grad)'/&gt;&lt;defs&gt;&lt;linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'&gt;&lt;stop offset='0%' stop-color='%236366f1'/&gt;&lt;stop offset='100%' stop-color='%238b5cf6'/&gt;&lt;/linearGradient&gt;&lt;/defs&gt;&lt;g fill='%23ffffff'&gt;&lt;path d='M25 25h20v20H25zM55 25h20v20H55zM25 55h20v20H25z'/&gt;&lt;path d='M55 55h10v10H55zM75 55h10v10H75zM55 75h10v10H55zM75 75h10v10H75z'/&gt;&lt;/g&gt;&lt;/svg&gt;" rel="icon" type="image/svg+xml"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- FontAwesome Icons -->
+<link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<!-- Google Fonts & Expanded Web Fonts -->
+<link href="https://gapis.geekzu.org/css2?family=Inter:wght@300;400;500;600;700&amp;family=Ma+Shan+Zheng&amp;family=Montserrat:wght@400;600;800&amp;family=Pacifico&amp;family=Roboto:wght@400;700&amp;family=ZCOOL+KuaiLe&amp;family=ZCOOL+XiaoWei&amp;family=Noto+Serif+SC:wght@400;700&amp;family=Noto+Sans+SC:wght@300;400;700&amp;family=ZCOOL+QingKe+HuangYou&amp;family=Long+Cang&amp;family=Liu+Jian+Mao+Cao&amp;family=Yuji+Boku&amp;family=Shrikhand&amp;family=Comfortaa:wght@400;700&amp;family=Lobster&amp;family=Playfair+Display:wght@400;700&amp;family=Cinzel:wght@400;700&amp;family=Bebas+Neue&amp;family=Orbitron:wght@400;700&amp;family=Press+Start+2P&amp;family=Permanent+Marker&amp;family=Satisfy&amp;family=Caveat:wght@400;700&amp;family=Shadows+Into+Light&amp;family=Dancing+Script:wght@400;700&amp;family=Great+Vibes&amp;family=Alex+Brush&amp;family=Sacramento&amp;family=Cookie&amp;family=Allura&amp;display=swap" rel="stylesheet"/>
+<!-- qrcode-generator JS library -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <script src="https://cdn.bootcdn.net/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script>
+<script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.bootcdn.net/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     </script>
-    <!-- Tailwind Config -->
-    <script>
+<!-- Tailwind Config -->
+<script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
@@ -37,14 +38,14 @@
             }
         }
     </script>
-    <style>
+<style>
         body { font-family: 'Inter', sans-serif; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
         .qr-canvas-box {
             width: 100%;
-            max-width: 320px;
+            max-width: 400px;
             position: relative;
             margin: 0 auto;
         }
@@ -56,9 +57,8 @@
             border-radius: 12px;
         }
     </style>
-
-    <!-- CDN加载状态诊断 -->
-    <script>
+<!-- CDN加载状态诊断 -->
+<script>
         window.addEventListener('load', function() {
             var status = [];
             if (typeof qrcode !== 'undefined') {
@@ -96,20 +96,18 @@
         });
     </script>
 </head>
-
-    <!-- CDN加载诊断覆盖层 -->
-    <div id="cdn-diagnostic" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.95);z-index:99999;justify-content:center;align-items:center;">
-        <div style="background:#1e293b;color:#e2e8f0;padding:2rem;border-radius:1rem;max-width:500px;width:90%;font-family:monospace;border:1px solid #475569;box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);">
-            <h3 style="color:#f87171;margin-top:0;font-size:1.1rem;border-bottom:1px solid #475569;padding-bottom:0.5rem;">STDN Studio 启动诊断</h3>
-            <div id="cdn-status-list" style="font-size:0.85rem;line-height:2;"></div>
-            <div id="cdn-action-area" style="margin-top:1.5rem;display:none;border-top:1px solid #475569;padding-top:1rem;">
-                <button onclick="location.reload()" style="background:#6366f1;color:white;border:none;padding:0.5rem 1rem;border-radius:0.5rem;cursor:pointer;margin-right:0.5rem;font-size:0.85rem;">重试加载</button>
-                <button onclick="document.getElementById('cdn-diagnostic').style.display='none'" style="background:#475569;color:white;border:none;padding:0.5rem 1rem;border-radius:0.5rem;cursor:pointer;font-size:0.85rem;">忽略（功能可能不可用）</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
+<!-- CDN加载诊断覆盖层 -->
+<div id="cdn-diagnostic" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.95);z-index:99999;justify-content:center;align-items:center;">
+<div style="background:#1e293b;color:#e2e8f0;padding:2rem;border-radius:1rem;max-width:500px;width:90%;font-family:monospace;border:1px solid #475569;box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);">
+<h3 style="color:#f87171;margin-top:0;font-size:1.1rem;border-bottom:1px solid #475569;padding-bottom:0.5rem;">STDN Studio 启动诊断</h3>
+<div id="cdn-status-list" style="font-size:0.85rem;line-height:2;"></div>
+<div id="cdn-action-area" style="margin-top:1.5rem;display:none;border-top:1px solid #475569;padding-top:1rem;">
+<button onclick="location.reload()" style="background:#6366f1;color:white;border:none;padding:0.5rem 1rem;border-radius:0.5rem;cursor:pointer;margin-right:0.5rem;font-size:0.85rem;">重试加载</button>
+<button onclick="document.getElementById('cdn-diagnostic').style.display='none'" style="background:#475569;color:white;border:none;padding:0.5rem 1rem;border-radius:0.5rem;cursor:pointer;font-size:0.85rem;">忽略（功能可能不可用）</button>
+</div>
+</div>
+</div>
+<script>
     (function() {
         var checks = [
             { name: 'qrcode-generator (二维码生成核心库)', check: function() { return typeof qrcode !== 'undefined'; } },
@@ -147,593 +145,648 @@
     })();
     </script>
 <body class="min-h-full bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300 flex flex-col">
-
-    <!-- Header Navigation -->
-    <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
-                    <i class="fa-solid fa-qrcode text-xl"></i>
-                </div>
-                <div>
-                    <h1 class="font-bold text-lg tracking-tight flex items-center gap-2">
+<!-- Header Navigation -->
+<header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
+<i class="fa-solid fa-qrcode text-xl"></i>
+</div>
+<div>
+<h1 class="font-bold text-lg tracking-tight flex items-center gap-2">
                         STDN Studio <span class="text-xs font-semibold px-2 py-0.5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 rounded-full">v1.0 Pro</span>
-                    </h1>
-                    <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="subtitle">专业品牌化二维码生成平台</p>
-                </div>
-            </div>
+</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="subtitle">专业品牌化二维码生成平台</p>
+</div>
+</div>
+<div class="flex items-center space-x-3">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition" onclick="toggleLanguage()">
+<i class="fa-solid fa-globe text-slate-400"></i>
+<span id="lang-label">English</span>
+</button>
+<button class="p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition" onclick="toggleHighContrast()" title="高对比度">
+<i class="fa-solid fa-circle-half-stroke"></i>
+</button>
+<button class="p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition" onclick="toggleDarkMode()">
+<i class="fa-solid fa-moon dark:hidden"></i>
+<i class="fa-solid fa-sun hidden dark:block"></i>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- 左侧：类型与数据内容选择 + 实时二维码预览面板 (5 cols) -->
+<div class="lg:col-span-5 flex flex-col space-y-6">
 
-            <div class="flex items-center space-x-3">
-                <button onclick="toggleLanguage()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                    <i class="fa-solid fa-globe text-slate-400"></i>
-                    <span id="lang-label">English</span>
-                </button>
-                <button onclick="toggleHighContrast()" title="高对比度" class="p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                    <i class="fa-solid fa-circle-half-stroke"></i>
-                </button>
-                <button onclick="toggleDarkMode()" class="p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-                    <i class="fa-solid fa-moon dark:hidden"></i>
-                    <i class="fa-solid fa-sun hidden dark:block"></i>
-                </button>
-            </div>
-        </div>
-    </header>
 
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        <!-- 左侧：类型与数据内容选择 + 实时二维码预览面板 (5 cols) -->
-        <div class="lg:col-span-5 flex flex-col space-y-6">
-            
-            <div class="grid grid-cols-4 bg-slate-200 dark:bg-slate-800 p-1 rounded-xl shadow-inner gap-1">
-                <button onclick="switchMode('generator')" id="tab-generator" class="py-2.5 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1 bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> <span>生成器</span>
-                </button>
-                <button onclick="switchMode('batch')" id="tab-batch" class="py-2.5 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
-                    <i class="fa-solid fa-layer-group"></i> <span>批量</span>
-                </button>
-                <button onclick="switchMode('chromacode')" id="tab-chromacode" class="py-2.5 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
-                    <i class="fa-solid fa-palette"></i> <span>艺术码</span>
-                </button>
-                <button onclick="switchMode('scanner')" id="tab-scanner" class="py-2.5 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
-                    <i class="fa-solid fa-camera"></i> <span>扫描</span>
-                </button>
-            </div>
 
-            <!-- 1. 选择类型与数据内容（生成器模式下） -->
-            <div id="view-generator-input" class="tab-content active space-y-6">
-                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
-                    <h2 class="text-base font-semibold flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
-                        <i class="fa-solid fa-file-lines"></i> <span data-i18n="step1_title">1. 选择类型与数据内容</span>
+
+
+
+
+
+
+<div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center space-y-4" id="single-preview-panel">
+<div class="w-full flex items-center justify-between">
+<h3 class="font-semibold text-sm flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
+<i class="fa-solid fa-eye"></i> <span data-i18n="preview_title">实时二维码预览</span>
+</h3>
+<span class="text-xs font-mono px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-lg text-slate-500 dark:text-slate-400" id="dimension-badge">1024 x 1024 px</span>
+</div>
+<div class="qr-canvas-box bg-slate-50 dark:bg-slate-900/50 p-2 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center justify-center shadow-inner">
+<canvas id="qr-canvas"></canvas>
+</div>
+<div class="w-full space-y-4">
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="export_format">文件格式</label>
+<select class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none" id="export-format">
+<option value="png">PNG 高清图片</option>
+<option value="jpg">JPG 压缩图片</option>
+<option value="svg">SVG 矢量图</option>
+</select>
+</div>
+<div>
+<label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="export_size">导出分辨率</label>
+<select class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none" id="export-size">
+<option value="512">512 x 512 px</option>
+<option selected="" value="1024">1024 x 1024 px</option>
+<option value="2048">2048 x 2048 px (超清)</option>
+</select>
+</div>
+</div>
+
+</div>
+<div class="w-full pt-4 border-t border-slate-100 dark:border-slate-700"><button class="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-semibold rounded-xl text-sm shadow-lg shadow-indigo-500/30 transition flex items-center justify-center gap-2" onclick="downloadQR()"><i class="fa-solid fa-download"></i> <span data-i18n="download_btn">下载高清二维码文件</span></button></div>
+<div class="w-full pt-4 border-t border-slate-100 dark:border-slate-700 flex flex-wrap gap-2 justify-center text-[11px] text-slate-500 dark:text-slate-400">
+<span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700/50 rounded-lg flex items-center gap-1"><i class="fa-solid fa-square-check text-emerald-500"></i> <span data-i18n="badge_ratio">严格 1:1 无变形</span></span>
+<span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700/50 rounded-lg flex items-center gap-1"><i class="fa-solid fa-bolt text-amber-500"></i> <span data-i18n="badge_realtime">毫秒级实时计算</span></span>
+</div>
+</div>
+</div>
+<!-- 右侧：2. 品牌美化与参数选择面板 (7 cols) -->
+<div class="lg:col-span-7 flex flex-col space-y-6">
+
+<div class="grid grid-cols-4 bg-slate-200 dark:bg-slate-800 p-1 rounded-xl shadow-inner gap-1">
+<button class="py-2.5 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1 bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm" id="tab-generator" onclick="switchMode('generator')">
+<i class="fa-solid fa-wand-magic-sparkles"></i> <span>生成器</span>
+</button>
+<button class="py-2.5 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white" id="tab-batch" onclick="switchMode('batch')">
+<i class="fa-solid fa-layer-group"></i> <span>批量</span>
+</button>
+<button class="py-2.5 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white" id="tab-chromacode" onclick="switchMode('chromacode')">
+<i class="fa-solid fa-palette"></i> <span>艺术码</span>
+</button>
+<button class="py-2.5 rounded-lg text-xs font-semibold transition flex items-center justify-center gap-1 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white" id="tab-scanner" onclick="switchMode('scanner')">
+<i class="fa-solid fa-camera"></i> <span>扫描</span>
+</button>
+</div><div class="tab-content active space-y-6 scroll-mt-6" id="view-generator-input">
+<div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+<h2 class="text-base font-semibold flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
+<i class="fa-solid fa-file-lines"></i> <span data-i18n="step1_title">1. 选择类型与数据内容</span>
+</h2>
+<div class="grid grid-cols-3 sm:grid-cols-4 gap-2">
+<button class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300 transition flex items-center justify-center gap-1.5" id="type-btn-url" onclick="setQRType('url')">
+<i class="fa-solid fa-link"></i> 网址 URL
+                        </button>
+<button class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5" id="type-btn-text" onclick="setQRType('text')">
+<i class="fa-solid fa-align-left"></i> 文本 Text
+                        </button>
+<button class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5" id="type-btn-vcard" onclick="setQRType('vcard')">
+<i class="fa-solid fa-address-card"></i> 电子名片
+                        </button>
+<button class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5" id="type-btn-wifi" onclick="setQRType('wifi')">
+<i class="fa-solid fa-wifi"></i> WiFi
+                        </button>
+<button class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5" id="type-btn-geo" onclick="setQRType('geo')">
+<i class="fa-solid fa-location-dot"></i> 地理位置
+                        </button>
+<button class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5" id="type-btn-social" onclick="setQRType('social')">
+<i class="fa-solid fa-share-nodes"></i> 社交/社群
+                        </button>
+<button class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5" id="type-btn-event" onclick="setQRType('event')">
+<i class="fa-solid fa-calendar-days"></i> 日历事件
+                        </button>
+<button class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5" id="type-btn-app" onclick="setQRType('app')">
+<i class="fa-solid fa-mobile-screen"></i> 应用下载
+                        </button>
+<button class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5" id="type-btn-email" onclick="setQRType('email')">
+<i class="fa-solid fa-envelope"></i> 邮箱
+                        </button>
+<button class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5" id="type-btn-phone" onclick="setQRType('phone')">
+<i class="fa-solid fa-phone"></i> 电话
+                        </button>
+<button class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5" id="type-btn-sms" onclick="setQRType('sms')">
+<i class="fa-solid fa-comment-sms"></i> 短信
+                        </button>
+</div>
+<div class="pt-2" id="form-container"></div>
+</div>
+</div><div class="tab-content space-y-6" id="view-batch-input">
+<div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+<h2 class="text-base font-semibold flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
+<i class="fa-solid fa-layer-group"></i> 批量生成二维码与文件导入
                     </h2>
-
-                    <div class="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                        <button onclick="setQRType('url')" id="type-btn-url" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300 transition flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-link"></i> 网址 URL
+<p class="text-xs text-slate-500 dark:text-slate-400">支持直接上传 Excel (.xlsx/.xls)、Word (.docx)、TXT 或 PDF 文件，系统将自动提取文本并填充到下方文本框中。</p>
+<!-- 文件上传区域 -->
+<div class="border-2 border-dashed border-indigo-200 dark:border-indigo-900/60 rounded-xl p-4 text-center hover:bg-indigo-50/50 dark:hover:bg-indigo-950/20 transition cursor-pointer relative">
+<input accept=".xlsx, .xls, .docx, .txt, .pdf" class="absolute inset-0 opacity-0 cursor-pointer" id="batch-file-input" onchange="handleBatchFileUpload(event)" type="file"/>
+<div class="space-y-1">
+<i class="fa-solid fa-cloud-arrow-up text-2xl text-indigo-500"></i>
+<p class="text-xs font-medium text-slate-700 dark:text-slate-300">点击或将文件拖拽至此处上传</p>
+<p class="text-[10px] text-slate-400">支持 .xlsx, .xls, .docx, .txt, .pdf 格式</p>
+</div>
+</div>
+<div class="space-y-3">
+<label class="block text-xs font-medium text-slate-500 dark:text-slate-400">批量内容文本框（每行代表一个二维码）</label>
+<textarea class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono" id="batch-input" oninput="generateBatchList()" placeholder="https://example.com/1
+https://example.com/2
+产品批次-001" rows="6"></textarea>
+<button class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold shadow transition" onclick="generateBatchList()">
+<i class="fa-solid fa-bolt mr-1"></i> 立即刷新批量列表
                         </button>
-                        <button onclick="setQRType('text')" id="type-btn-text" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-align-left"></i> 文本 Text
-                        </button>
-                        <button onclick="setQRType('vcard')" id="type-btn-vcard" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-address-card"></i> 电子名片
-                        </button>
-                        <button onclick="setQRType('wifi')" id="type-btn-wifi" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-wifi"></i> WiFi
-                        </button>
-                        <button onclick="setQRType('geo')" id="type-btn-geo" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-location-dot"></i> 地理位置
-                        </button>
-                        <button onclick="setQRType('social')" id="type-btn-social" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-share-nodes"></i> 社交/社群
-                        </button>
-                        <button onclick="setQRType('event')" id="type-btn-event" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-calendar-days"></i> 日历事件
-                        </button>
-                        <button onclick="setQRType('app')" id="type-btn-app" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-mobile-screen"></i> 应用下载
-                        </button>
-                        <button onclick="setQRType('email')" id="type-btn-email" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-envelope"></i> 邮箱
-                        </button>
-                        <button onclick="setQRType('phone')" id="type-btn-phone" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-phone"></i> 电话
-                        </button>
-                        <button onclick="setQRType('sms')" id="type-btn-sms" class="type-pill px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-comment-sms"></i> 短信
-                        </button>
-                    </div>
-
-                    <div id="form-container" class="pt-2"></div>
-                </div>
-            </div>
-
-            <!-- 批量生成输入视图（支持 Excel / Word / TXT / PDF 文件解析上传） -->
-            <div id="view-batch-input" class="tab-content space-y-6">
-                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
-                    <h2 class="text-base font-semibold flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
-                        <i class="fa-solid fa-layer-group"></i> 批量生成二维码与文件导入
-                    </h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">支持直接上传 Excel (.xlsx/.xls)、Word (.docx)、TXT 或 PDF 文件，系统将自动提取文本并填充到下方文本框中。</p>
-                    
-                    <!-- 文件上传区域 -->
-                    <div class="border-2 border-dashed border-indigo-200 dark:border-indigo-900/60 rounded-xl p-4 text-center hover:bg-indigo-50/50 dark:hover:bg-indigo-950/20 transition cursor-pointer relative">
-                        <input type="file" id="batch-file-input" accept=".xlsx, .xls, .docx, .txt, .pdf" onchange="handleBatchFileUpload(event)" class="absolute inset-0 opacity-0 cursor-pointer">
-                        <div class="space-y-1">
-                            <i class="fa-solid fa-cloud-arrow-up text-2xl text-indigo-500"></i>
-                            <p class="text-xs font-medium text-slate-700 dark:text-slate-300">点击或将文件拖拽至此处上传</p>
-                            <p class="text-[10px] text-slate-400">支持 .xlsx, .xls, .docx, .txt, .pdf 格式</p>
-                        </div>
-                    </div>
-
-                    <div class="space-y-3">
-                        <label class="block text-xs font-medium text-slate-500 dark:text-slate-400">批量内容文本框（每行代表一个二维码）</label>
-                        <textarea id="batch-input" rows="6" oninput="generateBatchList()" placeholder="https://example.com/1&#10;https://example.com/2&#10;产品批次-001" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono"></textarea>
-                        <button onclick="generateBatchList()" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold shadow transition">
-                            <i class="fa-solid fa-bolt mr-1"></i> 立即刷新批量列表
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ChromaCode 输入视图 -->
-            <div id="view-chromacode-input" class="tab-content space-y-6">
-                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
-                    <h2 class="text-base font-semibold flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
-                        <i class="fa-solid fa-palette"></i> <span data-i18n="cc_title">ChromaCode 艺术融合码</span>
-                    </h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="cc_desc">上传自定义背景图，通过自由调节背景清晰度与色彩融合，生成高视觉冲击力的艺术二维码。</p>
-                    
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">艺术码链接 / 内容</label>
-                            <input type="text" id="cc-input" value="" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">背景画布图片</label>
-                            <div class="flex gap-2 items-start">
-                                <input type="file" id="cc-bg-file" accept="image/*" onchange="handleChromaBgUpload(event)" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-900/50 file:text-indigo-600 dark:file:text-indigo-300 hover:file:bg-indigo-100 transition">
-                                <button type="button" onclick="removeChromaBg()" class="px-3 py-2 rounded-xl border border-rose-200 dark:border-rose-900/50 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 text-xs transition shrink-0" title="删除已上传的背景图">
-                                    <i class="fa-solid fa-trash-can"></i> 删除
+</div>
+</div>
+</div><div class="tab-content space-y-6" id="view-chromacode-input">
+<div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+<h2 class="text-base font-semibold flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
+<i class="fa-solid fa-palette"></i> <span data-i18n="cc_title">ChromaCode 艺术融合码</span>
+</h2>
+<p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="cc_desc">上传自定义背景图，通过自由调节背景清晰度与色彩融合，生成高视觉冲击力的艺术二维码。</p>
+<div class="space-y-4">
+<div>
+<label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">艺术码链接 / 内容</label>
+<input class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" id="cc-input" oninput="renderQR()" type="text" value=""/>
+</div>
+<div>
+<label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">背景画布图片</label>
+<div class="flex gap-2 items-start">
+<input accept="image/*" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-900/50 file:text-indigo-600 dark:file:text-indigo-300 hover:file:bg-indigo-100 transition" id="cc-bg-file" onchange="handleChromaBgUpload(event)" type="file"/>
+<button class="px-3 py-2 rounded-xl border border-rose-200 dark:border-rose-900/50 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 text-xs transition shrink-0" onclick="removeChromaBg()" title="删除已上传的背景图" type="button">
+<i class="fa-solid fa-trash-can"></i> 删除
                                 </button>
-                            </div>
-                        </div>
-                        <div id="chroma-bg-preview" class="hidden">
-                            <div class="flex items-center justify-between mb-1">
-                                <label class="block text-xs font-medium text-slate-500 dark:text-slate-400">已上传背景图预览</label>
-                                <button type="button" onclick="removeChromaBg()" class="text-xs text-rose-600 hover:text-rose-700 font-medium flex items-center gap-1">
-                                    <i class="fa-solid fa-trash-can"></i> 删除此图片
-                                </button>
-                            </div>
-                            <div class="relative inline-block rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700">
-                                <img id="chroma-bg-preview-img" src="" alt="背景预览" class="max-w-full h-auto rounded-xl" style="max-height:200px;">
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between items-center mb-1">
-                                <label class="text-xs font-medium text-slate-600 dark:text-slate-400">背景图清晰度/显现度 (Clarity)</label>
-                                <span id="cc-clarity-val" class="text-xs font-mono text-indigo-600 dark:text-indigo-400">75%</span>
-                            </div>
-                            <input type="range" id="cc-clarity" min="10" max="100" value="75" oninput="updateCcClarityLabel(); renderQR();" class="w-full accent-indigo-600 cursor-pointer">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 扫描输入视图 -->
-            <div id="view-scanner-input" class="tab-content space-y-6">
-                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4 text-center">
-                    <h2 class="text-base font-semibold flex items-center justify-center gap-2 text-indigo-600 dark:text-indigo-400">
-                        <i class="fa-solid fa-camera"></i> <span data-i18n="scanner_title">二维码实时扫描与文件识别</span>
-                    </h2>
-
-                    <div class="relative w-full max-w-md mx-auto aspect-video bg-slate-900 rounded-2xl overflow-hidden flex items-center justify-center border border-slate-700 shadow-inner">
-                        <video id="scanner-video" class="w-full h-full object-cover" autoplay playsinline muted></video>
-                        <canvas id="scanner-canvas" class="hidden"></canvas>
-                        <div id="scanner-placeholder" class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 space-y-2 bg-slate-900/90">
-                            <i class="fa-solid fa-video-slash text-3xl text-slate-600"></i>
-                            <span class="text-xs">摄像头处于关闭状态</span>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-center gap-3">
-                        <button onclick="startScanner()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-500/20 transition flex items-center gap-2">
-                            <i class="fa-solid fa-play"></i> 开启摄像头
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1">
+<label class="text-xs font-medium text-slate-600 dark:text-slate-400">背景图清晰度/显现度 (Clarity)</label>
+<span class="text-xs font-mono text-indigo-600 dark:text-indigo-400" id="cc-clarity-val">75%</span>
+</div>
+<input class="w-full accent-indigo-600 cursor-pointer" id="cc-clarity" max="100" min="10" oninput="updateCcClarityLabel(); renderQR();" type="range" value="75"/>
+</div>
+</div>
+</div>
+</div><div class="tab-content space-y-6" id="view-scanner-input">
+<div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4 text-center">
+<h2 class="text-base font-semibold flex items-center justify-center gap-2 text-indigo-600 dark:text-indigo-400">
+<i class="fa-solid fa-camera"></i> <span data-i18n="scanner_title">二维码实时扫描与文件识别</span>
+</h2>
+<div class="relative w-full max-w-md mx-auto aspect-video bg-slate-900 rounded-2xl overflow-hidden flex items-center justify-center border border-slate-700 shadow-inner">
+<video autoplay="" class="w-full h-full object-cover" id="scanner-video" muted="" playsinline=""></video>
+<canvas class="hidden" id="scanner-canvas"></canvas>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 space-y-2 bg-slate-900/90" id="scanner-placeholder">
+<i class="fa-solid fa-video-slash text-3xl text-slate-600"></i>
+<span class="text-xs">摄像头处于关闭状态</span>
+</div>
+</div>
+<div class="flex justify-center gap-3">
+<button class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold shadow-lg shadow-indigo-500/20 transition flex items-center gap-2" onclick="startScanner()">
+<i class="fa-solid fa-play"></i> 开启摄像头
                         </button>
-                        <button onclick="stopScanner()" class="px-4 py-2.5 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold transition flex items-center gap-2">
-                            <i class="fa-solid fa-stop"></i> 关闭摄像头
+<button class="px-4 py-2.5 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold transition flex items-center gap-2" onclick="stopScanner()">
+<i class="fa-solid fa-stop"></i> 关闭摄像头
                         </button>
-                    </div>
-
-                    <div class="pt-4 border-t border-slate-100 dark:border-slate-700 text-left">
-                        <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-2">或上传二维码图片识别</label>
-                        <input type="file" accept="image/*" onchange="decodeUploadedImage(event)" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-100 dark:file:bg-slate-700 file:text-slate-700 dark:file:text-slate-200 hover:file:bg-slate-200 transition">
-                    </div>
-
-                    <div class="pt-2 text-left">
-                        <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="scan_result">扫描/解算结果</label>
-                        <div id="scan-result-box" class="p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-mono break-all text-slate-700 dark:text-slate-300 min-h-[60px] flex items-center">
-                            <span class="text-slate-400 text-xs italic">暂未检测到二维码内容</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 实时二维码预览与下载面板 -->
-            <div id="single-preview-panel" class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm sticky top-20 flex flex-col items-center space-y-6">
-                
-                <div class="w-full flex items-center justify-between">
-                    <h3 class="font-semibold text-sm flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
-                        <i class="fa-solid fa-eye"></i> <span data-i18n="preview_title">实时二维码预览</span>
-                    </h3>
-                    <span id="dimension-badge" class="text-xs font-mono px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-lg text-slate-500 dark:text-slate-400">1024 x 1024 px</span>
-                </div>
-
-                <div class="qr-canvas-box bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center justify-center shadow-inner">
-                    <canvas id="qr-canvas"></canvas>
-                </div>
-
-                <div class="w-full space-y-4">
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="export_format">文件格式</label>
-                            <select id="export-format" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none">
-                                <option value="png">PNG 高清图片</option>
-                                <option value="jpg">JPG 压缩图片</option>
-                                <option value="svg">SVG 矢量图</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="export_size">导出分辨率</label>
-                            <select id="export-size" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none">
-                                <option value="512">512 x 512 px</option>
-                                <option value="1024" selected>1024 x 1024 px</option>
-                                <option value="2048">2048 x 2048 px (超清)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <button onclick="downloadQR()" class="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-semibold rounded-xl text-sm shadow-lg shadow-indigo-500/30 transition flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-download"></i> <span data-i18n="download_btn">下载高清二维码文件</span>
-                    </button>
-                </div>
-
-                <div class="w-full pt-4 border-t border-slate-100 dark:border-slate-700 flex flex-wrap gap-2 justify-center text-[11px] text-slate-500 dark:text-slate-400">
-                    <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700/50 rounded-lg flex items-center gap-1"><i class="fa-solid fa-square-check text-emerald-500"></i> <span data-i18n="badge_ratio">严格 1:1 无变形</span></span>
-                    <span class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700/50 rounded-lg flex items-center gap-1"><i class="fa-solid fa-bolt text-amber-500"></i> <span data-i18n="badge_realtime">毫秒级实时计算</span></span>
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- 右侧：2. 品牌美化与参数选择面板 (7 cols) -->
-        <div class="lg:col-span-7 flex flex-col space-y-6">
-            
-            <!-- 批量生成结果网格面板 -->
-            <div id="batch-result-panel" class="hidden bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-base font-semibold flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
-                        <i class="fa-solid fa-table-cells"></i> 批量生成结果 (<span id="batch-count">0</span>)
+</div>
+<div class="pt-4 border-t border-slate-100 dark:border-slate-700 text-left">
+<label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-2">或上传二维码图片识别</label>
+<input accept="image/*" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-100 dark:file:bg-slate-700 file:text-slate-700 dark:file:text-slate-200 hover:file:bg-slate-200 transition" onchange="decodeUploadedImage(event)" type="file"/>
+</div>
+<div class="pt-2 text-left">
+<label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="scan_result">扫描/解算结果</label>
+<div class="p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-mono break-all text-slate-700 dark:text-slate-300 min-h-[60px] flex items-center" id="scan-result-box">
+<span class="text-slate-400 text-xs italic">暂未检测到二维码内容</span>
+</div>
+</div>
+</div>
+</div><div class="hidden bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4" id="batch-result-panel">
+<div class="flex items-center justify-between flex-wrap gap-2">
+<h2 class="text-base font-semibold flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
+<i class="fa-solid fa-table-cells"></i> 批量生成结果 (<span id="batch-count">0</span>)
                     </h2>
-                </div>
-                <div id="batch-grid-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[600px] overflow-y-auto p-2">
-                    <span class="text-xs text-slate-400 italic">请在左侧批量输入文本并点击生成。</span>
-                </div>
-            </div>
+<div class="flex items-center gap-2">
+<label class="flex items-center gap-1.5 cursor-pointer select-none">
+<input class="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" id="batch-select-all" onchange="toggleSelectAll()" type="checkbox"/>
+<span class="text-xs font-medium text-slate-600 dark:text-slate-400">全选</span>
+</label>
+<button class="px-3 py-1.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white rounded-lg text-xs font-semibold shadow transition flex items-center gap-1.5" onclick="batchDownloadSelected()">
+<i class="fa-solid fa-download"></i> 批量下载选中
+                        </button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[600px] overflow-y-auto p-2" id="batch-grid-container">
+<span class="text-xs text-slate-400 italic">请在左侧批量输入文本并点击生成。</span>
+</div>
+</div>
 
-            <!-- 常规美化面板 -->
-            <div id="generator-styling-panel" class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
-                <h2 class="text-base font-semibold flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
-                    <i class="fa-solid fa-palette"></i> <span data-i18n="step2_title">2. 品牌美化与参数选择</span>
-                </h2>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="module_shape">码点形状 (Module Shape)</label>
-                        <select id="module-shape" onchange="onManualParamChange(); renderQR();" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <option value="square">经典方形 (Square)</option>
-                            <option value="rounded">圆角矩形 (Rounded)</option>
-                            <option value="dots">圆点阵列 (Dots)</option>
-                            <option value="diamond">晶体菱形 (Diamond)</option>
-                            <option value="capsule">动态胶囊 (Capsule)</option>
-                            <option value="cross">潮流十字 (Cross)</option>
-                            <option value="v-lines">纵向条纹 (Vertical Lines)</option>
-                            <option value="h-lines">横向条纹 (Horizontal Lines)</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="ecl_label">容错级别 (Error Correction)</label>
-                        <select id="ecl-select" onchange="onManualParamChange(); renderQR();" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <option value="L">L (7% 破坏恢复)</option>
-                            <option value="M" selected>M (15% 破坏恢复)</option>
-                            <option value="Q">Q (25% 破坏恢复)</option>
-                            <option value="H">H (30% 容错 - 建议嵌入Logo)</option>
-                        </select>
-                    </div>
-
-                    <!-- 可编辑边框/海报模板及其细化参数 -->
-                    <div class="sm:col-span-2 bg-slate-50 dark:bg-slate-900/40 p-4 rounded-xl border border-slate-200 dark:border-slate-700 space-y-4">
-                        <div>
-                            <div class="flex items-center justify-between mb-1.5">
-                                <label class="text-xs font-medium text-slate-700 dark:text-slate-300" data-i18n="lblFrame">海报 / 边框模板</label>
-                                <button type="button" onclick="openPresetManager()" class="text-xs text-indigo-600 dark:text-indigo-400 hover:underline font-semibold flex items-center gap-1">
-                                    <i class="fa-solid fa-gear"></i> 管理预设
+<div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4" id="generator-styling-panel">
+<h2 class="text-base font-semibold flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
+<i class="fa-solid fa-palette"></i> <span data-i18n="step2_title">2. 品牌美化与参数选择</span>
+</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div>
+<label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="module_shape">码点形状 (Module Shape)</label>
+<select class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" id="module-shape" onchange="onManualParamChange(); renderQR();">
+<option value="square">经典方形 (Square)</option>
+<option value="rounded">圆角矩形 (Rounded)</option>
+<option value="dots">圆点阵列 (Dots)</option>
+<option value="diamond">晶体菱形 (Diamond)</option>
+<option value="capsule">动态胶囊 (Capsule)</option>
+<option value="cross">潮流十字 (Cross)</option>
+<option value="v-lines">纵向条纹 (Vertical Lines)</option>
+<option value="h-lines">横向条纹 (Horizontal Lines)</option>
+</select>
+</div>
+<div>
+<label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="ecl_label">容错级别 (Error Correction)</label>
+<select class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" id="ecl-select" onchange="onManualParamChange(); renderQR();">
+<option value="L">L (7% 破坏恢复)</option>
+<option selected="" value="M">M (15% 破坏恢复)</option>
+<option value="Q">Q (25% 破坏恢复)</option>
+<option value="H">H (30% 容错 - 建议嵌入Logo)</option>
+</select>
+</div>
+<!-- 可编辑边框/海报模板及其细化参数 -->
+<div class="sm:col-span-2 bg-slate-50 dark:bg-slate-900/40 p-4 rounded-xl border border-slate-200 dark:border-slate-700 space-y-4">
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="text-xs font-medium text-slate-700 dark:text-slate-300" data-i18n="lblFrame">海报 / 边框模板</label>
+<button class="text-xs text-indigo-600 dark:text-indigo-400 hover:underline font-semibold flex items-center gap-1" onclick="openPresetManager()" type="button">
+<i class="fa-solid fa-gear"></i> 管理预设
                                 </button>
-                            </div>
-                            <select id="cfg-frame" onchange="renderQR()" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none">
-                            </select>
-                        </div>
-
-                        <!-- 边框颜色、圆角大小、内边距 & 线条粗细调节控制 -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-slate-200 dark:border-slate-700/60">
-                            <div>
-                                <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">边框颜色 (Border Color)</label>
-                                <div class="flex items-center gap-2">
-                                    <input type="color" id="frame-color" value="#4f46e5" onchange="syncColorText('frame')" class="w-8 h-8 rounded-lg border-0 cursor-pointer">
-                                    <input type="text" id="frame-color-text" value="#4f46e5" oninput="syncColorInput('frame')" class="flex-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1 text-xs font-mono">
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between items-center mb-1">
-                                    <label class="text-xs font-medium text-slate-600 dark:text-slate-400">圆角大小 (Border Radius)</label>
-                                    <span id="frame-radius-val" class="text-xs font-mono text-indigo-600 dark:text-indigo-400">16px</span>
-                                </div>
-                                <input type="range" id="frame-radius" min="0" max="48" value="16" oninput="updateFrameRadiusLabel(); renderQR();" class="w-full accent-indigo-600 cursor-pointer">
-                            </div>
-                            <div>
-                                <div class="flex justify-between items-center mb-1">
-                                    <label class="text-xs font-medium text-slate-600 dark:text-slate-400">边框边距大小 (Padding)</label>
-                                    <span id="frame-padding-val" class="text-xs font-mono text-indigo-600 dark:text-indigo-400">20%</span>
-                                </div>
-                                <input type="range" id="frame-padding" min="5" max="40" value="20" oninput="updateFramePaddingLabel(); renderQR();" class="w-full accent-indigo-600 cursor-pointer">
-                            </div>
-                            <div>
-                                <div class="flex justify-between items-center mb-1">
-                                    <label class="text-xs font-medium text-slate-600 dark:text-slate-400">线条粗细 (Border Width)</label>
-                                    <span id="frame-width-val" class="text-xs font-mono text-indigo-600 dark:text-indigo-400">12px</span>
-                                </div>
-                                <input type="range" id="frame-width" min="2" max="30" value="12" oninput="updateFrameWidthLabel(); renderQR();" class="w-full accent-indigo-600 cursor-pointer">
-                            </div>
-                        </div>
-
-                        <div id="preset-modal" class="hidden mt-3 p-3 bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-900 rounded-xl space-y-2">
-                            <div class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 flex items-center justify-between">
-                                <span id="preset-modal-title">自定义模板预设管理</span>
-                                <button type="button" onclick="openPresetManager()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
-                            </div>
-                            <div class="flex gap-2">
-                                <input type="text" id="new-preset-name" placeholder="输入模板名称..." class="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs">
-                                <button type="button" id="preset-action-btn" onclick="saveCustomPreset()" class="px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-xs font-medium hover:bg-indigo-700 transition">添加</button>
-                                <button type="button" id="preset-cancel-btn" onclick="cancelEditPreset()" class="hidden px-2.5 py-1.5 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg text-xs font-medium hover:bg-slate-300 transition">取消</button>
-                            </div>
-                            <div id="preset-list-container" class="max-h-24 overflow-y-auto space-y-1 text-xs"></div>
-                        </div>
-
-                        <!-- 顶底各自独立配置字体、字重及文案 -->
-                        <div class="pt-3 border-t border-slate-200 dark:border-slate-700/60 space-y-3">
-                            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">海报顶底文字与独立样式设置（字号、字重、颜色、字体）</label>
-
-                            <!-- 顶部标语独立设置 -->
-                            <div class="bg-white dark:bg-slate-900/50 p-3 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2.5">
-                                <div class="flex items-center justify-between gap-2 flex-wrap">
-                                    <label class="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 shrink-0">顶部标语</label>
-                                    <div class="flex items-center gap-1.5 overflow-x-auto py-1">
-                                        <span class="text-[10px] text-slate-500 shrink-0">字重:</span>
-                                        <select id="poster-title-weight" onchange="renderQR()" class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-1.5 py-0.5 text-[11px] focus:outline-none">
-                                            <option value="300">纤细 (300)</option>
-                                            <option value="400" selected>常规 (400)</option>
-                                            <option value="500">中粗 (500)</option>
-                                            <option value="600">半粗 (600)</option>
-                                            <option value="700">加粗 (700)</option>
-                                        </select>
-                                        <span class="text-[10px] text-slate-500 shrink-0">字体:</span>
-                                        <select id="poster-title-font" onchange="renderQR()" class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-2 py-0.5 text-[11px] focus:outline-none max-w-[110px]">
-                                            <option value="'Inter', sans-serif">Inter</option>
-                                            <option value="'Roboto', sans-serif">Roboto</option>
-                                            <option value="'Montserrat', sans-serif">Montserrat</option>
-                                            <option value="'Noto Serif SC', serif">思源宋体</option>
-                                            <option value="'Noto Sans SC', sans-serif" selected>思源黑体</option>
-                                            <option value="'Ma Shan Zheng', cursive">马善政楷书</option>
-                                            <option value="'ZCOOL KuaiLe', cursive">站酷快乐体</option>
-                                            <option value="'ZCOOL XiaoWei', serif">站酷小薇体</option>
-                                            <option value="'ZCOOL QingKe+HuangYou', cursive">站酷黄油体</option>
-                                            <option value="'Long Cang', cursive">龙苍书法</option>
-                                            <option value="'Liu+Jian+Mao+Cao', cursive">刘建毛草</option>
-                                            <option value="'Pacifico', cursive">Pacifico</option>
-                                            <option value="'Shrikhand', cursive">Shrikhand</option>
-                                            <option value="'Comfortaa', cursive">Comfortaa</option>
-                                            <option value="'Lobster', cursive">Lobster</option>
-                                            <option value="'Playfair Display', serif">Playfair</option>
-                                            <option value="'Cinzel', serif">Cinzel</option>
-                                            <option value="'Bebas Neue', sans-serif">Bebas Neue</option>
-                                            <option value="'Orbitron', sans-serif">Orbitron</option>
-                                            <option value="'Press Start 2P', cursive">Pixel</option>
-                                            <option value="'Permanent Marker', cursive">Marker</option>
-                                            <option value="'Satisfy', cursive">Satisfy</option>
-                                            <option value="'Caveat', cursive">Caveat</option>
-                                            <option value="'Shadows Into Light', cursive">Shadows</option>
-                                            <option value="'Dancing Script', cursive">Dancing Script</option>
-                                            <option value="'Great Vibes', cursive">Great Vibes</option>
-                                            <option value="'Alex Brush', cursive">Alex Brush</option>
-                                            <option value="'Sacramento', cursive">Sacramento</option>
-                                            <option value="'Cookie', cursive">Cookie</option>
-                                            <option value="'Allura', cursive">Allura</option>
-                                        </select>
-                                        <span class="text-[10px] text-slate-500 shrink-0">色:</span>
-                                        <input type="color" id="poster-title-color" value="#4f46e5" onchange="renderQR()" class="w-5 h-5 rounded border-0 cursor-pointer shrink-0">
-                                        <span class="text-[10px] text-slate-500 shrink-0">大:</span>
-                                        <input type="number" id="poster-title-size" min="8" max="120" value="24" oninput="renderQR()" class="w-12 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-1 py-0.5 text-xs text-center font-mono" title="字号(磅)">
-                                    </div>
-                                </div>
-                                <textarea id="poster-title" rows="2" placeholder="请输入顶部标语文字..." oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-y">扫码体验智能服务</textarea>
-                            </div>
-
-                            <!-- 底部说明独立设置 -->
-                            <div class="bg-white dark:bg-slate-900/50 p-3 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2.5">
-                                <div class="flex items-center justify-between gap-2 flex-wrap">
-                                    <label class="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 shrink-0">底部说明</label>
-                                    <div class="flex items-center gap-1.5 overflow-x-auto py-1">
-                                        <span class="text-[10px] text-slate-500 shrink-0">字重:</span>
-                                        <select id="poster-subtitle-weight" onchange="renderQR()" class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-1.5 py-0.5 text-[11px] focus:outline-none">
-                                            <option value="300">纤细 (300)</option>
-                                            <option value="400" selected>常规 (400)</option>
-                                            <option value="500">中粗 (500)</option>
-                                            <option value="600">半粗 (600)</option>
-                                            <option value="700">加粗 (700)</option>
-                                        </select>
-                                        <span class="text-[10px] text-slate-500 shrink-0">字体:</span>
-                                        <select id="poster-subtitle-font" onchange="renderQR()" class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-2 py-0.5 text-[11px] focus:outline-none max-w-[110px]">
-                                            <option value="'Inter', sans-serif">Inter</option>
-                                            <option value="'Roboto', sans-serif">Roboto</option>
-                                            <option value="'Montserrat', sans-serif">Montserrat</option>
-                                            <option value="'Noto Serif SC', serif">思源宋体</option>
-                                            <option value="'Noto Sans SC', sans-serif" selected>思源黑体</option>
-                                            <option value="'Ma Shan Zheng', cursive">马善政楷书</option>
-                                            <option value="'ZCOOL KuaiLe', cursive">站酷快乐体</option>
-                                            <option value="'ZCOOL XiaoWei', serif">站酷小薇体</option>
-                                            <option value="'ZCOOL QingKe+HuangYou', cursive">站酷黄油体</option>
-                                            <option value="'Long Cang', cursive">龙苍书法</option>
-                                            <option value="'Liu+Jian+Mao+Cao', cursive">刘建毛草</option>
-                                            <option value="'Pacifico', cursive">Pacifico</option>
-                                            <option value="'Shrikhand', cursive">Shrikhand</option>
-                                            <option value="'Comfortaa', cursive">Comfortaa</option>
-                                            <option value="'Lobster', cursive">Lobster</option>
-                                            <option value="'Playfair Display', serif">Playfair</option>
-                                            <option value="'Cinzel', serif">Cinzel</option>
-                                            <option value="'Bebas Neue', sans-serif">Bebas Neue</option>
-                                            <option value="'Orbitron', sans-serif">Orbitron</option>
-                                            <option value="'Press Start 2P', cursive">Pixel</option>
-                                            <option value="'Permanent Marker', cursive">Marker</option>
-                                            <option value="'Satisfy', cursive">Satisfy</option>
-                                            <option value="'Caveat', cursive">Caveat</option>
-                                            <option value="'Shadows Into Light', cursive">Shadows</option>
-                                            <option value="'Dancing Script', cursive">Dancing Script</option>
-                                            <option value="'Great Vibes', cursive">Great Vibes</option>
-                                            <option value="'Alex Brush', cursive">Alex Brush</option>
-                                            <option value="'Sacramento', cursive">Sacramento</option>
-                                            <option value="'Cookie', cursive">Cookie</option>
-                                            <option value="'Allura', cursive">Allura</option>
-                                        </select>
-                                        <span class="text-[10px] text-slate-500 shrink-0">色:</span>
-                                        <input type="color" id="poster-subtitle-color" value="#4f46e5" onchange="renderQR()" class="w-5 h-5 rounded border-0 cursor-pointer shrink-0">
-                                        <span class="text-[10px] text-slate-500 shrink-0">大:</span>
-                                        <input type="number" id="poster-subtitle-size" min="8" max="120" value="18" oninput="renderQR()" class="w-12 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-1 py-0.5 text-xs text-center font-mono" title="字号(磅)">
-                                    </div>
-                                </div>
-                                <textarea id="poster-subtitle" rows="2" placeholder="请输入底部说明文字..." oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-y">感谢您的支持与关注</textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="fg_color">码点颜色 (Foreground)</label>
-                        <div class="flex items-center gap-2">
-                            <input type="color" id="fg-color" value="#4f46e5" onchange="syncColorText('fg')" class="w-10 h-10 rounded-xl border-0 cursor-pointer">
-                            <input type="text" id="fg-color-text" value="#4f46e5" oninput="syncColorInput('fg')" class="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-mono">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="bg_color">背景颜色 (Background)</label>
-                        <div class="flex items-center gap-2">
-                            <input type="color" id="bg-color" value="#ffffff" onchange="syncColorText('bg')" class="w-10 h-10 rounded-xl border-0 cursor-pointer">
-                            <input type="text" id="bg-color-text" value="#ffffff" oninput="syncColorInput('bg')" class="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-mono">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pt-3 border-t border-slate-100 dark:border-slate-700">
-                    <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5" data-i18n="logo_upload">中心 Logo / 品牌图标 (嵌入与白色遮罩)</label>
-                    <div class="flex items-center gap-3">
-                        <input type="file" id="logo-file" accept="image/*" onchange="handleLogoUpload(event)" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-900/50 file:text-indigo-600 dark:file:text-indigo-300 hover:file:bg-indigo-100 transition">
-                        <button onclick="removeLogo()" class="px-3 py-2 rounded-xl border border-rose-200 dark:border-rose-900/50 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 text-xs transition shrink-0" data-i18n="remove_logo">清除 Logo</button>
-                    </div>
-                </div>
-
-                <!-- 快速预览风格选项（已移至最底部） -->
-                <div class="pt-4 border-t border-slate-200 dark:border-slate-700 bg-indigo-50/60 dark:bg-indigo-950/30 p-3.5 rounded-xl border border-indigo-100 dark:border-indigo-900/50 space-y-2">
-                    <label class="block text-xs font-semibold text-indigo-700 dark:text-indigo-300 flex items-center gap-1.5">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> 快速预览风格 (Quick Style Presets)
+</div>
+<select class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none" id="cfg-frame" onchange="renderQR()">
+</select>
+</div>
+<!-- 边框颜色、圆角大小、内边距 & 线条粗细调节控制 -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-slate-200 dark:border-slate-700/60">
+<div>
+<label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">边框颜色 (Border Color)</label>
+<div class="flex items-center gap-2">
+<input class="w-8 h-8 rounded-lg border-0 cursor-pointer" id="frame-color" onchange="syncColorText('frame')" type="color" value="#4f46e5"/>
+<input class="flex-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-2.5 py-1 text-xs font-mono" id="frame-color-text" oninput="syncColorInput('frame')" type="text" value="#4f46e5"/>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1">
+<label class="text-xs font-medium text-slate-600 dark:text-slate-400">圆角大小 (Border Radius)</label>
+<span class="text-xs font-mono text-indigo-600 dark:text-indigo-400" id="frame-radius-val">16px</span>
+</div>
+<input class="w-full accent-indigo-600 cursor-pointer" id="frame-radius" max="48" min="0" oninput="updateFrameRadiusLabel(); renderQR();" type="range" value="16"/>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1">
+<label class="text-xs font-medium text-slate-600 dark:text-slate-400">边框边距大小 (Padding)</label>
+<span class="text-xs font-mono text-indigo-600 dark:text-indigo-400" id="frame-padding-val">20%</span>
+</div>
+<input class="w-full accent-indigo-600 cursor-pointer" id="frame-padding" max="40" min="5" oninput="updateFramePaddingLabel(); renderQR();" type="range" value="20"/>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1">
+<label class="text-xs font-medium text-slate-600 dark:text-slate-400">线条粗细 (Border Width)</label>
+<span class="text-xs font-mono text-indigo-600 dark:text-indigo-400" id="frame-width-val">12px</span>
+</div>
+<input class="w-full accent-indigo-600 cursor-pointer" id="frame-width" max="30" min="2" oninput="updateFrameWidthLabel(); renderQR();" type="range" value="12"/>
+</div>
+</div>
+<div class="hidden mt-3 p-3 bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-900 rounded-xl space-y-2" id="preset-modal">
+<div class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 flex items-center justify-between">
+<span id="preset-modal-title">自定义模板预设管理</span>
+<button class="text-slate-400 hover:text-slate-600" onclick="openPresetManager()" type="button"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<div class="flex gap-2">
+<input class="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs" id="new-preset-name" placeholder="输入模板名称..." type="text"/>
+<button class="px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-xs font-medium hover:bg-indigo-700 transition" id="preset-action-btn" onclick="saveCustomPreset()" type="button">添加</button>
+<button class="hidden px-2.5 py-1.5 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg text-xs font-medium hover:bg-slate-300 transition" id="preset-cancel-btn" onclick="cancelEditPreset()" type="button">取消</button>
+</div>
+<div class="max-h-24 overflow-y-auto space-y-1 text-xs" id="preset-list-container"></div>
+</div>
+<!-- 顶底各自独立配置字体、字重及文案 -->
+<div class="pt-3 border-t border-slate-200 dark:border-slate-700/60 space-y-3">
+<label class="block text-xs font-semibold text-slate-700 dark:text-slate-300">海报顶底文字与独立样式设置（字号、字重、颜色、字体）</label>
+<!-- 顶部标语独立设置 -->
+<div class="bg-white dark:bg-slate-900/50 p-3 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2.5">
+<div class="flex items-center justify-between gap-2 flex-wrap">
+<label class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 shrink-0">顶部标语</label>
+<div class="flex items-center gap-1.5 overflow-x-auto py-1">
+<span class="text-xs text-slate-500 shrink-0">字重:</span>
+<select class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-1.5 py-0.5 text-[11px] focus:outline-none" id="poster-title-weight" onchange="renderQR()">
+<option value="300">纤细 (300)</option>
+<option selected="" value="400">常规 (400)</option>
+<option value="500">中粗 (500)</option>
+<option value="600">半粗 (600)</option>
+<option value="700">加粗 (700)</option>
+</select>
+<span class="text-xs text-slate-500 shrink-0">字体:</span>
+<select class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-2 py-0.5 text-[11px] focus:outline-none max-w-[110px]" id="poster-title-font" onchange="renderQR()">
+<option value="'Inter', sans-serif">Inter</option>
+<option value="'Roboto', sans-serif">Roboto</option>
+<option value="'Montserrat', sans-serif">Montserrat</option>
+<option value="'Noto Serif SC', serif">思源宋体</option>
+<option selected="" value="'Noto Sans SC', sans-serif">思源黑体</option>
+<option value="'Ma Shan Zheng', cursive">马善政楷书</option>
+<option value="'ZCOOL KuaiLe', cursive">站酷快乐体</option>
+<option value="'ZCOOL XiaoWei', serif">站酷小薇体</option>
+<option value="'ZCOOL QingKe+HuangYou', cursive">站酷黄油体</option>
+<option value="'Long Cang', cursive">龙苍书法</option>
+<option value="'Liu+Jian+Mao+Cao', cursive">刘建毛草</option>
+<option value="'Pacifico', cursive">Pacifico</option>
+<option value="'Shrikhand', cursive">Shrikhand</option>
+<option value="'Comfortaa', cursive">Comfortaa</option>
+<option value="'Lobster', cursive">Lobster</option>
+<option value="'Playfair Display', serif">Playfair</option>
+<option value="'Cinzel', serif">Cinzel</option>
+<option value="'Bebas Neue', sans-serif">Bebas Neue</option>
+<option value="'Orbitron', sans-serif">Orbitron</option>
+<option value="'Press Start 2P', cursive">Pixel</option>
+<option value="'Permanent Marker', cursive">Marker</option>
+<option value="'Satisfy', cursive">Satisfy</option>
+<option value="'Caveat', cursive">Caveat</option>
+<option value="'Shadows Into Light', cursive">Shadows</option>
+<option value="'Dancing Script', cursive">Dancing Script</option>
+<option value="'Great Vibes', cursive">Great Vibes</option>
+<option value="'Alex Brush', cursive">Alex Brush</option>
+<option value="'Sacramento', cursive">Sacramento</option>
+<option value="'Cookie', cursive">Cookie</option>
+<option value="'Allura', cursive">Allura</option>
+</select>
+<span class="text-xs text-slate-500 shrink-0">色:</span>
+<input class="w-5 h-5 rounded border-0 cursor-pointer shrink-0" id="poster-title-color" onchange="renderQR()" type="color" value="#4f46e5"/>
+<span class="text-xs text-slate-500 shrink-0">大:</span>
+<input class="w-12 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-1 py-0.5 text-xs text-center font-mono" id="poster-title-size" max="120" min="8" oninput="renderQR()" title="字号(磅)" type="number" value="24"/>
+</div>
+</div>
+<textarea class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-y" id="poster-title" oninput="renderQR()" placeholder="请输入顶部标语文字..." rows="2">扫码体验智能服务</textarea>
+</div>
+<!-- 顶部标语2 独立设置 -->
+<div class="bg-white dark:bg-slate-900/50 p-3 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2.5">
+<div class="flex items-center justify-between gap-2 flex-wrap">
+<label class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 shrink-0">顶部标语2</label>
+<div class="flex items-center gap-1.5 overflow-x-auto py-1">
+<span class="text-xs text-slate-500 shrink-0">字重:</span>
+<select class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-1.5 py-0.5 text-[11px] focus:outline-none" id="poster-title2-weight" onchange="renderQR()">
+<option value="300">纤细 (300)</option>
+<option selected="" value="400">常规 (400)</option>
+<option value="500">中粗 (500)</option>
+<option value="600">半粗 (600)</option>
+<option value="700">加粗 (700)</option>
+</select>
+<span class="text-xs text-slate-500 shrink-0">字体:</span>
+<select class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-2 py-0.5 text-[11px] focus:outline-none max-w-[110px]" id="poster-title2-font" onchange="renderQR()">
+<option value="'Inter', sans-serif">Inter</option>
+<option value="'Roboto', sans-serif">Roboto</option>
+<option value="'Montserrat', sans-serif">Montserrat</option>
+<option value="'Noto Serif SC', serif">思源宋体</option>
+<option selected="" value="'Noto Sans SC', sans-serif">思源黑体</option>
+<option value="'Ma Shan Zheng', cursive">马善政楷书</option>
+<option value="'ZCOOL KuaiLe', cursive">站酷快乐体</option>
+<option value="'ZCOOL XiaoWei', serif">站酷小薇体</option>
+<option value="'ZCOOL QingKe+HuangYou', cursive">站酷黄油体</option>
+<option value="'Long Cang', cursive">龙苍书法</option>
+<option value="'Liu+Jian+Mao+Cao', cursive">刘建毛草</option>
+<option value="'Pacifico', cursive">Pacifico</option>
+<option value="'Shrikhand', cursive">Shrikhand</option>
+<option value="'Comfortaa', cursive">Comfortaa</option>
+<option value="'Lobster', cursive">Lobster</option>
+<option value="'Playfair Display', serif">Playfair</option>
+<option value="'Cinzel', serif">Cinzel</option>
+<option value="'Bebas Neue', sans-serif">Bebas Neue</option>
+<option value="'Orbitron', sans-serif">Orbitron</option>
+<option value="'Press Start 2P', cursive">Pixel</option>
+<option value="'Permanent Marker', cursive">Marker</option>
+<option value="'Satisfy', cursive">Satisfy</option>
+<option value="'Caveat', cursive">Caveat</option>
+<option value="'Shadows Into Light', cursive">Shadows</option>
+<option value="'Dancing Script', cursive">Dancing Script</option>
+<option value="'Great Vibes', cursive">Great Vibes</option>
+<option value="'Alex Brush', cursive">Alex Brush</option>
+<option value="'Sacramento', cursive">Sacramento</option>
+<option value="'Cookie', cursive">Cookie</option>
+<option value="'Allura', cursive">Allura</option>
+</select>
+<span class="text-xs text-slate-500 shrink-0">色:</span>
+<input class="w-5 h-5 rounded border-0 cursor-pointer shrink-0" id="poster-title2-color" onchange="renderQR()" type="color" value="#4f46e5"/>
+<span class="text-xs text-slate-500 shrink-0">大:</span>
+<input class="w-12 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-1 py-0.5 text-xs text-center font-mono" id="poster-title2-size" max="120" min="8" oninput="renderQR()" title="字号(磅)" type="number" value="24"/>
+</div>
+</div>
+<textarea class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-y" id="poster-title2" oninput="renderQR()" placeholder="请输入顶部标语第二行文字..." rows="2">专业品质 值得信赖</textarea>
+</div>
+<!-- 底部说明独立设置 -->
+<div class="bg-white dark:bg-slate-900/50 p-3 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1.5">
+<div class="flex items-center justify-between gap-2 flex-wrap">
+<label class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 shrink-0">底部说明</label>
+<div class="flex items-center gap-1.5 overflow-x-auto py-1">
+<span class="text-xs text-slate-500 shrink-0">字重:</span>
+<select class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-1.5 py-0.5 text-[11px] focus:outline-none" id="poster-subtitle-weight" onchange="renderQR()">
+<option value="300">纤细 (300)</option>
+<option selected="" value="400">常规 (400)</option>
+<option value="500">中粗 (500)</option>
+<option value="600">半粗 (600)</option>
+<option value="700">加粗 (700)</option>
+</select>
+<span class="text-xs text-slate-500 shrink-0">字体:</span>
+<select class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-2 py-0.5 text-[11px] focus:outline-none max-w-[110px]" id="poster-subtitle-font" onchange="renderQR()">
+<option value="'Inter', sans-serif">Inter</option>
+<option value="'Roboto', sans-serif">Roboto</option>
+<option value="'Montserrat', sans-serif">Montserrat</option>
+<option value="'Noto Serif SC', serif">思源宋体</option>
+<option selected="" value="'Noto Sans SC', sans-serif">思源黑体</option>
+<option value="'Ma Shan Zheng', cursive">马善政楷书</option>
+<option value="'ZCOOL KuaiLe', cursive">站酷快乐体</option>
+<option value="'ZCOOL XiaoWei', serif">站酷小薇体</option>
+<option value="'ZCOOL QingKe+HuangYou', cursive">站酷黄油体</option>
+<option value="'Long Cang', cursive">龙苍书法</option>
+<option value="'Liu+Jian+Mao+Cao', cursive">刘建毛草</option>
+<option value="'Pacifico', cursive">Pacifico</option>
+<option value="'Shrikhand', cursive">Shrikhand</option>
+<option value="'Comfortaa', cursive">Comfortaa</option>
+<option value="'Lobster', cursive">Lobster</option>
+<option value="'Playfair Display', serif">Playfair</option>
+<option value="'Cinzel', serif">Cinzel</option>
+<option value="'Bebas Neue', sans-serif">Bebas Neue</option>
+<option value="'Orbitron', sans-serif">Orbitron</option>
+<option value="'Press Start 2P', cursive">Pixel</option>
+<option value="'Permanent Marker', cursive">Marker</option>
+<option value="'Satisfy', cursive">Satisfy</option>
+<option value="'Caveat', cursive">Caveat</option>
+<option value="'Shadows Into Light', cursive">Shadows</option>
+<option value="'Dancing Script', cursive">Dancing Script</option>
+<option value="'Great Vibes', cursive">Great Vibes</option>
+<option value="'Alex Brush', cursive">Alex Brush</option>
+<option value="'Sacramento', cursive">Sacramento</option>
+<option value="'Cookie', cursive">Cookie</option>
+<option value="'Allura', cursive">Allura</option>
+</select>
+<span class="text-xs text-slate-500 shrink-0">色:</span>
+<input class="w-5 h-5 rounded border-0 cursor-pointer shrink-0" id="poster-subtitle-color" onchange="renderQR()" type="color" value="#4f46e5"/>
+<span class="text-xs text-slate-500 shrink-0">大:</span>
+<input class="w-12 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-1 py-0.5 text-xs text-center font-mono" id="poster-subtitle-size" max="120" min="8" oninput="renderQR()" title="字号(磅)" type="number" value="18"/>
+</div>
+</div>
+<textarea class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-y" id="poster-subtitle" oninput="renderQR()" placeholder="请输入底部说明文字..." rows="2">感谢您的支持与关注</textarea>
+<div class="flex items-center justify-between gap-2 flex-wrap">
+<label class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 shrink-0">底部说明2</label>
+<div class="flex items-center gap-1.5 overflow-x-auto py-1">
+<span class="text-xs text-slate-500 shrink-0">字重:</span>
+<select class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-1.5 py-0.5 text-[11px] focus:outline-none" id="poster-subtitle2-weight" onchange="renderQR()">
+<option value="300">纤细 (300)</option>
+<option selected="" value="400">常规 (400)</option>
+<option value="500">中粗 (500)</option>
+<option value="600">半粗 (600)</option>
+<option value="700">加粗 (700)</option>
+</select>
+<span class="text-xs text-slate-500 shrink-0">字体:</span>
+<select class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-2 py-0.5 text-[11px] focus:outline-none max-w-[110px]" id="poster-subtitle2-font" onchange="renderQR()">
+<option value="'Inter', sans-serif">Inter</option>
+<option value="'Roboto', sans-serif">Roboto</option>
+<option value="'Montserrat', sans-serif">Montserrat</option>
+<option value="'Noto Serif SC', serif">思源宋体</option>
+<option selected="" value="'Noto Sans SC', sans-serif">思源黑体</option>
+<option value="'Ma Shan Zheng', cursive">马善政楷书</option>
+<option value="'ZCOOL KuaiLe', cursive">站酷快乐体</option>
+<option value="'ZCOOL XiaoWei', serif">站酷小薇体</option>
+<option value="'ZCOOL QingKe+HuangYou', cursive">站酷黄油体</option>
+<option value="'Long Cang', cursive">龙苍书法</option>
+<option value="'Liu+Jian+Mao+Cao', cursive">刘建毛草</option>
+<option value="'Pacifico', cursive">Pacifico</option>
+<option value="'Shrikhand', cursive">Shrikhand</option>
+<option value="'Comfortaa', cursive">Comfortaa</option>
+<option value="'Lobster', cursive">Lobster</option>
+<option value="'Playfair Display', serif">Playfair</option>
+<option value="'Cinzel', serif">Cinzel</option>
+<option value="'Bebas Neue', sans-serif">Bebas Neue</option>
+<option value="'Orbitron', sans-serif">Orbitron</option>
+<option value="'Press Start 2P', cursive">Pixel</option>
+<option value="'Permanent Marker', cursive">Marker</option>
+<option value="'Satisfy', cursive">Satisfy</option>
+<option value="'Caveat', cursive">Caveat</option>
+<option value="'Shadows Into Light', cursive">Shadows</option>
+<option value="'Dancing Script', cursive">Dancing Script</option>
+<option value="'Great Vibes', cursive">Great Vibes</option>
+<option value="'Alex Brush', cursive">Alex Brush</option>
+<option value="'Sacramento', cursive">Sacramento</option>
+<option value="'Cookie', cursive">Cookie</option>
+<option value="'Allura', cursive">Allura</option>
+</select>
+<span class="text-xs text-slate-500 shrink-0">色:</span>
+<input class="w-5 h-5 rounded border-0 cursor-pointer shrink-0" id="poster-subtitle2-color" onchange="renderQR()" type="color" value="#4f46e5"/>
+<span class="text-xs text-slate-500 shrink-0">大:</span>
+<input class="w-12 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded px-1 py-0.5 text-xs text-center font-mono" id="poster-subtitle2-size" max="120" min="8" oninput="renderQR()" title="字号(磅)" type="number" value="18"/>
+</div>
+</div>
+<textarea class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-y mt-2" id="poster-subtitle2" oninput="renderQR()" placeholder="请输入底部说明第二行文字..." rows="2">扫码关注公众号获取更多资讯</textarea>
+</div>
+</div>
+</div>
+<div>
+<label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="fg_color">码点颜色 (Foreground)</label>
+<div class="flex items-center gap-2">
+<input class="w-10 h-10 rounded-xl border-0 cursor-pointer" id="fg-color" onchange="syncColorText('fg')" type="color" value="#4f46e5"/>
+<input class="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-mono" id="fg-color-text" oninput="syncColorInput('fg')" type="text" value="#4f46e5"/>
+</div>
+</div>
+<div>
+<label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1" data-i18n="bg_color">背景颜色 (Background)</label>
+<div class="flex items-center gap-2">
+<input class="w-10 h-10 rounded-xl border-0 cursor-pointer" id="bg-color" onchange="syncColorText('bg')" type="color" value="#ffffff"/>
+<input class="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-mono" id="bg-color-text" oninput="syncColorInput('bg')" type="text" value="#ffffff"/>
+</div>
+</div>
+</div>
+<div class="pt-3 border-t border-slate-100 dark:border-slate-700">
+<label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5" data-i18n="logo_upload">中心 Logo / 品牌图标 (嵌入与白色遮罩)</label>
+<div class="flex items-center gap-3">
+<input accept="image/*" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-900/50 file:text-indigo-600 dark:file:text-indigo-300 hover:file:bg-indigo-100 transition" id="logo-file" onchange="handleLogoUpload(event)" type="file"/>
+<button class="px-3 py-2 rounded-xl border border-rose-200 dark:border-rose-900/50 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 text-xs transition shrink-0" data-i18n="remove_logo" onclick="removeLogo()">清除 Logo</button>
+</div>
+</div>
+<!-- 快速预览风格选项（已移至最底部） -->
+<div class="pt-4 border-t border-slate-200 dark:border-slate-700 bg-indigo-50/60 dark:bg-indigo-950/30 p-3.5 rounded-xl border border-indigo-100 dark:border-indigo-900/50 space-y-2">
+<label class="block text-xs font-semibold text-indigo-700 dark:text-indigo-300 flex items-center gap-1.5">
+<i class="fa-solid fa-wand-magic-sparkles"></i> 快速预览风格 (Quick Style Presets)
                     </label>
-                    <select id="quick-style-preset" onchange="applyQuickStylePreset()" class="w-full bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-800 rounded-xl px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <option value="custom">-- 自定义自由搭配 --</option>
-                        <option value="classic">经典极简黑白 (Classic Square)</option>
-                        <option value="tech" selected>科技深紫风 (Tech Violet)</option>
-                        <option value="soft">圆润柔和风 (Soft Rounded)</option>
-                        <option value="dots">时尚圆点阵 (Stylish Dots)</option>
-                        <option value="diamond">晶体菱形风 (Crystal Diamond)</option>
-                        <option value="capsule">动态胶囊风 (Dynamic Capsule)</option>
-                        <!-- 额外新增的 15 种大胆创新风格 -->
-                        <option value="cyberpunk">⚡ 赛博朋克霓虹 (Cyberpunk Neon)</option>
-                        <option value="midnight">🌌 暗夜星空蓝 (Midnight Galaxy)</option>
-                        <option value="sunset">🌅 落日熔金风 (Sunset Gold)</option>
-                        <option value="matrix">💻 极客黑客帝国 (Matrix Green)</option>
-                        <option value="morandi">🍵 高级莫兰迪灰 (Morandi Minimal)</option>
-                        <option value="emerald">💎 翡翠琉璃绿 (Emerald Glass)</option>
-                        <option value="sakura">🌸 樱花粉黛风 (Sakura Blossom)</option>
-                        <option value="coffee">☕ 醇香拿铁咖 (Warm Coffee)</option>
-                        <option value="lavender">💜 梦幻薰衣草 (Dreamy Lavender)</option>
-                        <option value="flame">🔥 炽热烈焰红 (Flame Crimson)</option>
-                        <option value="arctic">❄️ 极地冰川白 (Arctic Glacier)</option>
-                        <option value="vintage">📜 复古羊皮纸 (Vintage Parchment)</option>
-                        <option value="neonpunk">🔮 荧光迷幻紫 (Psychedelic Neon)</option>
-                        <option value="obsidian">🖤 曜石深邃黑 (Obsidian Dark)</option>
-                        <option value="sunshine">☀️ 活力阳光橙 (Sunshine Citrus)</option>
-                    </select>
-                </div>
-
-            </div>
-
-        </div>
-
-    </main>
-
-    <!-- 现代美观页脚 (Footer) -->
-    <footer class="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 mt-auto py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
-            <!-- 左侧：品牌与版权说明 -->
-            <div class="space-y-3">
-                <div class="flex items-center space-x-2.5">
-                    <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-md">
-                        <i class="fa-solid fa-qrcode text-sm"></i>
-                    </div>
-                    <span class="font-bold text-base tracking-tight text-slate-900 dark:text-white">STDN Studio</span>
-                </div>
-                <p class="text-xs text-slate-500 dark:text-slate-400">
+<select class="w-full bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-800 rounded-xl px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500" id="quick-style-preset" onchange="applyQuickStylePreset()">
+<option value="custom">-- 自定义自由搭配 --</option>
+<option value="classic">经典极简黑白 (Classic Square)</option>
+<option selected="" value="tech">科技深紫风 (Tech Violet)</option>
+<option value="soft">圆润柔和风 (Soft Rounded)</option>
+<option value="dots">时尚圆点阵 (Stylish Dots)</option>
+<option value="diamond">晶体菱形风 (Crystal Diamond)</option>
+<option value="capsule">动态胶囊风 (Dynamic Capsule)</option>
+<!-- 额外新增的 15 种大胆创新风格 -->
+<option value="cyberpunk">⚡ 赛博朋克霓虹 (Cyberpunk Neon)</option>
+<option value="midnight">🌌 暗夜星空蓝 (Midnight Galaxy)</option>
+<option value="sunset">🌅 落日熔金风 (Sunset Gold)</option>
+<option value="matrix">💻 极客黑客帝国 (Matrix Green)</option>
+<option value="morandi">🍵 高级莫兰迪灰 (Morandi Minimal)</option>
+<option value="emerald">💎 翡翠琉璃绿 (Emerald Glass)</option>
+<option value="sakura">🌸 樱花粉黛风 (Sakura Blossom)</option>
+<option value="coffee">☕ 醇香拿铁咖 (Warm Coffee)</option>
+<option value="lavender">💜 梦幻薰衣草 (Dreamy Lavender)</option>
+<option value="flame">🔥 炽热烈焰红 (Flame Crimson)</option>
+<option value="arctic">❄️ 极地冰川白 (Arctic Glacier)</option>
+<option value="vintage">📜 复古羊皮纸 (Vintage Parchment)</option>
+<option value="neonpunk">🔮 荧光迷幻紫 (Psychedelic Neon)</option>
+<option value="obsidian">🖤 曜石深邃黑 (Obsidian Dark)</option>
+<option value="sunshine">☀️ 活力阳光橙 (Sunshine Citrus)</option>
+</select>
+</div>
+</div>
+</div>
+</main>
+<!-- 现代美观页脚 (Footer) -->
+<footer class="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 mt-auto py-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
+<!-- 左侧：品牌与版权说明 -->
+<div class="space-y-3">
+<div class="flex items-center space-x-2.5">
+<div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-md">
+<i class="fa-solid fa-qrcode text-sm"></i>
+</div>
+<span class="font-bold text-base tracking-tight text-slate-900 dark:text-white">STDN Studio</span>
+</div>
+<p class="text-xs text-slate-500 dark:text-slate-400">
                     专业品牌化二维码生成平台，支持多类型数据嵌入、批量文件解析（Excel/Word/PDF/TXT）与艺术码美化。
                 </p>
-                <p class="text-[11px] text-slate-400">
-                    &copy; 2026 STDN Studio. All rights reserved.
+<p class="text-[11px] text-slate-400">
+                    © 2026 STDN Studio. All rights reserved.
                 </p>
-            </div>
-
-            <!-- 中间：核心功能快速导航 -->
-            <div class="space-y-2">
-                <h4 class="font-semibold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">核心功能导航</h4>
-                <ul class="space-y-1.5 text-xs text-slate-500 dark:text-slate-400">
-                    <li><a href="#generator" onclick="switchMode('generator')" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">单码生成器 (URL / 文本 / 名片 / WiFi)</a></li>
-                    <li><a href="#batch" onclick="switchMode('batch')" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">批量生成与文档解析 (Excel/Word/PDF)</a></li>
-                    <li><a href="#chromacode" onclick="switchMode('chromacode')" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">ChromaCode 艺术融合码</a></li>
-                    <li><a href="#scanner" onclick="switchMode('scanner')" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">实时扫码与图片识别</a></li>
-                </ul>
-            </div>
-
-            <!-- 右侧：关于与技术支持 -->
-            <div class="space-y-2">
-                <h4 class="font-semibold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">技术支持与开源</h4>
-                <p class="text-xs text-slate-500 dark:text-slate-400">
+</div>
+<!-- 中间：核心功能快速导航 -->
+<div class="space-y-2">
+<h4 class="font-semibold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">核心功能导航</h4>
+<ul class="space-y-1.5 text-xs text-slate-500 dark:text-slate-400">
+<li><a class="hover:text-indigo-600 dark:hover:text-indigo-400 transition" href="#generator" onclick="switchMode('generator')">单码生成器 (URL / 文本 / 名片 / WiFi)</a></li>
+<li><a class="hover:text-indigo-600 dark:hover:text-indigo-400 transition" href="#batch" onclick="switchMode('batch')">批量生成与文档解析 (Excel/Word/PDF)</a></li>
+<li><a class="hover:text-indigo-600 dark:hover:text-indigo-400 transition" href="#chromacode" onclick="switchMode('chromacode')">ChromaCode 艺术融合码</a></li>
+<li><a class="hover:text-indigo-600 dark:hover:text-indigo-400 transition" href="#scanner" onclick="switchMode('scanner')">实时扫码与图片识别</a></li>
+</ul>
+</div>
+<!-- 右侧：关于与技术支持 -->
+<div class="space-y-2">
+<h4 class="font-semibold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">技术支持与开源</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400">
                     基于 HTML5 / Tailwind CSS 构建，所有数据解析与二维码计算均在前端本地安全完成。
                 </p>
-                <div class="pt-1">
-                    <a href="https://github.com/marychobbs/qr-studio" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-lg text-xs font-medium transition">
-                        <i class="fa-brands fa-github text-sm"></i> GitHub 开源地址
+<div class="pt-1">
+<a class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-lg text-xs font-medium transition" href="https://github.com/marychobbs/qr-studio" target="_blank">
+<i class="fa-brands fa-github text-sm"></i> GitHub 开源地址
                     </a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script>
+</div>
+</div>
+</div>
+</footer>
+<script>
     // [Fix2] roundRect polyfill for older browsers (Firefox < 78, Safari < 14.1)
     if (!CanvasRenderingContext2D.prototype.roundRect) {
         CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
@@ -1260,26 +1313,26 @@
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
                                     <label class="block text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-1">姓名 (Name)</label>
-                                    <input type="text" id="input-vc-name" value="" oninput="renderQR()" placeholder="张三" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs">
+                                    <input type="text" id="input-vc-name" value="" oninput="renderQR()" placeholder="" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs">
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-1">手机号 (Phone)</label>
-                                    <input type="tel" id="input-vc-phone" value="" oninput="renderQR()" placeholder="13800000000" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs">
+                                    <input type="tel" id="input-vc-phone" value="" oninput="renderQR()" placeholder="" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs">
                                 </div>
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
                                     <label class="block text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-1">公司 (Company)</label>
-                                    <input type="text" id="input-vc-org" value="" oninput="renderQR()" placeholder="某某科技有限公司" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs">
+                                    <input type="text" id="input-vc-org" value="" oninput="renderQR()" placeholder="" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs">
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-1">职位 (Title)</label>
-                                    <input type="text" id="input-vc-title" value="" oninput="renderQR()" placeholder="高级工程师" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs">
+                                    <input type="text" id="input-vc-title" value="" oninput="renderQR()" placeholder="" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs">
                                 </div>
                             </div>
                             <div>
                                 <label class="block text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-1">电子邮箱 (Email)</label>
-                                <input type="email" id="input-vc-email" value="" oninput="renderQR()" placeholder="name@example.com" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs">
+                                <input type="email" id="input-vc-email" value="" oninput="renderQR()" placeholder="" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs">
                             </div>
                         </div>
                     `;
@@ -1312,16 +1365,16 @@
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
                                     <label class="block text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-1">纬度 (Latitude)</label>
-                                    <input type="text" id="input-geo-lat" value="39.9042" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-mono">
+                                    <input type="text" id="input-geo-lat" value="" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-mono">
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-1">经度 (Longitude)</label>
-                                    <input type="text" id="input-geo-lon" value="116.4074" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-mono">
+                                    <input type="text" id="input-geo-lon" value="" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-mono">
                                 </div>
                             </div>
                             <div>
                                 <label class="block text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-1">位置描述 / 地点名称</label>
-                                <input type="text" id="input-geo-query" value="北京市天安门广场" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs">
+                                <input type="text" id="input-geo-query" value="" oninput="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs">
                             </div>
                         </div>
                     `;
@@ -1334,9 +1387,9 @@
                                 <select id="input-social-platform" onchange="renderQR()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2 text-sm">
                                     <option value="wechat">微信 / 公众号 / 小程序链接</option>
                                     <option value="dingtalk">钉钉 / 飞书 / 企业微信</option>
-                                    <option value="whatsapp">WhatsApp / Telegram 聊天</option>
-                                    <option value="linkedin">领英 (LinkedIn) 个人主页</option>
-                                    <option value="x">X (原推特) 主页</option>
+                                    <option value="QQ">腾讯 QQ /  聊天</option>
+                                    <option value="微博">新浪微博 / 个人主页</option>
+                                    <option value="Github">Github / 主页</option>
                                 </select>
                             </div>
                             <div>
@@ -1351,7 +1404,7 @@
                         <div class="space-y-3">
                             <div>
                                 <label class="block text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-1">活动标题 (Summary)</label>
-                                <input type="text" id="input-ev-title" value="" oninput="renderQR()" placeholder="新品发布会与技术沙龙" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs">
+                                <input type="text" id="input-ev-title" value="" oninput="renderQR()" placeholder="" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs">
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
@@ -1365,7 +1418,7 @@
                             </div>
                             <div>
                                 <label class="block text-[11px] font-medium text-slate-500 dark:text-slate-400 mb-1">活动地点 (Location)</label>
-                                <input type="text" id="input-ev-loc" value="" oninput="renderQR()" placeholder="上海市国际会议中心" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs">
+                                <input type="text" id="input-ev-loc" value="" oninput="renderQR()" placeholder="" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs">
                             </div>
                         </div>
                     `;
@@ -1452,7 +1505,7 @@
                     const lat = document.getElementById('input-geo-lat')?.value || '39.9042';
                     const lon = document.getElementById('input-geo-lon')?.value || '116.4074';
                     const q = document.getElementById('input-geo-query')?.value || '';
-                    return `geo:${lat},${lon}?q=${encodeURIComponent(q)}`;
+                    return `geo:${lat},${lon}?q=${q}`;
                 case 'social':
                     return document.getElementById('input-social-val')?.value || '';
                 case 'event':
@@ -1471,7 +1524,7 @@
                     const to = document.getElementById('input-email-to')?.value || '';
                     const sub = document.getElementById('input-email-sub')?.value || '';
                     if (!to) return '';
-                    return `mailto:${to}?subject=${encodeURIComponent(sub)}`;
+                    return `mailto:${to}?subject=${sub}`;
                 case 'phone':
                     const phoneNum = document.getElementById('input-phone')?.value || '';
                     if (!phoneNum) return '';
@@ -1486,245 +1539,270 @@
             }
         }
 
-        function renderQR() {
-            const canvas = document.getElementById('qr-canvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
+        
+// ========== 辅助函数：读取文本样式配置 ==========
+function readTextConfig(prefix, defaults) {
+    const weight = document.getElementById(prefix + '-weight')?.value || defaults.weight || '400';
+    const fontRaw = document.getElementById(prefix + '-font')?.value || defaults.font || "'Noto Sans SC', sans-serif";
+    const color = document.getElementById(prefix + '-color')?.value || defaults.color || '#4f46e5';
+    const size = parseInt(document.getElementById(prefix + '-size')?.value || String(defaults.size || 18), 10);
+    const font = fontRaw + ', sans-serif';
+    return { weight, font, color, size };
+}
 
-            const text = currentMode === 'chromacode' ? (document.getElementById('cc-input')?.value || '') : getPayloadContent();
-            const ecl = document.getElementById('ecl-select')?.value || 'M';
-            const shape = document.getElementById('module-shape')?.value || 'square';
-            const fgColor = document.getElementById('fg-color')?.value || '#4f46e5';
-            const bgColor = document.getElementById('bg-color')?.value || '#ffffff';
-            const frameStyle = document.getElementById('cfg-frame')?.value || 'none';
+// ========== 辅助函数：计算文本块高度 ==========
+function calcBlockHeight(lines, fontSize) {
+    if (!lines || lines.length === 0) return 0;
+    return lines.length * (fontSize * 1.35);
+}
 
-            const frameColor = document.getElementById('frame-color')?.value || fgColor;
-            const frameRadius = parseInt(document.getElementById('frame-radius')?.value || '16', 10);
+// ========== 辅助函数：绘制多行文本（含字体加载） ==========
+function drawTextBlock(ctx, text, config, lines, x, startY, canvasWidth) {
+    if (!lines || lines.length === 0) return;
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.fillStyle = config.color;
+    const fontStr = config.weight + ' ' + config.size + 'px ' + config.font;
+    if (document.fonts) {
+        document.fonts.load(fontStr).catch(function() {});
+    }
+    ctx.font = fontStr;
+    const lineHeight = config.size * 1.35;
+    lines.forEach(function(line, index) {
+        ctx.fillText(line, x, startY + (index * lineHeight));
+    });
+    ctx.restore();
+}
 
-            const ccClarity = parseInt(document.getElementById('cc-clarity')?.value || '75', 10) / 100;
+function renderQR() {
+    const canvas = document.getElementById('qr-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const text = currentMode === 'chromacode' ? (document.getElementById('cc-input')?.value || '') : getPayloadContent();
+    const ecl = document.getElementById('ecl-select')?.value || 'M';
+    const shape = document.getElementById('module-shape')?.value || 'square';
+    const fgColor = document.getElementById('fg-color')?.value || '#4f46e5';
+    const bgColor = document.getElementById('bg-color')?.value || '#ffffff';
+    const frameStyle = document.getElementById('cfg-frame')?.value || 'none';
+    const frameColor = document.getElementById('frame-color')?.value || fgColor;
+    const frameRadius = parseInt(document.getElementById('frame-radius')?.value || '16', 10);
+    const ccClarity = parseInt(document.getElementById('cc-clarity')?.value || '75', 10) / 100;
 
-            const posterTitle = document.getElementById('poster-title')?.value || '';
-            const titleWeight = document.getElementById('poster-title-weight')?.value || '400';
-            const titleFontRaw = document.getElementById('poster-title-font')?.value || "'Noto Sans SC', sans-serif";
-            const titleColor = document.getElementById('poster-title-color')?.value || fgColor;
-            const titleSize = parseInt(document.getElementById('poster-title-size')?.value || '24', 10);
-            const titleFont = `${titleFontRaw}, sans-serif`;
+    // 读取顶底文字配置（使用辅助函数，消除重复 DOM 查询）
+    const titleConfig = readTextConfig('poster-title', { weight: '400', font: "'Noto Sans SC', sans-serif", color: fgColor, size: 24 });
+    const title2Config = readTextConfig('poster-title2', { weight: '400', font: "'Noto Sans SC', sans-serif", color: fgColor, size: 24 });
+    const subtitleConfig = readTextConfig('poster-subtitle', { weight: '400', font: "'Noto Sans SC', sans-serif", color: fgColor, size: 18 });
+    const subtitle2Config = readTextConfig('poster-subtitle2', { weight: '400', font: "'Noto Sans SC', sans-serif", color: fgColor, size: 18 });
 
-            const posterSubtitle = document.getElementById('poster-subtitle')?.value || '';
-            const subtitleWeight = document.getElementById('poster-subtitle-weight')?.value || '400';
-            const subtitleFontRaw = document.getElementById('poster-subtitle-font')?.value || "'Noto Sans SC', sans-serif";
-            const subtitleColor = document.getElementById('poster-subtitle-color')?.value || fgColor;
-            const subtitleSize = parseInt(document.getElementById('poster-subtitle-size')?.value || '18', 10);
-            const subtitleFont = `${subtitleFontRaw}, sans-serif`;
+    // 文本内容
+    const posterTitle = document.getElementById('poster-title')?.value || '';
+    const posterTitle2 = document.getElementById('poster-title2')?.value || '';
+    const posterSubtitle = document.getElementById('poster-subtitle')?.value || '';
+    const posterSubtitle2 = document.getElementById('poster-subtitle2')?.value || '';
 
-            if (document.fonts) {
-                document.fonts.load(`${titleWeight} ${titleSize}px ${titleFont}`);
-                document.fonts.load(`${subtitleWeight} ${subtitleSize}px ${subtitleFont}`);
+    // 预计算文本行
+    const titleLines = posterTitle ? posterTitle.split('\n') : [];
+    const title2Lines = posterTitle2 ? posterTitle2.split('\n') : [];
+    const subLines = posterSubtitle ? posterSubtitle.split('\n') : [];
+    const subLines2 = posterSubtitle2 ? posterSubtitle2.split('\n') : [];
+
+    // 预计算文本块高度（使用辅助函数）
+    const titleBlockH = calcBlockHeight(titleLines, titleConfig.size);
+    const title2BlockH = calcBlockHeight(title2Lines, title2Config.size);
+    const subtitleBlockH = calcBlockHeight(subLines, subtitleConfig.size);
+    const subtitle2BlockH = calcBlockHeight(subLines2, subtitle2Config.size);
+
+    // 预触发字体加载
+    if (document.fonts) {
+        document.fonts.load(titleConfig.weight + ' ' + titleConfig.size + 'px ' + titleConfig.font);
+        document.fonts.load(title2Config.weight + ' ' + title2Config.size + 'px ' + title2Config.font);
+        document.fonts.load(subtitleConfig.weight + ' ' + subtitleConfig.size + 'px ' + subtitleConfig.font);
+        document.fonts.load(subtitle2Config.weight + ' ' + subtitle2Config.size + 'px ' + subtitle2Config.font);
+    }
+
+    const paddingPercent = parseInt(document.getElementById('frame-padding')?.value || '20', 10) / 100;
+    const userLineWidth = parseInt(document.getElementById('frame-width')?.value || '12', 10);
+    try {
+        if (typeof qrcode === 'undefined') {
+            console.error('[STDN] qrcode库未加载，跳过渲染');
+            return;
+        }
+        const qr = qrcode(0, ecl);
+        qr.addData(text);
+        try {
+            qr.make();
+        } catch (e) {
+            console.error('QR码生成失败，数据可能过长:', e);
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, canvas.width || 200, canvas.height || 200);
+            ctx.fillStyle = '#ff0000';
+            ctx.font = '14px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('数据过长，请缩短内容或选择更高容错级别', (canvas.width || 200) / 2, (canvas.width || 200) / 2);
+            return;
+        }
+        const moduleCount = qr.getModuleCount();
+        const scale = 16;
+        const qrSize = moduleCount * scale;
+        const hasFrame = frameStyle !== 'none' || posterTitle.trim() !== '' || posterTitle2.trim() !== '' || posterSubtitle.trim() !== '' || posterSubtitle2.trim() !== '';
+        const sidePadding = hasFrame ? Math.max(qrSize * paddingPercent, 32) : 0;
+
+        const totalTitleHeight = titleBlockH + title2BlockH + 4;
+        const gapToQRTop = 16;
+        let topTextPadding = 0;
+        if (posterTitle.trim() !== '' || posterTitle2.trim() !== '') {
+            topTextPadding = Math.max(sidePadding, totalTitleHeight + gapToQRTop + 16);
+        } else if (hasFrame) {
+            topTextPadding = sidePadding;
+        }
+
+        const totalSubHeight = subtitleBlockH + subtitle2BlockH;
+        const gapToQRBottom = 16;
+        let bottomTextPadding = 0;
+        if (posterSubtitle.trim() !== '' || posterSubtitle2.trim() !== '') {
+            bottomTextPadding = Math.max(sidePadding, gapToQRBottom + totalSubHeight + sidePadding);
+        } else if (hasFrame) {
+            bottomTextPadding = sidePadding;
+        }
+
+        const canvasWidth = qrSize + (sidePadding * 2);
+        const canvasHeight = qrSize + (sidePadding * 2) + topTextPadding + bottomTextPadding;
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+        if (currentMode === 'chromacode' && chromaBgObj) {
+            ctx.save();
+            ctx.globalAlpha = ccClarity;
+            ctx.drawImage(chromaBgObj, 0, 0, canvasWidth, canvasHeight);
+            ctx.restore();
+        }
+
+        if (hasFrame && currentMode === 'generator') {
+            ctx.save();
+            const lineW = (userLineWidth / 512) * canvasWidth;
+            const dynamicRadius = (frameRadius / 512) * canvasWidth;
+            if (frameStyle === 'biz') {
+                ctx.strokeStyle = frameColor;
+                ctx.lineWidth = lineW;
+                ctx.strokeRect(sidePadding * 0.35, sidePadding * 0.35, canvasWidth - sidePadding * 0.7, canvasHeight - sidePadding * 0.7);
+                ctx.lineWidth = Math.max(lineW * 0.3, 1);
+                ctx.strokeRect(sidePadding * 0.55, sidePadding * 0.55, canvasWidth - sidePadding * 1.1, canvasHeight - sidePadding * 1.1);
+            } else if (frameStyle === 'xmas') {
+                ctx.strokeStyle = '#059669';
+                ctx.lineWidth = lineW;
+                ctx.strokeRect(sidePadding * 0.3, sidePadding * 0.3, canvasWidth - sidePadding * 0.6, canvasHeight - sidePadding * 0.6);
+                ctx.fillStyle = '#dc2626';
+                const dotR = lineW * 0.8;
+                ctx.beginPath(); ctx.arc(sidePadding*0.3, sidePadding*0.3, dotR, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(canvasWidth - sidePadding*0.3, sidePadding*0.3, dotR, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(sidePadding*0.3, canvasHeight - sidePadding*0.3, dotR, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(canvasWidth - sidePadding*0.3, canvasHeight - sidePadding*0.3, dotR, 0, Math.PI*2); ctx.fill();
+            } else if (frameStyle !== 'none') {
+                ctx.strokeStyle = frameColor;
+                ctx.lineWidth = lineW;
+                ctx.beginPath();
+                ctx.roundRect(sidePadding * 0.35, sidePadding * 0.35, canvasWidth - sidePadding * 0.7, canvasHeight - sidePadding * 0.7, dynamicRadius);
+                ctx.stroke();
             }
+            ctx.restore();
+        }
 
-            const paddingPercent = parseInt(document.getElementById('frame-padding')?.value || '20', 10) / 100;
-            const userLineWidth = parseInt(document.getElementById('frame-width')?.value || '12', 10);
+        const qrXOffset = sidePadding;
+        const qrYOffset = sidePadding + topTextPadding;
 
-            try {
-                if (typeof qrcode === 'undefined') {
-                console.error('[STDN] qrcode库未加载，跳过渲染');
-                return;
-            }
-
-                const qr = qrcode(0, ecl);
-                qr.addData(text);
-                try {
-                    qr.make();
-                } catch (e) {
-                    console.error('QR码生成失败，数据可能过长:', e);
-                    ctx.fillStyle = bgColor;
-                    ctx.fillRect(0, 0, canvasWidth || 200, canvasHeight || 200);
-                    ctx.fillStyle = '#ff0000';
-                    ctx.font = '14px sans-serif';
-                    ctx.textAlign = 'center';
-                    ctx.fillText('数据过长，请缩短内容或选择更高容错级别', (canvasWidth || 200) / 2, (canvasHeight || 200) / 2);
-                    return;
-                }
-
-                const moduleCount = qr.getModuleCount();
-                const scale = 16;
-                const qrSize = moduleCount * scale;
-
-                const hasFrame = frameStyle !== 'none' || posterTitle.trim() !== '' || posterSubtitle.trim() !== '';
-                const sidePadding = hasFrame ? Math.max(qrSize * paddingPercent, 32) : 0;
-                
-                let titleLines = posterTitle ? posterTitle.split('\n') : [];
-                let totalTitleHeight = titleLines.length * (titleSize * 1.35);
-                const gapToQRTop = 16;
-                let topTextPadding = 0;
-                if (posterTitle.trim() !== '') {
-                    topTextPadding = Math.max(sidePadding, totalTitleHeight + gapToQRTop + 16);
-                } else if (hasFrame) {
-                    topTextPadding = sidePadding;
-                }
-
-                let subLines = posterSubtitle ? posterSubtitle.split('\n') : [];
-                let totalSubHeight = subLines.length * (subtitleSize * 1.35);
-                const gapToQRBottom = 16;
-                let bottomTextPadding = 0;
-                if (posterSubtitle.trim() !== '') {
-                    bottomTextPadding = Math.max(sidePadding, gapToQRBottom + totalSubHeight + sidePadding);
-                } else if (hasFrame) {
-                    bottomTextPadding = sidePadding;
-                }
-
-                const canvasWidth = qrSize + (sidePadding * 2);
-                const canvasHeight = qrSize + (sidePadding * 2) + topTextPadding + bottomTextPadding;
-
-                canvas.width = canvasWidth;
-                canvas.height = canvasHeight;
-
-                ctx.fillStyle = bgColor;
-                ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-                if (currentMode === 'chromacode' && chromaBgObj) {
-                    ctx.save();
-                    ctx.globalAlpha = ccClarity;
-                    ctx.drawImage(chromaBgObj, 0, 0, canvasWidth, canvasHeight);
-                    ctx.restore();
-                }
-
-                if (hasFrame && currentMode === 'generator') {
-                    ctx.save();
-                    const lineW = (userLineWidth / 512) * canvasWidth;
-                    const dynamicRadius = (frameRadius / 512) * canvasWidth;
-
-                    if (frameStyle === 'biz') {
-                        ctx.strokeStyle = frameColor;
-                        ctx.lineWidth = lineW;
-                        ctx.strokeRect(sidePadding * 0.35, sidePadding * 0.35, canvasWidth - sidePadding * 0.7, canvasHeight - sidePadding * 0.7);
-                        ctx.lineWidth = Math.max(lineW * 0.3, 1);
-                        ctx.strokeRect(sidePadding * 0.55, sidePadding * 0.55, canvasWidth - sidePadding * 1.1, canvasHeight - sidePadding * 1.1);
-                    } else if (frameStyle === 'xmas') {
-                        ctx.strokeStyle = '#059669';
-                        ctx.lineWidth = lineW;
-                        ctx.strokeRect(sidePadding * 0.3, sidePadding * 0.3, canvasWidth - sidePadding * 0.6, canvasHeight - sidePadding * 0.6);
-                        ctx.fillStyle = '#dc2626';
-                        const dotR = lineW * 0.8;
-                        ctx.beginPath(); ctx.arc(sidePadding*0.3, sidePadding*0.3, dotR, 0, Math.PI*2); ctx.fill();
-                        ctx.beginPath(); ctx.arc(canvasWidth - sidePadding*0.3, sidePadding*0.3, dotR, 0, Math.PI*2); ctx.fill();
-                        ctx.beginPath(); ctx.arc(sidePadding*0.3, canvasHeight - sidePadding*0.3, dotR, 0, Math.PI*2); ctx.fill();
-                        ctx.beginPath(); ctx.arc(canvasWidth - sidePadding*0.3, canvasHeight - sidePadding*0.3, dotR, 0, Math.PI*2); ctx.fill();
-                    } else if (frameStyle !== 'none') {
-                        ctx.strokeStyle = frameColor;
-                        ctx.lineWidth = lineW;
+        // 绘制 QR 码模块
+        ctx.fillStyle = fgColor;
+        for (let r = 0; r < moduleCount; r++) {
+            for (let c = 0; c < moduleCount; c++) {
+                if (qr.isDark(r, c)) {
+                    const x = qrXOffset + (c * scale);
+                    const y = qrYOffset + (r * scale);
+                    if (shape === 'rounded') {
                         ctx.beginPath();
-                        ctx.roundRect(sidePadding * 0.35, sidePadding * 0.35, canvasWidth - sidePadding * 0.7, canvasHeight - sidePadding * 0.7, dynamicRadius);
-                        ctx.stroke();
-                    }
-                    ctx.restore();
-                }
-
-                const qrXOffset = sidePadding;
-                const qrYOffset = sidePadding + topTextPadding;
-
-                ctx.fillStyle = fgColor;
-                for (let r = 0; r < moduleCount; r++) {
-                    for (let c = 0; c < moduleCount; c++) {
-                        if (qr.isDark(r, c)) {
-                            const x = qrXOffset + (c * scale);
-                            const y = qrYOffset + (r * scale);
-
-                            if (shape === 'rounded') {
-                                ctx.beginPath();
-                                ctx.roundRect(x, y, scale, scale, scale * 0.35);
-                                ctx.fill();
-                            } else if (shape === 'dots') {
-                                ctx.beginPath();
-                                ctx.arc(x + scale / 2, y + scale / 2, scale * 0.42, 0, Math.PI * 2);
-                                ctx.fill();
-                            } else if (shape === 'diamond') {
-                                ctx.beginPath();
-                                ctx.moveTo(x + scale / 2, y);
-                                ctx.lineTo(x + scale, y + scale / 2);
-                                ctx.lineTo(x + scale / 2, y + scale);
-                                ctx.lineTo(x, y + scale / 2);
-                                ctx.closePath();
-                                ctx.fill();
-                            } else if (shape === 'capsule') {
-                                ctx.beginPath();
-                                ctx.roundRect(x + scale * 0.15, y, scale * 0.7, scale, scale * 0.35);
-                                ctx.fill();
-                            } else if (shape === 'cross') {
-                                ctx.fillRect(x + scale * 0.3, y, scale * 0.4, scale);
-                                ctx.fillRect(x, y + scale * 0.3, scale, scale * 0.4);
-                            } else if (shape === 'v-lines') {
-                                ctx.fillRect(x + scale * 0.25, y, scale * 0.5, scale);
-                            } else if (shape === 'h-lines') {
-                                ctx.fillRect(x, y + scale * 0.25, scale, scale * 0.5);
-                            } else {
-                                ctx.fillRect(x, y, scale, scale);
-                            }
-                        }
+                        ctx.roundRect(x, y, scale, scale, scale * 0.35);
+                        ctx.fill();
+                    } else if (shape === 'dots') {
+                        ctx.beginPath();
+                        ctx.arc(x + scale / 2, y + scale / 2, scale * 0.42, 0, Math.PI * 2);
+                        ctx.fill();
+                    } else if (shape === 'diamond') {
+                        ctx.beginPath();
+                        ctx.moveTo(x + scale / 2, y);
+                        ctx.lineTo(x + scale, y + scale / 2);
+                        ctx.lineTo(x + scale / 2, y + scale);
+                        ctx.lineTo(x, y + scale / 2);
+                        ctx.closePath();
+                        ctx.fill();
+                    } else if (shape === 'capsule') {
+                        ctx.beginPath();
+                        ctx.roundRect(x + scale * 0.15, y, scale * 0.7, scale, scale * 0.35);
+                        ctx.fill();
+                    } else if (shape === 'cross') {
+                        ctx.fillRect(x + scale * 0.3, y, scale * 0.4, scale);
+                        ctx.fillRect(x, y + scale * 0.3, scale, scale * 0.4);
+                    } else if (shape === 'v-lines') {
+                        ctx.fillRect(x + scale * 0.25, y, scale * 0.5, scale);
+                    } else if (shape === 'h-lines') {
+                        ctx.fillRect(x, y + scale * 0.25, scale, scale * 0.5);
+                    } else {
+                        ctx.fillRect(x, y, scale, scale);
                     }
                 }
-
-                // [Fix7] 字体加载优化：在绘制前触发字体加载
-                if (currentMode === 'generator' && posterTitle.trim() !== '') {
-                    ctx.save();
-                    ctx.fillStyle = titleColor;
-                    const _titleFontStr = `${titleWeight} ${titleSize}px ${titleFont}`;
-                    if (document.fonts) {
-                        document.fonts.load(_titleFontStr).catch(() => {});
-                    }
-                    ctx.font = _titleFontStr;
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-
-                    const centerY = sidePadding + (topTextPadding / 2);
-                    const lineHeight = titleSize * 1.35;
-                    const startY = centerY - ((titleLines.length - 1) * lineHeight) / 2;
-
-                    titleLines.forEach((line, index) => {
-                        ctx.fillText(line, canvasWidth / 2, startY + (index * lineHeight));
-                    });
-                    ctx.restore();
-                }
-
-                if (currentMode === 'generator' && posterSubtitle.trim() !== '') {
-                    ctx.save();
-                    ctx.fillStyle = subtitleColor;
-                    const _subFontStr = `${subtitleWeight} ${subtitleSize}px ${subtitleFont}`;
-                    if (document.fonts) {
-                        document.fonts.load(_subFontStr).catch(() => {});
-                    }
-                    ctx.font = _subFontStr;
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'top';
-                    
-                    const qrBottomY = qrYOffset + qrSize;
-                    const startY = qrBottomY + gapToQRBottom;
-                    const lineHeight = subtitleSize * 1.35;
-                    
-                    subLines.forEach((line, index) => {
-                        ctx.fillText(line, canvasWidth / 2, startY + (index * lineHeight));
-                    });
-                    ctx.restore();
-                }
-
-                if (logoImageObj && currentMode === 'generator') {
-                    const logoSize = qrSize * 0.22;
-                    const logoX = qrXOffset + (qrSize - logoSize) / 2;
-                    const logoY = qrYOffset + (qrSize - logoSize) / 2;
-                    const pad = scale * 1.2;
-
-                    ctx.fillStyle = '#ffffff';
-                    ctx.beginPath();
-                    ctx.roundRect(logoX - pad/2, logoY - pad/2, logoSize + pad, logoSize + pad, 10);
-                    ctx.fill();
-
-                    ctx.drawImage(logoImageObj, logoX, logoY, logoSize, logoSize);
-                }
-
-            } catch (err) {
-                console.error("STDN render error:", err);
             }
         }
+
+        // 绘制顶部标语（使用辅助函数）
+        if (currentMode === 'generator' && (posterTitle.trim() !== '' || posterTitle2.trim() !== '')) {
+            const lineHeight1 = titleConfig.size * 1.35;
+            const startY1 = sidePadding;
+            drawTextBlock(ctx, posterTitle, titleConfig, titleLines, canvasWidth / 2, startY1, canvasWidth);
+
+            // 第二行顶部标语
+            if (posterTitle2.trim() !== '') {
+                const firstLineTotalH = posterTitle.trim() !== '' ? titleBlockH : 0;
+                const startY2 = sidePadding + firstLineTotalH + 4;
+                drawTextBlock(ctx, posterTitle2, title2Config, title2Lines, canvasWidth / 2, startY2, canvasWidth);
+            }
+        }
+
+        // 绘制底部说明（使用辅助函数）
+        if (currentMode === 'generator' && (posterSubtitle.trim() !== '' || posterSubtitle2.trim() !== '')) {
+            const qrBottomY = qrYOffset + qrSize;
+            const startY = qrBottomY + gapToQRBottom + (subtitleConfig.size * 1.35) - 23;
+
+            // 第一行底部说明
+            if (posterSubtitle.trim() !== '') {
+                drawTextBlock(ctx, posterSubtitle, subtitleConfig, subLines, canvasWidth / 2, startY, canvasWidth);
+            }
+
+            // 第二行底部说明
+            if (posterSubtitle2.trim() !== '') {
+                const firstLineTotalH = posterSubtitle.trim() !== '' ? subtitleBlockH : 0;
+                const startY2 = startY + firstLineTotalH;
+                drawTextBlock(ctx, posterSubtitle2, subtitle2Config, subLines2, canvasWidth / 2, startY2, canvasWidth);
+            }
+        }
+
+        // 绘制中心 Logo
+        if (logoImageObj && currentMode === 'generator') {
+            const logoSize = qrSize * 0.22;
+            const logoX = qrXOffset + (qrSize - logoSize) / 2;
+            const logoY = qrYOffset + (qrSize - logoSize) / 2;
+            const pad = scale * 1.2;
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.roundRect(logoX - pad/2, logoY - pad/2, logoSize + pad, logoSize + pad, 10);
+            ctx.fill();
+            ctx.drawImage(logoImageObj, logoX, logoY, logoSize, logoSize);
+        }
+    } catch (err) {
+        console.error("STDN render error:", err);
+    }
+}
+
 
         function generateBatchList() {
             const rawText = document.getElementById('batch-input')?.value || '';
@@ -1744,7 +1822,17 @@
             lines.forEach((line, idx) => {
                 const itemBox = document.createElement('div');
                 itemBox.className = "p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl flex flex-col items-center space-y-2";
+                itemBox.dataset.index = idx;
                 
+                const checkbox = document.createElement('label');
+                checkbox.className = "absolute top-2 left-2 flex items-center gap-1";
+                const cb = document.createElement('input');
+                cb.type = "checkbox";
+                cb.className = "w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 batch-item-checkbox";
+                cb.checked = true;
+                checkbox.appendChild(cb);
+                itemBox.style.position = "relative";
+                itemBox.appendChild(checkbox);
                 const canvas = document.createElement('canvas');
                 canvas.className = "w-32 h-32 object-contain rounded-lg bg-white p-1 shadow-sm";
                 itemBox.appendChild(canvas);
@@ -1904,11 +1992,6 @@
                 const img = new Image();
                 img.onload = function() {
                     chromaBgObj = img;
-                    // 显示预览图
-                    const previewImg = document.getElementById('chroma-bg-preview-img');
-                    const preview = document.getElementById('chroma-bg-preview');
-                    if (previewImg) previewImg.src = e.target.result;
-                    if (preview) preview.classList.remove('hidden');
                     renderQR();
                 };
                 img.src = e.target.result;
@@ -1920,8 +2003,6 @@
             chromaBgObj = null;
             const fileInput = document.getElementById('cc-bg-file');
             if (fileInput) fileInput.value = '';
-            const preview = document.getElementById('chroma-bg-preview');
-            if (preview) preview.classList.add('hidden');
             renderQR();
         }
 
@@ -1995,6 +2076,31 @@
             if (placeholder) placeholder.classList.remove('hidden');
         }
 
+        function formatWifiResult(text) {
+            // 处理 WiFi 二维码
+            if (text.startsWith('WIFI:')) {
+                var ssidMatch = text.match(/S:([^;]*)/);
+                var pwdMatch = text.match(/P:([^;]*)/);
+                var ssid = ssidMatch ? ssidMatch[1] : '未知';
+                var pwd = pwdMatch ? pwdMatch[1] : '无';
+                return '<b>WiFi SSID (网络名称）：</b>' + ssid + '<br><b>密码：</b>' + pwd;
+            }
+            // 处理地理位置二维码
+            if (text.startsWith('geo:')) {
+                var geoMatch = text.match(/geo:([\d.]+),([\d.]+)(?:\?q=(.+))?/);
+                if (geoMatch) {
+                    var lat = geoMatch[1];
+                    var lon = geoMatch[2];
+                    var query = '';
+                    if (geoMatch[3]) {
+                        try { query = decodeURIComponent(geoMatch[3]) || ''; } catch(e) { query = geoMatch[3] || ''; }
+                    }
+                    return '<b>位置描述：</b>' + (query || '未填写') + '<br><b>纬度：</b>' + lat + '<br><b>经度：</b>' + lon;
+                }
+                return text;
+            }
+            return text;
+        }
         function scanVideoFrame() {
             const video = document.getElementById('scanner-video');
             const canvas = document.getElementById('scanner-canvas');
@@ -2008,7 +2114,8 @@
             const code = jsQR(imgData.data, imgData.width, imgData.height);
 
             if (code) {
-                document.getElementById('scan-result-box').innerHTML = `<span class="text-emerald-600 dark:text-emerald-400 font-semibold">${code.data}</span>`;
+                var formattedText = formatWifiResult(code.data);
+                document.getElementById('scan-result-box').innerHTML = '<span class="text-emerald-600 dark:text-emerald-400 font-semibold">' + formattedText + '</span>';
             }
         }
 
@@ -2027,7 +2134,8 @@
                     const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                     const code = jsQR(imgData.data, imgData.width, imgData.height);
                     if (code) {
-                        document.getElementById('scan-result-box').innerHTML = `<span class="text-emerald-600 dark:text-emerald-400 font-semibold">${code.data}</span>`;
+                        var formattedText = formatWifiResult(code.data);
+                document.getElementById('scan-result-box').innerHTML = '<span class="text-emerald-600 dark:text-emerald-400 font-semibold">' + formattedText + '</span>';
                     } else {
                         document.getElementById('scan-result-box').innerHTML = `<span class="text-rose-500 text-xs">未能从图片中解析出有效的二维码。</span>`;
                     }
@@ -2070,6 +2178,39 @@
             }
             renderQR();
         }
-    </script>
+    
+        // === 批量下载选中功能 ===
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('batch-select-all');
+            const checkboxes = document.querySelectorAll('.batch-item-checkbox');
+            checkboxes.forEach(cb => {
+                cb.checked = selectAll.checked;
+            });
+        }
+
+        function batchDownloadSelected() {
+            const checkboxes = document.querySelectorAll('.batch-item-checkbox:checked');
+            if (checkboxes.length === 0) {
+                alert('请至少选择一个二维码进行下载');
+                return;
+            }
+            const rawText = document.getElementById('batch-input')?.value || '';
+            const lines = rawText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            
+            let delay = 0;
+            checkboxes.forEach((cb, i) => {
+                const itemBox = cb.closest('[data-index]');
+                if (!itemBox) return;
+                const idx = parseInt(itemBox.dataset.index);
+                const text = lines[idx];
+                if (!text) return;
+                
+                setTimeout(() => {
+                    downloadSingleBatchItem(text, `batch-${idx + 1}.png`);
+                }, delay);
+                delay += 300;
+            });
+        }
+</script>
 </body>
 </html>
